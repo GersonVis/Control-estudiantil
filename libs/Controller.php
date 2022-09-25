@@ -3,8 +3,6 @@ class Controller{
     function __construct($nombre, $metodo, $clase, $indice="")
     {
         $this->view=new View($nombre);
-        echo "<br><br>$metodo<br><br>";
-        $clase->prueba();
         if(!$this->ejecuto_el_metodo($clase, $metodo, $indice)){
           echo "no existe el metodo";
         }

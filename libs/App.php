@@ -18,7 +18,7 @@ class App
       //variables de session
       $nombre=null;  $usuario=null;  $perfil=null;
       //variables de controlador
-      $controlador=null; $indice=null;
+      $controlador=null; $indice=null; $metodo=null;
       // fin variables
       
       $nombre=$_SESSION["nombre"]??$nulos++;
@@ -26,9 +26,11 @@ class App
       $perfil=$_SESSION["perfil"]??$nulos++;
       if($nulos==0){
          $controlador=$_GET["controlador"];
+         
          if($controlador!=""){
-            echo "ejecutando controlador";
-            if(!$this->crear_controlador($controlador, $metodo??"", $indice??"")){
+            $metodo=$_GET["metodo"]??"";
+            $indice=$_GET["indice"]??"";
+            if(!$this->crear_controlador($controlador, $metodo, $indice)){
                 $this->crear_controlador("Problema");
             }
             exit();
