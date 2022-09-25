@@ -1,9 +1,9 @@
 <?php
 
 
-include_once "Controller.php";
-include_once "Model.php";
-include_once "View.php";
+include "libs/Controller.php";
+include_once "libs/Model.php";
+include_once "libs/View.php";
 
 
 class App{
@@ -16,17 +16,17 @@ class App{
       //variables de session
       $nombre=null;  $usuario=null;  $perfil=null;
       //variables de controlador
-      $modelo=null; $controlador=null; $controlador_creado=null;
+      $modelo=null; $controlador=null; $controlador_creado=null; $indice=null;
       // fin variables
       
       $nombre=$_SESSION["nombre"]??$nulos++;
       $usuario=$_SESSION["usuario"]??$nulos++;
       $perfil=$_SESSION["perfil"]??$nulos++;
       if($nulos==0){
-         echo "dentro";
          $nulos=0;
-         $controlador=$_GET["controlador"]??$nulos++;
-         $metodo=$_GET["metodo"]??$nulos++;
+         $controlador=$_GET["controlador"]!=""?$_GET["controlador"]:$nulos++;
+         $metodo=$_GET["metodo"]!=""?$_GET["metodo"]:$nulos++;
+         $indice=$_GET["indice"]??null;
          switch($nulos){
             case 1:
                 $controlador_creado=$this->crear_controlador($controlador);
@@ -38,30 +38,29 @@ class App{
             case 2:
                 $controlador_creado=$this->crear_controlador($controlador);
                 if($controlador_creado){
-                    if(method_exists())
-                    $controlador_creado->renderizar();
-                    exit();
+                    if($this->ejecuto_el_metodo($controlador_creado, $metodo, $indice))exit();
                 }
-                exit();
                 break;
          }
-
+         $error = $this->crear_controlador("Error");
          exit();
       }
       echo "Debes iniciar sesión";
    }
    private function crear_controlador($nombre){
-        $ruta="../controllers/$nombre.php";
+        $ruta="controllers/$nombre.php";
         if(file_exists($ruta)){
+           include_once $ruta;
            return new $nombre;
         }
+       echo "el archivo no existe";
        return false;
    }
    private function ejecuto_el_metodo($clase, $metodo){
         $existe_el_metodo=method_exists($clase, $metodo);
         if($existe_el_metodo){
             $clase->$metodo();
-            return $true;
+            return $existe_el_metodo;
         }
         return $existe_el_metodo;
    }
