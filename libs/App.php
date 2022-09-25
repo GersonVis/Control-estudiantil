@@ -1,14 +1,16 @@
 <?php
 
 
-include "libs/Controller.php";
+include_once "libs/Controller.php";
 include_once "libs/Model.php";
 include_once "libs/View.php";
 
 
-class App{
-   function __construct()
-   {
+class App
+{
+    function __construct()
+    {
+       
       session_start();
       //variables
       //variable para comprobar nulos
@@ -16,22 +18,30 @@ class App{
       //variables de session
       $nombre=null;  $usuario=null;  $perfil=null;
       //variables de controlador
-      $modelo=null; $controlador=null; $controlador_creado=null; $indice=null;
+      $controlador=null; $indice=null;
       // fin variables
       
       $nombre=$_SESSION["nombre"]??$nulos++;
       $usuario=$_SESSION["usuario"]??$nulos++;
       $perfil=$_SESSION["perfil"]??$nulos++;
       if($nulos==0){
-         $nulos=0;
-         $controlador=$_GET["controlador"]!=""?$_GET["controlador"]:$nulos++;
+         $controlador=$_GET["controlador"];
+         if($controlador!=""){
+            echo "ejecutando controlador";
+            if(!$this->crear_controlador($controlador, $metodo??"", $indice??"")){
+                $this->crear_controlador("Problema");
+            }
+            exit();
+         }
+
+       /*  $controlador=$_GET["controlador"]!=""?$_GET["controlador"]:$nulos++;
          $metodo=$_GET["metodo"]!=""?$_GET["metodo"]:$nulos++;
          $indice=$_GET["indice"]??null;
          switch($nulos){
             case 1:
                 $controlador_creado=$this->crear_controlador($controlador);
                 if($controlador_creado){
-                    $controlador_creado->renderizar();
+                    $controlador_creado->view->renderizar();
                     exit();
                 }
                 break;
@@ -42,27 +52,19 @@ class App{
                 }
                 break;
          }
-         $error = $this->crear_controlador("Error");
-         exit();
+         $error = $this->crear_controlador("Problema");
+         exit();*/
       }
       echo "Debes iniciar sesión";
-   }
-   private function crear_controlador($nombre){
-        $ruta="controllers/$nombre.php";
-        if(file_exists($ruta)){
-           include_once $ruta;
-           return new $nombre;
+    }
+    private function crear_controlador($controlador, $metodo="", $indice="")
+    {
+        $ruta = "controllers/$controlador.php";
+        if (file_exists($ruta)) {
+            include $ruta;
+            return new $controlador($controlador, $metodo, $indice);
         }
-       echo "el archivo no existe";
-       return false;
-   }
-   private function ejecuto_el_metodo($clase, $metodo){
-        $existe_el_metodo=method_exists($clase, $metodo);
-        if($existe_el_metodo){
-            $clase->$metodo();
-            return $existe_el_metodo;
-        }
-        return $existe_el_metodo;
-   }
+        return false;
+    }
+    
 }
-?>

@@ -1,11 +1,23 @@
-<?
+<?php
 class Controller{
-    function __construct()
+    function __construct($nombre, $metodo, $clase, $indice="")
     {
-     
+        $this->view=new View($nombre);
+        echo "<br><br>$metodo<br><br>";
+        $clase->prueba();
+        if(!$this->ejecuto_el_metodo($clase, $metodo, $indice)){
+          echo "no existe el metodo";
+        }
+        exit();
     }
-    function renderizar($nombre_vista="index"){
-        echo "renderizando $nombre_vista";
+    private function ejecuto_el_metodo($clase, $metodo, $indice="")
+    {
+        $existe_el_metodo = method_exists($clase, $metodo);
+        if ($existe_el_metodo) {
+            $clase->$metodo($indice);
+            return $existe_el_metodo;
+        }
+        return $existe_el_metodo;
     }
  }
 ?>

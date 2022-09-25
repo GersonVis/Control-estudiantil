@@ -1,8 +1,8 @@
 <?php
 class Inicio extends Controller{
-    function __construct()
+    function __construct($nombre, $metodo, $indice)
     {
-        echo "somos controlador session";
+        parent::__construct($nombre, $metodo, $this, $indice);
     }
     function prueba(){
         echo "somos metodo prueba";
