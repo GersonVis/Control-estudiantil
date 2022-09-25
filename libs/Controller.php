@@ -4,6 +4,8 @@ class Controller{
     {
      
     }
-    
+    function renderizar($nombre_vista="index"){
+        echo "renderizando $nombre_vista";
+    }
  }
 ?>

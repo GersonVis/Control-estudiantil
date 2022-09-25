@@ -16,7 +16,7 @@ class App{
       //variables de session
       $nombre=null;  $usuario=null;  $perfil=null;
       //variables de controlador
-      $modelo=null; $controlador=null;
+      $modelo=null; $controlador=null; $controlador_creado=null;
       // fin variables
       
       $nombre=$_SESSION["nombre"]??$nulos++;
@@ -29,15 +29,41 @@ class App{
          $metodo=$_GET["metodo"]??$nulos++;
          switch($nulos){
             case 1:
-                $controlador;
+                $controlador_creado=$this->crear_controlador($controlador);
+                if($controlador_creado){
+                    $controlador_creado->renderizar();
+                    exit();
+                }
                 break;
-            case 2: 
+            case 2:
+                $controlador_creado=$this->crear_controlador($controlador);
+                if($controlador_creado){
+                    if(method_exists())
+                    $controlador_creado->renderizar();
+                    exit();
+                }
+                exit();
                 break;
          }
+
          exit();
       }
       echo "Debes iniciar sesión";
-
+   }
+   private function crear_controlador($nombre){
+        $ruta="../controllers/$nombre.php";
+        if(file_exists($ruta)){
+           return new $nombre;
+        }
+       return false;
+   }
+   private function ejecuto_el_metodo($clase, $metodo){
+        $existe_el_metodo=method_exists($clase, $metodo);
+        if($existe_el_metodo){
+            $clase->$metodo();
+            return $true;
+        }
+        return $existe_el_metodo;
    }
 }
 ?>
