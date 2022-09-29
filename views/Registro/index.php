@@ -3,7 +3,7 @@
 
 <head>
     <?php
-    echo $this->importaciones_globales();
+        echo $this->importaciones_globales();
     ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
