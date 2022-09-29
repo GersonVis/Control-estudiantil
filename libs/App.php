@@ -20,7 +20,7 @@ class App
       //variables de controlador
       $controlador=null; $indice=null; $metodo=null;
       // fin variables
-      
+
       $nombre=$_SESSION["nombre"]??$nulos++;
       $usuario=$_SESSION["usuario"]??$nulos++;
       $perfil=$_SESSION["perfil"]??$nulos++;

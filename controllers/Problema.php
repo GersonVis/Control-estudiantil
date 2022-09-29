@@ -5,6 +5,9 @@ class Problema extends Controller{
         echo "ocurrio un error";
         parent::__construct($nombre, $metodo, $this);
     }
+    function principal(){
+        echo "estamos en problema";
+    }
 }
 
 ?>

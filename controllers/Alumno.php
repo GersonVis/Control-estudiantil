@@ -6,7 +6,6 @@ class Alumno extends Controller
         parent::__construct($nombre, $metodo, $this, $indice);
     }
     function prueba($indice){
-        echo var_dump($_GET);
         echo "somos el metodo $indice";
     }
 }

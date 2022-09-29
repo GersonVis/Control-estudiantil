@@ -4,7 +4,7 @@ class Controller{
     {
         $this->view=new View($nombre);
         if(!$this->ejecuto_el_metodo($clase, $metodo, $indice)){
-          echo "no existe el metodo";
+          $clase->principal();
         }
         exit();
     }

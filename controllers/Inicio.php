@@ -7,9 +7,9 @@ class Inicio extends Controller{
     function prueba(){
         echo "somos metodo prueba";
     }
-    /*function renderizar(){
+    function principal(){
         echo "vista mostrada";
-    }*/
+    }
 }
 
 ?>
