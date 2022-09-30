@@ -1,5 +1,5 @@
 <?php
-class Registro extends Controller{
+class General extends Controller{
     function __construct($nombre, $metodo, $indice)
     {
         parent::__construct($nombre, $metodo, $this, $indice);
@@ -9,7 +9,7 @@ class Registro extends Controller{
     }
     function principal(){
         $this->view->nombre = "gerson";
-        $this->view->opcion = "Registro";
+        $this->view->opcion = "General";
        
         $this->view->renderizar();
     }
