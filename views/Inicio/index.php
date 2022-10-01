@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100vh;">
+<html lang="en">
 
 <head>
     <?php
@@ -9,20 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $this->_nombre; ?></title>
-    <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-    </style>
 </head>
 
-<body class="w-100 h-100">
+<body >
     <?php
-    $this->renderizar_menu($this->opcion);
+     $this->renderizar_menu($this->opcion);
     ?>
-   <div class="container-fluid w-100 h-100">
+    <div class="container-fluid w-100 h-100">
         <div class="d-flex bg-primary"></div>
         <div class="d-flex bg-secundary"></div>
         <div class="d-flex"></div>
