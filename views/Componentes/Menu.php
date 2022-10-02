@@ -6,13 +6,13 @@ $nombre_opcion = "";
 
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white position-fixed" style="height: 100px;">
+<nav class="navbar navbar-expand-lg navbar-light bg-white position-fixed w-100" style="height: 100px;">
     <div class="container-fluid">
         <a class="navbar-brand border" style="
     overflow: hidden;
     width: 104px;
     border-radius: 12px;
-    height: 49px;
+    height: 50px;
 " href="#"><img style="height: 100%;" src="public/imagenes/logo.png"></a>
 
 
