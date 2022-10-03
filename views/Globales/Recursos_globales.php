@@ -28,4 +28,10 @@
         font-size: 10pt;
         font-weight: bold;
     }
+    .texto-label{
+        font-size: 10pt;
+    }
+    .alto-seleccionable{
+        height: 40px;
+    }
 </style>
