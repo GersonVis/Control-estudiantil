@@ -20,6 +20,24 @@ include_once "views/Componentes/Opcion.php";
             padding: 0;
             box-sizing: border-box;
         }
+
+        .vibrar {
+            animation-name: slidein;
+            animation-iteration-count: infinite;
+            animation-duration: 0.5s;
+            animation-direction: alternate-reverse;
+            animation-timing-function: linear;
+        }
+
+        @keyframes slidein {
+            from {
+                transform:  rotateZ(5deg);
+            }
+
+            to {
+                transform:  rotateZ(-5deg);
+            }
+        }
     </style>
 </head>
 
@@ -43,7 +61,7 @@ include_once "views/Componentes/Opcion.php";
             <p class="font-weight-bold text-left w-100" style="margin: 0px">Registrar</p>
             <hr class="my-2 bg-secondary" style="width: 200px">
             <div class="w-100 color-principal sombra-secundaria rounded d-flex" style="height: 90%;min-width: 110%;background-image: url(public/imagenes/5291450.jpg);/* background-blend-mode: luminosity; */background-repeat: round;">
-           <!-- <div class="w-100  d-flex" style="height: 90%;min-width: 110%;">-->
+                <!-- <div class="w-100  d-flex" style="height: 90%;min-width: 110%;">-->
                 <div class="d-flex w-100 h-100" style="overflow: hidden;">
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Acción</p>
@@ -80,7 +98,7 @@ include_once "views/Componentes/Opcion.php";
         </div>
         <div class="sombra-principal flex-column pb-2 redondear position-absolute bg-white container align-items-center d-flex" style="width: 250px; height: 375px; right: 200px; bottom: 0px; border-radius: 22px 22px 0 0; display: flex; justify-content: end;">
             <div class="w-100 d-flex justify-content-center align-items-start flex-grow-1">
-                <img class="bg-white" src="public/ilustraciones/registrando.png" style="width: 115px; border-radius: 50% 50%; transform: translatey(-10%)" />
+                <img class="" src="public/ilustraciones/registrando.png" style="width: 170px; transform: translatey(-2  0%)" />
             </div>
             <div class="form-group mb-2 w-100">
                 <label class="m-0 label-inputs text-secondary" for="exampleInputEmail1">No. Control</label>
@@ -97,8 +115,31 @@ include_once "views/Componentes/Opcion.php";
                 <input type="email" class="form-control texto-label alto-seleccionable" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ej. Ingeniería en sistemas">
 
             </div>
-            <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white">REGISTRAR ACCESO</button>
+            <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
         </div>
 </body>
+<script>
+    window.onload = (ev) => {
+        document.addEventListener("keydown", e => {
+            if (e.ctrlKey && e.which == 69) {
+                e.stopPropagation()
+                e.preventDefault()
+                mostrar_seleccionable()
+            }
+        })
+    }
+    mostrar_seleccionable = () => {
+        let opciones = document.querySelectorAll(".opcion-tecla")
+        opciones.forEach(elemento => {
+            elemento.classList.remove("bg-secondary")
+            elemento.style.backgroundColor = "black"
+            aplicar_clase(elemento, "vibrar")
+            aplicar_clase(elemento, "shadow")
+        })
+    }
+    aplicar_clase=(elemento, animacion)=>{
+        elemento.classList.add(animacion)
+    }
+</script>
 
 </html>

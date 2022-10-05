@@ -1,13 +1,13 @@
 <?php
 function Opcion(){
-    echo '<div class="w-100 dflex border p-3 mb-3 bg-white rounded " style="min-height: 95px">
+    echo '<div class="opcion w-100 dflex border p-3 mb-3 bg-white rounded " style="min-height: 95px">
     <div class="w-100 h-25 d-flex  align-items-center">
         <p class="m-0 font-weight-bold texto-label">Entrada</p>
     </div>
     <div class="w-100 h-75 d-flex ">
         <div class="d-flex h-100 w-75 flex-column justify-content-center">
             <p class="texto-label text-secondary m-0">Tecla seleccionada</p>
-            <div class="bg-secondary rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
+            <div class="opcion-tecla bg-secondary rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
                 <p class="texto-label m-0 text-white">A</p></div>
             </div>
         <div class="d-flex  w-25 h-100 justify-content-center align-items-center">
@@ -20,14 +20,14 @@ function Opcion(){
         </div>
     </div>
 </div>
-<div class="w-100 dflex p-3 mb-3 bg-white border rounded " style="min-height: 95px">
+<div class="opcion w-100 dflex p-3 mb-3 bg-white border rounded " style="min-height: 95px">
     <div class="w-100 h-25 d-flex align-items-center">
         <p class="m-0 font-weight-bold texto-label">Salida</p>
     </div>
     <div class="w-100 h-75 d-flex ">
         <div class="d-flex h-100 w-75 flex-column justify-content-center">
             <p class="texto-label text-secondary m-0">Tecla seleccionada</p>
-            <div class="bg-secondary rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
+            <div class="opcion-tecla bg-secondary  rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
                 <p class="texto-label m-0 text-white">A</p></div>
             </div>
         <div class="d-flex  w-25 h-100 justify-content-center align-items-center">
@@ -40,14 +40,14 @@ function Opcion(){
         </div>
     </div>
 </div>
-<div class="w-100 dflex p-3 mb-3 p-3 rounded border  color-principal" style="min-height: 110px;">
+<div class="opcion w-100 dflex p-3 mb-3 p-3 rounded border  color-principal" style="min-height: 110px;">
     <div class="w-100 h-25 d-flex justify-content-center align-items-center">
         <p class="m-0 font-weight-bold texto-label">Automático</p>
     </div>
     <div class="w-100 h-75 d-flex ">
         <div class="d-flex h-100 w-75 flex-column justify-content-center">
             <p class="texto-label text-secondary m-0">Tecla seleccionada</p>
-            <div class="bg-white rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
+            <div class="opcion-tecla bg-white rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
                 <p class="texto-label m-0 text-black">A</p></div>
             </div>
         <div class="d-flex  w-25 h-100 justify-content-center align-items-center">

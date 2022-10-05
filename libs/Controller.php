@@ -17,5 +17,8 @@ class Controller{
         }
         return $existe_el_metodo;
     }
+    function cargar_modelo(){
+        
+    }
  }
 ?>

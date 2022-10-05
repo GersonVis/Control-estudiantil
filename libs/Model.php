@@ -4,9 +4,7 @@ class Model{
     {
      
     }
-    function renderizar($vista){
-        include_once "views/$vista.php";
-    }
+
  }
 
 ?>
