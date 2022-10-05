@@ -4,34 +4,67 @@
 <script src="/cat/SCA/public/node_modules/popper.js/dist/umd/popper.min.js"></script>
 <script src="/cat/SCA/public/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <style type="text/css">
-    :root{
+    :root {
         --principal-color: #F3F8FB;
+        --color-decorativo: #DADADA;
     }
-    .color-principal{
+
+    .color-principal {
         background-color: var(--principal-color);
     }
+
+    .bg-decorativo {
+        background-color: var(--color-decorativo);
+    }
+
     .sombra-secundaria {
         -webkit-box-shadow: 0px 0px 22px 0px rgba(204, 204, 204, 1);
         -moz-box-shadow: 0px 0px 22px 0px rgba(204, 204, 204, 1);
         box-shadow: 0px 0px 22px 0px rgba(204, 204, 204, 1);
     }
-    .sombra-principal{
+
+    .sombra-principal {
         -webkit-box-shadow: 0px 0px 22px 0px rgb(130 130 130);
         -moz-box-shadow: 0px 0px 22px 0px rgb(130 130 130);
         box-shadow: 0px 0px 22px 0px rgb(130 130 130);
-        
+
     }
-    .redondear{
+
+    .redondear {
         border-radius: 22px;
     }
-    .label-inputs{
+
+    .label-inputs {
         font-size: 10pt;
         font-weight: bold;
     }
-    .texto-label{
+
+    .texto-label {
         font-size: 10pt;
     }
-    .alto-seleccionable{
+
+    .alto-seleccionable {
         height: 40px;
+    }
+
+    /* scroll bar*/
+    /* Works on Firefox */
+    * {
+        scrollbar-width: thin;
+    }
+
+    /* Works on Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: white;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: var(--color-decorativo);
+        border-radius: 20px;
+       
     }
 </style>
