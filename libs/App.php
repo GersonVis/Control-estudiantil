@@ -4,7 +4,8 @@
 include_once "libs/Controller.php";
 include_once "libs/Model.php";
 include_once "libs/View.php";
-
+include_once "libs/Database.php";
+include_once "config/configuraciones.php";
 
 class App
 {
