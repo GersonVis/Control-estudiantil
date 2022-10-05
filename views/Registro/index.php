@@ -80,7 +80,7 @@ include_once "views/Componentes/Opcion.php";
         </div>
         <div class="sombra-principal flex-column pb-2 redondear position-absolute bg-white container align-items-center d-flex" style="width: 250px; height: 375px; right: 200px; bottom: 0px; border-radius: 22px 22px 0 0; display: flex; justify-content: end;">
             <div class="w-100 d-flex justify-content-center align-items-start flex-grow-1">
-                <img class="bg-white" src="public/ilustraciones/image-removebg-preview.png" style="width: 115px; border-radius: 50% 50%; transform: translatey(-10%)" />
+                <img class="bg-white" src="public/ilustraciones/registrando.png" style="width: 115px; border-radius: 50% 50%; transform: translatey(-10%)" />
             </div>
             <div class="form-group mb-2 w-100">
                 <label class="m-0 label-inputs text-secondary" for="exampleInputEmail1">No. Control</label>
