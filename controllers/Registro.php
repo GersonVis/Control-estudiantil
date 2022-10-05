@@ -8,9 +8,12 @@ class Registro extends Controller{
         echo "somos metodo prueba";
     }
     function principal(){
-        $this->view->nombre="gerson";
+        $this->view->nombre = "gerson";
+        $this->view->opcion = "Registro";
+       
         $this->view->renderizar();
     }
+
 }
 
 ?>

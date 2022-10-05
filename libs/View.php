@@ -10,13 +10,16 @@ class View{
         include_once "views/$carpeta/$vista.php";
     }
     function importaciones_globales(){
-      $recursos='<link rel="stylesheet" href="/cat/SCA/public/node_modules/bootstrap/dist/css/bootstrap.min.css">
-      <link rel="stylesheet" href="/cat/SCA/public/node_modules/bootstrap/dist/css/fonts.css">
-      <script src="/cat/SCA/public/node_modules/jquery/dist/jquery.min.js"></script>
-      <script src="/cat/SCA/public/node_modules/popper.js/dist/umd/popper.min.js"></script>
-      <script src="/cat/SCA/public/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>';
-      return $recursos;
+      include_once "views/Globales/Recursos_globales.php";
     } 
+    function renderizar_menu(){
+      $this->menu = array("General"=>array("General", "General"),
+      "Registro"=>array("Registro", "Registro"),
+      "Informacion"=>array("Información", "Informacion"),
+      "Base"=>array("Base de datos", "BaseDeDatos"));
+      include_once "views/Componentes/Menu.php";
+    }
+
  }
 
 ?>

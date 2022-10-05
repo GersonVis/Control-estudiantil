@@ -8,7 +8,10 @@ class Inicio extends Controller{
         echo "somos metodo prueba";
     }
     function principal(){
-        echo "vista mostrada";
+        $this->view->nombre = "gerson";
+        $this->view->opcion = "Registro";
+       
+        $this->view->renderizar();
     }
 }
 
