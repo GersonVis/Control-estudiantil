@@ -10,7 +10,8 @@ class Registro extends Controller{
     function principal(){
         $this->view->nombre = "gerson";
         $this->view->opcion = "Registro";
-       
+        //$this->cargar_modelo("Accion");
+
         $this->view->renderizar();
     }
 

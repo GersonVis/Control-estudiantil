@@ -119,6 +119,9 @@ include_once "views/Componentes/Opcion.php";
         </div>
 </body>
 <script>
+    accion_interfaz=`<?php
+       echo Opcion();
+    ?>`;
     window.onload = (ev) => {
         document.addEventListener("keydown", e => {
             if (e.ctrlKey && e.which == 69) {

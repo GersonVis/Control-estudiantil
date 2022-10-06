@@ -19,8 +19,11 @@ function Opcion(){
             </div>
         </div>
     </div>
-</div>
-<div class="opcion w-100 dflex p-3 mb-3 bg-white border rounded " style="min-height: 95px">
+</div>'
+;
+}
+
+/*<div class="opcion w-100 dflex p-3 mb-3 bg-white border rounded " style="min-height: 95px">
     <div class="w-100 h-25 d-flex align-items-center">
         <p class="m-0 font-weight-bold texto-label">Salida</p>
     </div>
@@ -59,7 +62,5 @@ function Opcion(){
             </div>
         </div>
     </div>
-</div>';
-}
-
+</div>' */
 ?>
