@@ -149,15 +149,31 @@ $tecla = "";
     var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
     var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
 
-    Object.values(acciones).forEach(elemento => {
+    let acciones_valores = Object.values(acciones)
+    
+    
+    var contador = 0
+    var seleccionando = false
+    var restaurar = () => {
+        cpLugares.style.visibility = "visible"
+    }
+    acciones_valores.forEach(elemento => {
         if (elemento[0] == "Salida") {
             elemento.push(function() {
-                alert("hola")
+                cpLugares.style.visibility = "hidden"
+                contador=2
+                seleccionando=false
             })
+            return
         }
+        elemento.push(restaurar)
     })
+  /*  acciones_valores.filter((elemento) => elemento[0] == "Salida")[0].push(function() {
+        cpLugares.style.visibility = "hidden"
+    })*/
 
-    var seleccionando = false
+
+   
     var opciones = [acciones, lugares]
 
     // creamos referencias entre los elementos visuales y los ids de teclas
@@ -167,16 +183,20 @@ $tecla = "";
 
     var referencias = [teclas_accion, teclas_lugares]
 
-    var contador = 0
+    
     var accion_seleccionada
     var lugar_seleccionado
     window.onload = (ev) => {
         document.addEventListener("keydown", e => {
-            let letra=String.fromCharCode(e.which)
+            let letra = String.fromCharCode(e.which)
             if (!seleccionando) {
                 if (e.ctrlKey && e.which == 69) {
                     e.stopPropagation()
                     e.preventDefault()
+                    
+                    aplicar_funcion_a_elementos(Object.values(referencias[0]), mostrar_normal)
+                    aplicar_funcion_a_elementos(Object.values(referencias[1]), mostrar_normal)
+
                     mostrar_seleccionable()
                     seleccionando = true
                 }
@@ -189,7 +209,7 @@ $tecla = "";
                 elemento_seleccionado.style.backgroundColor = "red"
                 pintar_tecla_seleccionada(elemento_seleccionado)
                 //si la opcion seleccionada es la salida ejecutamos la función
-                if(opcion_seleccionada[2]){
+                if (opcion_seleccionada[2]) {
                     opcion_seleccionada[2]()
                 }
                 //desactivar cuando ya se han pulsado dos teclas
