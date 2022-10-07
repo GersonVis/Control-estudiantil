@@ -4,7 +4,8 @@
 include_once "libs/Controller.php";
 include_once "libs/Model.php";
 include_once "libs/View.php";
-
+include_once "libs/Database.php";
+include_once "config/configuraciones.php";
 
 class App
 {
@@ -24,7 +25,8 @@ class App
       $nombre=$_SESSION["nombre"]??$nulos++;
       $usuario=$_SESSION["usuario"]??$nulos++;
       $perfil=$_SESSION["perfil"]??$nulos++;
-      if($nulos==0){
+     // if($nulos==0){
+      if(true){
          $controlador=$_GET["controlador"];
          
          if($controlador!=""){

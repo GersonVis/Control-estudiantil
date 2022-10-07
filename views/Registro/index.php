@@ -2,6 +2,10 @@
 //importación componentes
 include_once "views/Componentes/Lista_registro.php";
 include_once "views/Componentes/Opcion.php";
+//variables
+$array_acciones = array();
+$array_lugares = array();
+$tecla = "";
 ?>
 <!DOCTYPE html>
 <html lang="en" style="height: 100vh;">
@@ -19,6 +23,24 @@ include_once "views/Componentes/Opcion.php";
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        .vibrar {
+            animation-name: slidein;
+            animation-iteration-count: infinite;
+            animation-duration: 0.5s;
+            animation-direction: alternate-reverse;
+            animation-timing-function: linear;
+        }
+
+        @keyframes slidein {
+            from {
+                transform: rotateZ(5deg);
+            }
+
+            to {
+                transform: rotateZ(-5deg);
+            }
         }
     </style>
 </head>
@@ -43,21 +65,34 @@ include_once "views/Componentes/Opcion.php";
             <p class="font-weight-bold text-left w-100" style="margin: 0px">Registrar</p>
             <hr class="my-2 bg-secondary" style="width: 200px">
             <div class="w-100 color-principal sombra-secundaria rounded d-flex" style="height: 90%;min-width: 110%;background-image: url(public/imagenes/5291450.jpg);/* background-blend-mode: luminosity; */background-repeat: round;">
-           <!-- <div class="w-100  d-flex" style="height: 90%;min-width: 110%;">-->
+                <!-- <div class="w-100  d-flex" style="height: 90%;min-width: 110%;">-->
                 <div class="d-flex w-100 h-100" style="overflow: hidden;">
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Acción</p>
 
-                        <div class="w-|00 flex-column h-100 d-flex" style="overflow: auto">
-                            <?php Opcion(); ?>
+                        <div class="w-100 flex-column h-100 d-flex" style="overflow: auto">
+                            <?php
+                            foreach ($this->acciones as $key => $contenido) {
+                                $tecla = $contenido["tecla"];
+                                $array_acciones[$tecla] = array($contenido["accion"], $tecla);
+                                Opcion($array_acciones[$tecla][0], $tecla, "accion", "paccion");
+                            }
+
+                            ?>
 
                         </div>
                     </div>
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Lugares</p>
 
-                        <div class="w-|00 flex-column h-100 d-flex" style="overflow: auto">
-                            <?php Opcion(); ?>
+                        <div class="w-100 flex-column h-100 d-flex" id="cpLugares" style="overflow: auto">
+                            <?php
+                            foreach ($this->lugares as $key => $contenido) {
+                                $tecla = $contenido["tecla"];
+                                $array_lugares[$tecla] = array($contenido["lugar"], $tecla);
+                                Opcion($array_lugares[$tecla][0], $tecla, "lugar", "plugar");
+                            }
+                            ?>
 
                         </div>
                     </div>
@@ -80,7 +115,7 @@ include_once "views/Componentes/Opcion.php";
         </div>
         <div class="sombra-principal flex-column pb-2 redondear position-absolute bg-white container align-items-center d-flex" style="width: 250px; height: 375px; right: 200px; bottom: 0px; border-radius: 22px 22px 0 0; display: flex; justify-content: end;">
             <div class="w-100 d-flex justify-content-center align-items-start flex-grow-1">
-                <img class="bg-white" src="public/ilustraciones/registrando.png" style="width: 115px; border-radius: 50% 50%; transform: translatey(-10%)" />
+                <img class="" src="public/ilustraciones/registrando.png" style="width: 170px; transform: translatey(-2  0%)" />
             </div>
             <div class="form-group mb-2 w-100">
                 <label class="m-0 label-inputs text-secondary" for="exampleInputEmail1">No. Control</label>
@@ -97,8 +132,129 @@ include_once "views/Componentes/Opcion.php";
                 <input type="email" class="form-control texto-label alto-seleccionable" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ej. Ingeniería en sistemas">
 
             </div>
-            <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white">REGISTRAR ACCESO</button>
+            <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
         </div>
 </body>
+<script>
+    combinar_indices_elementos = (indices, prefijo) => {
+        let elementos = {}
+        indices.forEach(indice => {
+            elementos[indice] = document.getElementById(prefijo + indice)
+        })
+        return elementos
+    }
+
+
+
+    var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
+    var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
+
+    let acciones_valores = Object.values(acciones)
+    
+    
+    var contador = 0
+    var seleccionando = false
+    var restaurar = () => {
+        cpLugares.style.visibility = "visible"
+    }
+    acciones_valores.forEach(elemento => {
+        if (elemento[0] == "Salida") {
+            elemento.push(function() {
+                cpLugares.style.visibility = "hidden"
+                contador=2
+                seleccionando=false
+            })
+            return
+        }
+        elemento.push(restaurar)
+    })
+  /*  acciones_valores.filter((elemento) => elemento[0] == "Salida")[0].push(function() {
+        cpLugares.style.visibility = "hidden"
+    })*/
+
+
+   
+    var opciones = [acciones, lugares]
+
+    // creamos referencias entre los elementos visuales y los ids de teclas
+    var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
+    var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
+
+
+    var referencias = [teclas_accion, teclas_lugares]
+
+    
+    var accion_seleccionada
+    var lugar_seleccionado
+    window.onload = (ev) => {
+        document.addEventListener("keydown", e => {
+            let letra = String.fromCharCode(e.which)
+            if (!seleccionando) {
+                if (e.ctrlKey && e.which == 69) {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    
+                    aplicar_funcion_a_elementos(Object.values(referencias[0]), mostrar_normal)
+                    aplicar_funcion_a_elementos(Object.values(referencias[1]), mostrar_normal)
+
+                    mostrar_seleccionable()
+                    seleccionando = true
+                }
+                return
+            }
+            elemento_seleccionado = referencias[contador][letra]
+            opcion_seleccionada = opciones[contador][letra]
+            if (elemento_seleccionado) {
+                aplicar_funcion_a_elementos(Object.values(referencias[contador]), mostrar_normal)
+                elemento_seleccionado.style.backgroundColor = "red"
+                pintar_tecla_seleccionada(elemento_seleccionado)
+                //si la opcion seleccionada es la salida ejecutamos la función
+                if (opcion_seleccionada[2]) {
+                    opcion_seleccionada[2]()
+                }
+                //desactivar cuando ya se han pulsado dos teclas
+                if (++contador > 1) {
+                    contador = 0
+                    seleccionando = false
+                }
+
+
+
+
+            }
+        })
+    }
+    pintar_tecla_seleccionada = (elemento) => {
+        remover_clase(elemento, "bg-secondary")
+        aplicar_clase(elemento, "bg-primary")
+
+    }
+    aplicar_funcion_a_elementos = (elementos, funcion_aplicar) => {
+        elementos.forEach(elemento => {
+            funcion_aplicar(elemento)
+        })
+    }
+    mostrar_seleccionable = () => {
+        let opciones = document.querySelectorAll(".opcion-tecla")
+        opciones.forEach(elemento => {
+            elemento.classList.remove("bg-secondary")
+            elemento.style.backgroundColor = "black"
+            aplicar_clase(elemento, "vibrar")
+            aplicar_clase(elemento, "shadow")
+        })
+    }
+    mostrar_normal = (elemento) => {
+        aplicar_clase(elemento, "bg-secondary")
+        remover_clase(elemento, "vibrar")
+        remover_clase(elemento, "shadow")
+        remover_clase(elemento, "bg-primary")
+    }
+    aplicar_clase = (elemento, clase) => {
+        elemento.classList.add(clase)
+    }
+    remover_clase = (elemento, clase) => {
+        elemento.classList.remove(clase)
+    }
+</script>
 
 </html>
