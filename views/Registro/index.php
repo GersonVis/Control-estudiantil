@@ -2,6 +2,10 @@
 //importación componentes
 include_once "views/Componentes/Lista_registro.php";
 include_once "views/Componentes/Opcion.php";
+//variables
+$array_acciones = array();
+$array_lugares = array();
+$tecla = "";
 ?>
 <!DOCTYPE html>
 <html lang="en" style="height: 100vh;">
@@ -31,11 +35,11 @@ include_once "views/Componentes/Opcion.php";
 
         @keyframes slidein {
             from {
-                transform:  rotateZ(5deg);
+                transform: rotateZ(5deg);
             }
 
             to {
-                transform:  rotateZ(-5deg);
+                transform: rotateZ(-5deg);
             }
         }
     </style>
@@ -66,16 +70,29 @@ include_once "views/Componentes/Opcion.php";
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Acción</p>
 
-                        <div class="w-|00 flex-column h-100 d-flex" style="overflow: auto">
-                            <?php Opcion(); ?>
+                        <div class="w-100 flex-column h-100 d-flex" style="overflow: auto">
+                            <?php
+                            foreach ($this->acciones as $key => $contenido) {
+                                $tecla = $contenido["tecla"];
+                                $array_acciones[$tecla] = array($contenido["accion"], $tecla);
+                                Opcion($array_acciones[$tecla][0], $tecla, "accion", "paccion");
+                            }
+
+                            ?>
 
                         </div>
                     </div>
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Lugares</p>
 
-                        <div class="w-|00 flex-column h-100 d-flex" style="overflow: auto">
-                            <?php Opcion(); ?>
+                        <div class="w-100 flex-column h-100 d-flex" id="cpLugares" style="overflow: auto">
+                            <?php
+                            foreach ($this->lugares as $key => $contenido) {
+                                $tecla = $contenido["tecla"];
+                                $array_lugares[$tecla] = array($contenido["lugar"], $tecla);
+                                Opcion($array_lugares[$tecla][0], $tecla, "lugar", "plugar");
+                            }
+                            ?>
 
                         </div>
                     </div>
@@ -119,16 +136,82 @@ include_once "views/Componentes/Opcion.php";
         </div>
 </body>
 <script>
-    accion_interfaz=`<?php
-       echo Opcion();
-    ?>`;
+    combinar_indices_elementos = (indices, prefijo) => {
+        let elementos = {}
+        indices.forEach(indice => {
+            elementos[indice] = document.getElementById(prefijo + indice)
+        })
+        return elementos
+    }
+
+
+
+    var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
+    var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
+
+    Object.values(acciones).forEach(elemento => {
+        if (elemento[0] == "Salida") {
+            elemento.push(function() {
+                alert("hola")
+            })
+        }
+    })
+
+    var seleccionando = false
+    var opciones = [acciones, lugares]
+
+    // creamos referencias entre los elementos visuales y los ids de teclas
+    var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
+    var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
+
+
+    var referencias = [teclas_accion, teclas_lugares]
+
+    var contador = 0
+    var accion_seleccionada
+    var lugar_seleccionado
     window.onload = (ev) => {
         document.addEventListener("keydown", e => {
-            if (e.ctrlKey && e.which == 69) {
-                e.stopPropagation()
-                e.preventDefault()
-                mostrar_seleccionable()
+            let letra=String.fromCharCode(e.which)
+            if (!seleccionando) {
+                if (e.ctrlKey && e.which == 69) {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    mostrar_seleccionable()
+                    seleccionando = true
+                }
+                return
             }
+            elemento_seleccionado = referencias[contador][letra]
+            opcion_seleccionada = opciones[contador][letra]
+            if (elemento_seleccionado) {
+                aplicar_funcion_a_elementos(Object.values(referencias[contador]), mostrar_normal)
+                elemento_seleccionado.style.backgroundColor = "red"
+                pintar_tecla_seleccionada(elemento_seleccionado)
+                //si la opcion seleccionada es la salida ejecutamos la función
+                if(opcion_seleccionada[2]){
+                    opcion_seleccionada[2]()
+                }
+                //desactivar cuando ya se han pulsado dos teclas
+                if (++contador > 1) {
+                    contador = 0
+                    seleccionando = false
+                }
+
+
+
+
+            }
+        })
+    }
+    pintar_tecla_seleccionada = (elemento) => {
+        remover_clase(elemento, "bg-secondary")
+        aplicar_clase(elemento, "bg-primary")
+
+    }
+    aplicar_funcion_a_elementos = (elementos, funcion_aplicar) => {
+        elementos.forEach(elemento => {
+            funcion_aplicar(elemento)
         })
     }
     mostrar_seleccionable = () => {
@@ -140,8 +223,17 @@ include_once "views/Componentes/Opcion.php";
             aplicar_clase(elemento, "shadow")
         })
     }
-    aplicar_clase=(elemento, animacion)=>{
-        elemento.classList.add(animacion)
+    mostrar_normal = (elemento) => {
+        aplicar_clase(elemento, "bg-secondary")
+        remover_clase(elemento, "vibrar")
+        remover_clase(elemento, "shadow")
+        remover_clase(elemento, "bg-primary")
+    }
+    aplicar_clase = (elemento, clase) => {
+        elemento.classList.add(clase)
+    }
+    remover_clase = (elemento, clase) => {
+        elemento.classList.remove(clase)
     }
 </script>
 

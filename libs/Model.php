@@ -18,4 +18,11 @@ class Model
         }
         return $contenido;
     }
+    protected function limpiar($conexion, $entradas){
+        $reparado=array();
+        foreach($entradas as $key=>$contenido){
+            $reparado[$key]=mysqli_real_escape_string($conexion, $contenido);
+        }
+        return $reparado;
+    }
 }

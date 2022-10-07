@@ -25,7 +25,8 @@ class App
       $nombre=$_SESSION["nombre"]??$nulos++;
       $usuario=$_SESSION["usuario"]??$nulos++;
       $perfil=$_SESSION["perfil"]??$nulos++;
-      if($nulos==0){
+     // if($nulos==0){
+      if(true){
          $controlador=$_GET["controlador"];
          
          if($controlador!=""){

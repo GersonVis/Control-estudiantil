@@ -1,5 +1,5 @@
 <?php
-class Accion extends Controller{
+class Lugar extends Controller{
     function __construct($nombre, $metodo, $indice)
     {
         parent::__construct($nombre, $metodo, $this, $indice, true);

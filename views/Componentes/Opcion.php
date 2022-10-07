@@ -1,14 +1,14 @@
 <?php
-function Opcion(){
-    echo '<div class="opcion w-100 dflex border p-3 mb-3 bg-white rounded " style="min-height: 95px">
+function Opcion($nombre_accion, $tecla, $id, $clase){
+    echo '<div id="'.$clase.$tecla.'" class="'.$clase.' opcion w-100 dflex border p-3 mb-3 bg-white rounded " style="min-height: 95px">
     <div class="w-100 h-25 d-flex  align-items-center">
-        <p class="m-0 font-weight-bold texto-label">Entrada</p>
+        <p class="m-0 font-weight-bold texto-label">'.$nombre_accion.'</p>
     </div>
     <div class="w-100 h-75 d-flex ">
         <div class="d-flex h-100 w-75 flex-column justify-content-center">
             <p class="texto-label text-secondary m-0">Tecla seleccionada</p>
-            <div class="opcion-tecla bg-secondary rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
-                <p class="texto-label m-0 text-white">A</p></div>
+            <div id="'.$id.$tecla.'" class="'.$id.' opcion-tecla bg-secondary rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
+                <p class="texto-label m-0 text-white" >'.$tecla.'</p></div>
             </div>
         <div class="d-flex  w-25 h-100 justify-content-center align-items-center">
             <div style="border-radius: 50% 50%; width: 30px; height: 30px" class="d-flex justify-content-center align-items-center">
