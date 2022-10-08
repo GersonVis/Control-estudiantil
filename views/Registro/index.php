@@ -114,25 +114,40 @@ $tecla = "";
             </div>
         </div>
         <div class="sombra-principal flex-column pb-2 redondear position-absolute bg-white container align-items-center d-flex" style="width: 250px; height: 375px; right: 200px; bottom: 0px; border-radius: 22px 22px 0 0; display: flex; justify-content: end;">
-            <div class="w-100 d-flex justify-content-center align-items-start flex-grow-1">
-                <img class="" src="public/ilustraciones/registrando.png" style="width: 170px; transform: translatey(-2  0%)" />
-            </div>
-            <div class="form-group mb-2 w-100">
-                <label class="m-0 label-inputs text-secondary" for="exampleInputEmail1">No. Control</label>
-                <input type="email" class="form-control texto-label alto-seleccionable" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ej. 17670173">
+            <form class="row g-3 needs-validation w-100" novalidate>
+                <div class="w-100 d-flex justify-content-center align-items-start flex-grow-1">
+                    <img class="" src="public/ilustraciones/registrando.png" style="width: 170px; transform: translatey(-2  0%)" />
+                </div>
+                <div class="form-group mb-2 w-100">
+                    <label class="m-0 label-inputs text-secondary" for="validationCustom01">No. Control</label>
+                    <div class="w-100 position-relative">
+                        <input type="text"  autocomplete="off" minlength="8" maxlength="8" size="8" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
+                        <div id="mostrar_digitos" class="invalid-feedback texto-label position-absolute m-0" style="
+    width: auto;
+    font-size: 8pt;
+    top: 0;
+    transform: translateY(-100%);
+    right: 0;
+">
 
-            </div>
-            <div class="form-group mb-2 w-100">
-                <label class="m-0 label-inputs text-secondary" for="exampleInputEmail1">Nombre</label>
-                <input type="email" class="form-control texto-label alto-seleccionable" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ej. Juan carlos">
-
-            </div>
-            <div class="form-group mb-2 w-100">
-                <label class="m-0 label-inputs text-secondary" for="exampleInputEmail1">Carrera</label>
-                <input type="email" class="form-control texto-label alto-seleccionable" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ej. Ingeniería en sistemas">
-
-            </div>
-            <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-2 w-100">
+                    <label class="m-0 label-inputs text-secondary" for="validationCustom01">No. Control</label>
+                    <div class="w-100 position-relative">
+                        <input type="text" minlength="8" maxlength="8" size="8" class="form-control texto-label alto-seleccionable" id="validationCustom01" value="" required>
+                        <div class="invalid-feedback texto-label position-absolute">
+                            El campo debe ser de 8 dígitos
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-2 w-100">
+                    <label class="m-0 label-inputs text-secondary" for="validationCustom03">Carrera</label>
+                    <input type="text" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
+            </form>
         </div>
 </body>
 <script>
@@ -142,87 +157,6 @@ $tecla = "";
             elementos[indice] = document.getElementById(prefijo + indice)
         })
         return elementos
-    }
-
-
-
-    var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
-    var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
-
-    let acciones_valores = Object.values(acciones)
-    
-    
-    var contador = 0
-    var seleccionando = false
-    var restaurar = () => {
-        cpLugares.style.visibility = "visible"
-    }
-    acciones_valores.forEach(elemento => {
-        if (elemento[0] == "Salida") {
-            elemento.push(function() {
-                cpLugares.style.visibility = "hidden"
-                contador=2
-                seleccionando=false
-            })
-            return
-        }
-        elemento.push(restaurar)
-    })
-  /*  acciones_valores.filter((elemento) => elemento[0] == "Salida")[0].push(function() {
-        cpLugares.style.visibility = "hidden"
-    })*/
-
-
-   
-    var opciones = [acciones, lugares]
-
-    // creamos referencias entre los elementos visuales y los ids de teclas
-    var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
-    var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
-
-
-    var referencias = [teclas_accion, teclas_lugares]
-
-    
-    var accion_seleccionada
-    var lugar_seleccionado
-    window.onload = (ev) => {
-        document.addEventListener("keydown", e => {
-            let letra = String.fromCharCode(e.which)
-            if (!seleccionando) {
-                if (e.ctrlKey && e.which == 69) {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    
-                    aplicar_funcion_a_elementos(Object.values(referencias[0]), mostrar_normal)
-                    aplicar_funcion_a_elementos(Object.values(referencias[1]), mostrar_normal)
-
-                    mostrar_seleccionable()
-                    seleccionando = true
-                }
-                return
-            }
-            elemento_seleccionado = referencias[contador][letra]
-            opcion_seleccionada = opciones[contador][letra]
-            if (elemento_seleccionado) {
-                aplicar_funcion_a_elementos(Object.values(referencias[contador]), mostrar_normal)
-                elemento_seleccionado.style.backgroundColor = "red"
-                pintar_tecla_seleccionada(elemento_seleccionado)
-                //si la opcion seleccionada es la salida ejecutamos la función
-                if (opcion_seleccionada[2]) {
-                    opcion_seleccionada[2]()
-                }
-                //desactivar cuando ya se han pulsado dos teclas
-                if (++contador > 1) {
-                    contador = 0
-                    seleccionando = false
-                }
-
-
-
-
-            }
-        })
     }
     pintar_tecla_seleccionada = (elemento) => {
         remover_clase(elemento, "bg-secondary")
@@ -242,6 +176,7 @@ $tecla = "";
             aplicar_clase(elemento, "vibrar")
             aplicar_clase(elemento, "shadow")
         })
+        cpLugares.style.visibility = "visible"
     }
     mostrar_normal = (elemento) => {
         aplicar_clase(elemento, "bg-secondary")
@@ -255,6 +190,119 @@ $tecla = "";
     remover_clase = (elemento, clase) => {
         elemento.classList.remove(clase)
     }
+    var logica_seleccion = (letra_local) => {
+
+        elemento_seleccionado = referencias[contador][letra_local]
+        opcion_seleccionada = opciones[contador][letra_local]
+        if (elemento_seleccionado) {
+            aplicar_funcion_a_elementos(Object.values(referencias[contador]), mostrar_normal)
+            pintar_tecla_seleccionada(elemento_seleccionado)
+            //hacer una determinada acción por la posicion del contador
+            acciones_por_contador[contador](letra_local)
+            //si la opcion seleccionada es la salida ejecutamos la función
+            if (opcion_seleccionada[2]) {
+                opcion_seleccionada[2]()
+            }
+            //desactivar cuando ya se han pulsado dos teclas
+            if (++contador > 1) {
+                contador = 0
+                seleccionando = false
+            }
+        }
+    }
+
+
+    var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
+    var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
+
+    let acciones_valores = Object.values(acciones)
+
+    var acciones_por_contador = [(valor) => {
+        accion_seleccionada = valor
+    }, (valor) => {
+        lugar_seleccionado = valor
+    }]
+
+
+    var contador = 0
+    var seleccionando = false
+    var restaurar = () => {
+        cpLugares.style.visibility = "visible"
+    }
+    acciones_valores.forEach(elemento => {
+        if (elemento[0] == "Salida") {
+            elemento.push(function() {
+                cpLugares.style.visibility = "hidden"
+                contador = 2
+                seleccionando = false
+            })
+            return
+        }
+        elemento.push(restaurar)
+    })
+
+    var opciones = [acciones, lugares]
+
+    // creamos referencias entre los elementos visuales y los ids de teclas
+    var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
+    var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
+
+
+    var referencias = [teclas_accion, teclas_lugares]
+
+
+    var accion_seleccionada
+    var lugar_seleccionado
+
+    // escogemos la primera opción de las opciones
+
+    window.onload = (ev) => {
+        document.addEventListener("keydown", e => {
+            let letra = String.fromCharCode(e.which)
+            if (!seleccionando) {
+                if (e.ctrlKey && e.which == 69) {
+                    e.stopPropagation()
+                    e.preventDefault()
+
+                    aplicar_funcion_a_elementos(Object.values(referencias[0]), mostrar_normal)
+                    aplicar_funcion_a_elementos(Object.values(referencias[1]), mostrar_normal)
+
+                    mostrar_seleccionable()
+                    seleccionando = true
+                }
+                return
+            }
+            logica_seleccion(letra)
+        })
+    }
+
+    var accion_seleccionada = Object.values(acciones)[0][1]
+    var lugar_seleccionado = Object.values(lugares)[0][1]
+    logica_seleccion(accion_seleccionada)
+    logica_seleccion(lugar_seleccionado)
+</script>
+<script src="public/js/Registro/formulario.js"></script>
+<script>
+    //bootstrap
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 </script>
 
 </html>
