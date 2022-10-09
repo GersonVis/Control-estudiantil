@@ -114,39 +114,45 @@ $tecla = "";
             </div>
         </div>
         <div class="sombra-principal flex-column pb-2 redondear position-absolute bg-white container align-items-center d-flex" style="width: 250px; height: 375px; right: 200px; bottom: 0px; border-radius: 22px 22px 0 0; display: flex; justify-content: end;">
-            <form class="row g-3 needs-validation w-100" novalidate>
+            <form id="forma" class="row g-3 needs-validation w-100" onsubmit="return false;" novalidate>
                 <div class="w-100 d-flex justify-content-center align-items-start flex-grow-1">
                     <img class="" src="public/ilustraciones/registrando.png" style="width: 170px; transform: translatey(-2  0%)" />
                 </div>
                 <div class="form-group mb-2 w-100">
-                    <label class="m-0 label-inputs text-secondary" for="validationCustom01">No. Control</label>
+                    <label class="m-0 label-inputs text-secondary" name="noControl" for="validationCustom01">No. Control</label>
                     <div class="w-100 position-relative">
-                        <input type="text"  autocomplete="off" minlength="8" maxlength="8" size="8" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
-                        <div id="mostrar_digitos" class="invalid-feedback texto-label position-absolute m-0" style="
+                        <input type="text" autocomplete="off" minlength="8" maxlength="8" size="8" name="noControl" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
+                        <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;
     top: 0;
     transform: translateY(-100%);
     right: 0;
 ">
-
+                            8 Dígitos restantes
                         </div>
                     </div>
                 </div>
                 <div class="form-group mb-2 w-100">
-                    <label class="m-0 label-inputs text-secondary" for="validationCustom01">No. Control</label>
+                    <label class="m-0 label-inputs text-secondary" for="validationCustom03">Nombre</label>
                     <div class="w-100 position-relative">
-                        <input type="text" minlength="8" maxlength="8" size="8" class="form-control texto-label alto-seleccionable" id="validationCustom01" value="" required>
-                        <div class="invalid-feedback texto-label position-absolute">
-                            El campo debe ser de 8 dígitos
+                        <input type="text" minlength="3" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                        <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
+    width: auto;
+    font-size: 8pt;
+    top: 0;
+    transform: translateY(-100%);
+    right: 0;
+">
+                            Introduce minímo 3 letras
                         </div>
                     </div>
                 </div>
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" for="validationCustom03">Carrera</label>
-                    <input type="text" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                    <input type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
+                <button id="enviar" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
             </form>
         </div>
 </body>
@@ -190,11 +196,13 @@ $tecla = "";
     remover_clase = (elemento, clase) => {
         elemento.classList.remove(clase)
     }
+    var form_opciones=["", ""]
     var logica_seleccion = (letra_local) => {
 
         elemento_seleccionado = referencias[contador][letra_local]
         opcion_seleccionada = opciones[contador][letra_local]
         if (elemento_seleccionado) {
+            form_opciones[contador]=opciones[contador][letra_local]
             aplicar_funcion_a_elementos(Object.values(referencias[contador]), mostrar_normal)
             pintar_tecla_seleccionada(elemento_seleccionado)
             //hacer una determinada acción por la posicion del contador
@@ -281,7 +289,7 @@ $tecla = "";
     logica_seleccion(accion_seleccionada)
     logica_seleccion(lugar_seleccionado)
 </script>
-<script src="public/js/Registro/formulario.js"></script>
+
 <script>
     //bootstrap
     (function() {
@@ -293,6 +301,7 @@ $tecla = "";
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function(form) {
+
                 form.addEventListener('submit', function(event) {
                     if (!form.checkValidity()) {
                         event.preventDefault()
@@ -304,5 +313,6 @@ $tecla = "";
             })
     })()
 </script>
+<script src="public/js/Registro/formulario.js"></script>
 
 </html>

@@ -23,6 +23,7 @@ class Entrada extends Controller
     }
     function registrarEntrada()
     {
+        echo var_dump($_POST);
         $no_control = $_POST["noControl"];
         $lugar = $_POST["lugar"];
         $resultado = $this->modelo->registrarEntrada($no_control, $lugar);

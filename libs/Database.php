@@ -97,11 +97,16 @@ class Database
   {
     $resultado = $this->consulta($conexion, $sql);
     $registros = array();
-    if (is_array($resultado)) {
-      foreach ($resultado as $key => $registro) {
-        $registros[$key] = $registro;
+    if(gettype($resultado)!="boolean"){
+      if ($resultado->num_rows>0) {
+        foreach ($resultado as $key => $registro) {
+  
+          $registros[$key] = $registro;
+        }
       }
     }
+   
+
     $error_code = mysqli_errno($conexion);
     return array(
       "respuesta" => $error_code == 0 ? true : false,
