@@ -13,12 +13,9 @@ class Modelo_Entrada extends Model{
     }
     function registrarEntrada($lugar, $no_control){
         $conexion=$this->db->conectar();
-        $lugar=mysqli_real_escape_string($conexion, $lugar);
-        $no_control=mysqli_real_escape_string($conexion, $no_control);
-        $sql="insert into entradas_n( no_control, lugar) values('$lugar', '$no_control')";
-        $resultado=$this->db->consulta($conexion, $sql);
-        $error_code=mysqli_errno($conexion);
-        return array("respuesta"=>$error_code==0?true:false, "codigo"=>$error_code, "contenido"=>$resultado);
+        $entradas=$this->limpiar($conexion, array("no_control"=>$no_control, "lugar"=>$lugar));
+        $sql="insert into entradas_n( no_control, lugar) values('$entradas[lugar]', '$entradas[no_control]')";
+        return $this->db->consulta_codigo($conexion, $sql);
     }
     function borrar($entradas){
         $conexion=$this->db->conectar();
@@ -40,6 +37,12 @@ class Modelo_Entrada extends Model{
         }
         $sql=substr($sql, 0, -4);
         $sql="delete from entradas_n ".($sql==""?"":$sql);
+        return $this->db->consulta_codigo($conexion, $sql);
+    }
+    function estaDisponible($no_control){
+        $conexion=$this->db->conectar();
+        $entradas=$this->limpiar($conexion, array("no_control"=>$no_control));
+        $sql="select * from entradas_n where no_control= '$entradas[no_control]' and fecha=curdate() and hora_salida is null;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
 
