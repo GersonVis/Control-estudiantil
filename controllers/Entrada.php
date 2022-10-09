@@ -23,25 +23,13 @@ class Entrada extends Controller
     }
     function registrarEntrada()
     {
-        echo var_dump($_POST);
+        
         $no_control = $_POST["noControl"];
         $lugar = $_POST["lugar"];
         $resultado = $this->modelo->registrarEntrada($no_control, $lugar);
-        $this->view->resultado=true;
-        if (!$resultado["respuesta"]) {
-            $this->view->resultado=false;
-            if ($resultado["codigo"] == 1452) {
-                $this->view->mensaje = "El lugar especificado no se encuentra en el catálago";
-                $this->view->renderizar();
-                return;
-            }
-            $this->view->mensaje = "Ha ocurrido un error";
-            $this->view->renderizar();
-            return;
-        }
-        $this->view->mensaje = "Se ha realizado el registro exitosamente";
+        $this->view->resultado = $resultado;
         $this->view->renderizar();
-        return;
+        
     }
     function borrar(){
         $fecha=$_POST["fecha"]??"";
@@ -50,5 +38,13 @@ class Entrada extends Controller
         $fecha_fin=$_POST["fecha_fin"]??"";
         $this->view->resultado=$this->modelo->borrar(array("fecha"=>$fecha, "lugar"=>$lugar, "no_control"=>$noControl, "fecha_fin"=>$fecha_fin));
         $this->view->renderizar();
+    }
+    function entradaAumatica(){
+        $no_control=$_POST["noControl"]??"";
+        $disponibilidad=$this->modelo->estaDisponible($no_control);
+       // echo var_dump($disponibilidad["contenido"]);
+        if(count($disponibilidad["contenido"])==0){
+            $this->registrarEntrada();
+        }
     }
 }

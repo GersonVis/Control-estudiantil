@@ -53,8 +53,11 @@ function impedir_letras(evt) {
             // $("#mostrar_digitos").text("Solo números")
 
         }
-        texto = $('#validationCustom02').val()
-        $("#mostrar_digitos").text((largo_no_control - texto.length) + " Dígitos restantes")
+        let largo = $('#validationCustom02').val().length
+        if(largo<8){
+            $("#mostrar_digitos").text((largo_no_control - (largo+1)) + " Dígitos restantes")
+        }
+        
     }
 }
 
@@ -65,7 +68,7 @@ function impedir_letras(evt) {
 const enviar_formulario = (formdata) => {
 
     console.log("formulario enviado")
-    fetch("Entrada/registrarEntrada", {
+    fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
     })
