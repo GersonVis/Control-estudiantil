@@ -9,6 +9,7 @@ var largo_no_control = 8
 var nombre
 var no_control
 var lugar
+var urls_formulario
 //que hacer dependiendo de la respuesta del envio del formulario
 const consecuencias = {
     "creacion": registro_exitoso,
@@ -28,6 +29,9 @@ btn_enviar.addEventListener("click", function () {
     formdata.append("lugar", lugar)
     enviar_formulario(formdata)
 })
+
+
+
 validationCustom02.addEventListener("keypress", impedir_letras)
 validationCustom02.addEventListener("input", regla_numeros)
 function regla_numeros(evt) {
@@ -55,8 +59,9 @@ const enviar_formulario = (formdata) => {
     })
         .then(respuesta => respuesta.json())
         .then(json => {
-            datos=json.contenido[0]
-            consecuencias[json.tipo_consulta](nombre, no_control, lugar, datos.hora_entrada)
+            prueba=json
+            hora_entrada=json.contenido[0]?json.contenido[0]["hora_entrada"]:""
+            consecuencias[json.tipo_consulta](nombre, no_control, lugar, hora_entrada)
             console.log(json)
         })
         .catch(er => {

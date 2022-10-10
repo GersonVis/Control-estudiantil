@@ -118,11 +118,13 @@ class Database
       }
     }
     $error_code = mysqli_errno($conexion);
+  //  $afectados = $tipo_consulta!="select"?$conexion->affected_rows:"no es posible";
     return array(
       "respuesta" => $error_code == 0 ? true : false,
       "codigo" => isset($this->codigos_error[$error_code]) ? $this->codigos_error[$error_code] : "Error sin descripcion: $error_code",
       "contenido" => $registros,
-      "tipo_consulta"=>$this->tipos_consulta[$tipo_consulta]
+      "tipo_consulta"=>$this->tipos_consulta[$tipo_consulta],
+      "registros_afectados"=>$conexion->affected_rows
     );
   }
 }

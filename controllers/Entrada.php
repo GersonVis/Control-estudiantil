@@ -29,7 +29,7 @@ class Entrada extends Controller
     {
         $no_control = $_POST["noControl"];
         $lugar = $_POST["lugar"];
-        $nombre = $_POST["nombre"];
+        $nombre = $_POST["nombre"]??"";
         $resultado = $this->modelo->registrarEntrada($no_control, $lugar);
         if($resultado["respuesta"]){
             $resultado_registro = $this->modelo->info($no_control);
