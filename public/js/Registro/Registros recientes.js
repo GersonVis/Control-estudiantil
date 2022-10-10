@@ -2,11 +2,20 @@
 Actualización del panel de registros recientes
 */
 var almacen_registros={}
+const hoy=new Date();
+const fecha_hoy=hoy.getFullYear()+"-"+String(hoy.getMonth()+1).padStart(2, "0")+"-"+String(hoy.getDate()).padStart(2, "0")
+const datos_hoy=new FormData()
+datos_hoy.append("fecha", fecha_hoy)
+
 const nuevos_ingresos=()=>{
-    fetch("Entrada/entradaAumatica")
-    .then(respuesta=>respuesta.json())
+    fetch("Entrada/todos",{
+        method: "POST",
+        body: datos_hoy
+    })
+    .then(respuesta=>respuesta.text())
     .then(json=>{
-        comparar_infomacion(almacen_registros, json.contenido)
+         console.log(json)
+        //  comparar_infomacion(almacen_registros, json.contenido)
     })
     .catch(er=>{
         console.error("ocurrio un error al hacer la consulta")
