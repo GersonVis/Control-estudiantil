@@ -53,11 +53,11 @@ $tecla = "";
         <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
             <p class="font-weight-bold  text-left w-100" style="margin: 0px">Registros recientes</p>
             <hr class="my-2 bg-secondary" style="width: 200px">
-            <div class="w-|00 flex-column h-100 redondear bg-white d-flex" style="overflow: auto">
+            <div id="lista_ingresos" class="w-|00 flex-column h-100 redondear bg-white d-flex" style="overflow: auto">
                 <?php
-                for ($c = 0; $c < 10; $c++) {
-                    Lista_registro();
-                }
+               // for ($c = 0; $c < 10; $c++) {
+              //      Lista_registro();
+             //   }
                 ?>
             </div>
         </div>
@@ -150,7 +150,7 @@ $tecla = "";
                 </div>
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" for="validationCustom03">Carrera</label>
-                    <input type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                    <input type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
                 </div>
                 <button id="enviar" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
             </form>
@@ -313,6 +313,8 @@ $tecla = "";
             })
     })()
 </script>
+<script src="public/js/Registro/Insercion.js"></script>
 <script src="public/js/Registro/formulario.js"></script>
-
+<script src="public/js/Registro/Registros recientes.js"></script>
+<script src="public/js/Registro/Registros base.js"></script>
 </html>
