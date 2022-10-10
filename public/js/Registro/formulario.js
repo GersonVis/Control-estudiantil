@@ -46,6 +46,7 @@ function impedir_letras(evt) {
         }
     }
 }
+var prueba=""
 const enviar_formulario = (formdata) => {
    
     fetch("Entrada/entradaAumatica", {
@@ -54,7 +55,8 @@ const enviar_formulario = (formdata) => {
     })
         .then(respuesta => respuesta.json())
         .then(json => {
-            consecuencias[json.tipo_consulta](nombre, no_control, lugar)
+            datos=json.contenido[0]
+            consecuencias[json.tipo_consulta](nombre, no_control, lugar, datos.hora_entrada)
             console.log(json)
         })
         .catch(er => {

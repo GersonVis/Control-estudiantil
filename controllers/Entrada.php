@@ -31,6 +31,10 @@ class Entrada extends Controller
         $lugar = $_POST["lugar"];
         $nombre = $_POST["nombre"];
         $resultado = $this->modelo->registrarEntrada($no_control, $lugar);
+        if($resultado["respuesta"]){
+            $resultado_registro = $this->modelo->info($no_control);
+            $resultado["contenido"]=$resultado_registro["contenido"];
+        }
         $this->view->resultado = $resultado;
         $this->view->renderizar();   
     }

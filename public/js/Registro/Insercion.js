@@ -2,11 +2,11 @@
 Eventos despues de una exitosa insercion
 */
 const div_ingresos=document.querySelector("#lista_ingresos")
-const registro_exitoso=(id, nombre, no_control, lugar)=>{
+const registro_exitoso=(id, nombre, no_control, lugar, hora_entrada)=>{
     div_ingresos.innerHTML+=`<div id="registro${id}" class="w-100 dflex pt-1 mb-3" style="min-height: 95px">
     <div class="w-100 h-25 d-flex">
         <div class="h-100 font-weight-bold texto-label " style="width: 60%;">${nombre}</div>
-        <div class="h-100 texto-label text-secondary" style="width: 20%">12:34 pm</div>
+        <div class="h-100 texto-label text-secondary" style="width: 20%">${hora_entrada}</div>
         <div class="h-100 d-flex flex-center justify-content-center align-items-center" style="width: 20%">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                 <path fill="#DADADA" d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />

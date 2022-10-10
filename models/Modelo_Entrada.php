@@ -75,7 +75,7 @@ class Modelo_Entrada extends Model{
         }
         $sql=substr($sql, 0, -4);
         $total=$base_sql.($sql==""?"":" where ".$sql);
-        echo $total."<br><br>";
+       
         return $this->db->consulta_codigo($conexion, $total);
     }
    
