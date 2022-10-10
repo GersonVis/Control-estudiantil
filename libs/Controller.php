@@ -4,6 +4,7 @@ class Controller{
     {
         $this->view=new View($nombre);
         $this->nombre=$nombre;
+        //decidir si cargar modelo para consultas a la base de datos
         if($carga_de_modelo){
             $this->cargar_modelo();
         }

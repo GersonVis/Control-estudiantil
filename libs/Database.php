@@ -15,11 +15,12 @@ class Database
     $this->user = constant('USER');
     $this->password = constant('PASSWORD');
     $this->db = constant('DB');
-    $this->codigos_error = array(1452 => "Un dato especificado no se encuentra en el catalago", 0 => "La tarea se realizo correctamente", -1 => "Error no especificado");
+    $this->codigos_error = array(1064=>"Error en la consulta sql", 1452 => "Un dato especificado no se encuentra en el catalago", 0 => "La tarea se realizo correctamente", -1 => "Error no especificado");
     $this->tipos_consulta= array(
       "select"=>"seleccion",
       "delete"=>"eliminacion",
-      "update"=>"actualizacion"
+      "update"=>"actualizacion",
+      "insert"=>"creacion",
     );
   }
   function conectar()
