@@ -10,7 +10,7 @@ class Modelo_Entrada extends Model{
         $conexion=$this->db->conectar();
         $base_sql="select * from entradas_n ";
         $sql="";
-        echo var_dump($entradas);
+       
         if(is_string($entradas)){
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
@@ -33,7 +33,6 @@ class Modelo_Entrada extends Model{
         }
         $sql=substr($sql, 0, -4);
         $total=$base_sql.($sql==""?"":" where ".$sql);
-        echo $total."<br><br>";
         return $this->db->consulta_codigo($conexion, $total);
     }
 
@@ -53,7 +52,7 @@ class Modelo_Entrada extends Model{
         $conexion=$this->db->conectar();
         $base_sql="delete from entradas_n ";
         $sql="";
-        echo var_dump($entradas);
+     
         if(is_string($entradas)){
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
