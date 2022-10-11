@@ -45,7 +45,7 @@ class Entrada extends Controller
 
         //si en la consulta de disponibilidad no hay registros registramos
         if (count($json_respuesta["contenido"]) == 0) {
-            $json_respuesta = $this->modelo->registrarEntrada($no_control, $lugar);
+            $json_respuesta = $this->modelo->registrarEntrada($no_control, $lugar, $nombre);
             if ($json_respuesta["respuesta"]) {
                 $resultado_registro = $this->modelo->info($no_control);
                 $json_respuesta["contenido"] = $resultado_registro["contenido"];
@@ -88,7 +88,7 @@ class Entrada extends Controller
         $disponibilidad = $this->modelo->estaDisponible($no_control);
         //si en la consulta de disponibilidad no hay registros registramos
         if (count($disponibilidad["contenido"]) == 0) {
-            $registro_entrada = $this->modelo->registrarEntrada($no_control, $lugar);
+            $registro_entrada = $this->modelo->registrarEntrada($no_control, $lugar, $nombre);
             if ($registro_entrada["respuesta"]) {
                 // cargamos información del registro creado
                 $info = $this->modelo->info($no_control);
@@ -116,6 +116,11 @@ class Entrada extends Controller
     {
         $no_control = $indice;
         $resultado = $this->modelo->info($no_control);
+        $this->view->resultado = $resultado;
+        $this->view->renderizar();
+    }
+    function sinSalida(){
+        $resultado = $this->modelo->sinSalida();
         $this->view->resultado = $resultado;
         $this->view->renderizar();
     }

@@ -21,7 +21,7 @@ var accion_por_opcion = {
     "Automático": () => {
         // si no esta en la lista se puede registrar
         let persona=personas_registradas[no_control]??{disponible: true}
-        console.log(persona)
+       
         if (persona.disponible) {
             let formdata = new FormData(forma)
             nombre = validationCustom03.value
@@ -35,7 +35,7 @@ var accion_por_opcion = {
     },
     "Salida": () => {
         let persona=personas_registradas[no_control]??{disponible: true}
-        console.log(persona)
+     
         if (persona.disponible) {
             let formdata = new FormData(forma)
             nombre = validationCustom03.value
@@ -52,8 +52,7 @@ var accion_por_opcion = {
 const consecuencias = {
     "creacion": registro_exitoso,//funcion en el archivo inserción
     "actualizacion": ({id_entrada}) => {
-        console.log("id_entrada"+id_entrada)
-        console.log("registro"+id_entrada)
+       
         remover_de_padre("registro"+id_entrada)
 
     }
@@ -100,14 +99,8 @@ const enviar_formulario = (formdata) => {
         .then(json => {
            if(json.respuesta){
             prueba = json
-            hora_entrada = json.contenido[0] ? json.contenido[0]["hora_entrada"] : ""
-            id_entrada = json.contenido[0] ? json.contenido[0]["id_entrada"] : ""
-            console.log("id_enctrada"+id_entrada)
-            consecuencias[json.tipo_consulta]({id_entrada: id_entrada, 
-                nombre: nombre, 
-                no_control: no_control, 
-                lugar:lugar, 
-                hora_entrada: hora_entrada})
+            registro=json.contenido[0]
+            consecuencias[json.tipo_consulta](registro)
             agregar_registro(json)
             no_disponible(no_control)
             bloquear_por_tiempo(no_control, tiempo_bloqueo)
@@ -122,7 +115,6 @@ const enviar_formulario = (formdata) => {
 }
 
 const disponibilidad=(no_control)=>{
-    console.log("se ha cambiado la disponibilidad")
     personas_registradas[no_control].disponible=true
 }
 const no_disponible=(no_control)=>{

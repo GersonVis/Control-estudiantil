@@ -8,13 +8,34 @@ const datos_hoy=new FormData()
 datos_hoy.append("fecha", fecha_hoy)
 
 const nuevos_ingresos=()=>{
-    fetch("Entrada/sinsalida",{
+    console.log("llamada")
+    fetch("Entrada/sinSalida",{
         method: "POST",
         body: datos_hoy
     })
-    .then(respuesta=>respuesta.text())
+    .then(respuesta=>respuesta.json())
     .then(json=>{
-         console.log(json)
+         if(json.respuesta){
+            if(Object.keys(personas_registradas).length==0){
+                respuesta.contenido.forEach(elemento=>{
+                    registro_exitoso(elemento)
+                })
+                return
+            }
+            console.log(json)
+            contenido=json.contenido
+            parejas=[]
+            nuevo_array={}
+            Object.assign(nuevo_array, personas_registradas)
+            encontrados=contenido.map(elemento=>{
+                if(!nuevo_array[elemento.no_control]){
+                    delete nuevo_array[elemento.no_control]
+                    return elemento
+                }
+            })
+            console.log("nuevos ingresos")
+            
+         }
         //  comparar_infomacion(almacen_registros, json.contenido)
     })
     .catch(er=>{
