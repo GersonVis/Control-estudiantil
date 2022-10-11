@@ -1,14 +1,14 @@
 <?php
 function Opcion($nombre_accion, $tecla, $id, $clase){
-    echo '<div id="'.$clase.$tecla.'" class="'.$clase.' list-group-item list-group-item-action opcion w-100 dflex border p-3 mb-3 rounded " style="min-height: 95px" data-toggle="list">
-    <div class="w-100 h-25 d-flex  align-items-center">
+    echo '<div id="'.$clase.$tecla.'" class="lista-opcion '.$clase.' list-group-item list-group-item-action opcion w-100 dflex border p-3 mb-3 rounded " style="min-height: 95px" data-toggle="list">
+    <div class="ptitulo w-100 h-25 d-flex  align-items-center">
         <p class="m-0 font-weight-bold texto-label">'.$nombre_accion.'</p>
     </div>
     <div class="w-100 h-75 d-flex ">
         <div class="d-flex h-100 w-75 flex-column justify-content-center">
             <p class="texto-label text-secondary m-0">Tecla seleccionada</p>
             <div id="'.$id.$tecla.'" class="'.$id.' opcion-tecla rounded ml-1 pl-1 d-flex justify-content-start align-items-start" style="width: 30px; height: 30px">
-                <p class="texto-label m-0 text-white" >'.$tecla.'</p></div>
+                <p class="texto-label m-0" >'.$tecla.'</p></div>
             </div>
         <div class="d-flex  w-25 h-100 justify-content-center align-items-center">
             <div style="border-radius: 50% 50%; width: 30px; height: 30px" class="d-flex justify-content-center align-items-center">

@@ -25,19 +25,45 @@ $tecla = "";
             box-sizing: border-box;
         }
 
-        .list-group-item.active {
-            background-color: red;
-        }
-        .list-group-item.active.opcion-tecla{
-            background-color: blue;
-        }
-        .list-group-item.active div .opcion-tecla{
-            background-color: yellow;
-        }
-        .list-group-item div .opcion-tecla{
-            background-color: #6c757d;
+        .list-group-item {
+            transition-property: min-height, background-color;
+            transition-duration: 1s, 2s;
 
         }
+
+        .list-group-item.active {
+            background-color: var(--principal-color);
+            min-height: 130px !important;
+        }
+        .list-group-item::after {
+            content: "";
+        
+            position: absolute;
+            bottom: 0;
+           
+            background-image: url("public/ilustraciones/registrando.png");
+        }
+
+        .list-group-item.active div .opcion-tecla {
+            background-color: white;
+        }
+
+        .list-group-item div .opcion-tecla p {
+            color: white;
+        }
+
+        .list-group-item.active .ptitulo p {
+            color: black;
+        }
+
+        .list-group-item.active div .opcion-tecla p {
+            color: black;
+        }
+
+        .list-group-item div .opcion-tecla {
+            background-color: #6c757d;
+        }
+
         .vibrar {
             animation-name: vibrar;
             animation-iteration-count: infinite;
@@ -109,7 +135,7 @@ $tecla = "";
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Acción</p>
 
                         <div class="position-relative w-100 flex-column h-100 d-flex" style="overflow: auto">
-                            <div class="list-group" id="list-tab" role="tablist">
+                            <div class="list-group" id="list-acciones" role="tablist">
                                 <?php
                                 foreach ($this->acciones as $key => $contenido) {
                                     $tecla = $contenido["tecla"];
@@ -125,7 +151,7 @@ $tecla = "";
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Lugares</p>
 
                         <div class="w-100 flex-column h-100 d-flex" id="cpLugares" style="overflow: auto">
-                            <div class="list-group" id="list-tab" role="tablist">
+                            <div class="list-group" id="list-lugares" role="tablist">
                                 <?php
                                 foreach ($this->lugares as $key => $contenido) {
                                     $tecla = $contenido["tecla"];
@@ -208,7 +234,7 @@ $tecla = "";
     pintar_tecla_seleccionada = (elemento) => {
         remover_clase(elemento, "bg-secondary")
         aplicar_clase(elemento, "bg-primary")
-
+        
     }
     aplicar_funcion_a_elementos = (elementos, funcion_aplicar) => {
         elementos.forEach(elemento => {
@@ -327,8 +353,8 @@ $tecla = "";
 
     var accion_seleccionada = Object.values(acciones)[0][1]
     var lugar_seleccionado = Object.values(lugares)[0][1]
-    logica_seleccion(accion_seleccionada)
-    logica_seleccion(lugar_seleccionado)
+    //   logica_seleccion(accion_seleccionada)
+    //  logica_seleccion(lugar_seleccionado)
 </script>
 
 <script>
@@ -353,6 +379,16 @@ $tecla = "";
                 }, false)
             })
     })()
+    //lista
+    $('#list-acciones div').on('click', function(e) {
+        e.preventDefault()
+        //$(this).tab('show')
+        console.log($(this))
+    })
+    $('#list-lugares div').on('click', function(e) {
+        e.preventDefault()
+        alert("pulsado")
+    })
 </script>
 <script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>
