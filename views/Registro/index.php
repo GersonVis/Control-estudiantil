@@ -25,6 +25,19 @@ $tecla = "";
             box-sizing: border-box;
         }
 
+        .list-group-item.active {
+            background-color: red;
+        }
+        .list-group-item.active.opcion-tecla{
+            background-color: blue;
+        }
+        .list-group-item.active div .opcion-tecla{
+            background-color: yellow;
+        }
+        .list-group-item div .opcion-tecla{
+            background-color: #6c757d;
+
+        }
         .vibrar {
             animation-name: vibrar;
             animation-iteration-count: infinite;
@@ -60,7 +73,7 @@ $tecla = "";
 
         @keyframes bloqueado {
             from {
-                 width: 100%;
+                width: 100%;
             }
 
             to {
@@ -96,29 +109,32 @@ $tecla = "";
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Acción</p>
 
                         <div class="position-relative w-100 flex-column h-100 d-flex" style="overflow: auto">
-                            <?php
-                            foreach ($this->acciones as $key => $contenido) {
-                                $tecla = $contenido["tecla"];
-                                $array_acciones[$tecla] = array($contenido["accion"], $tecla);
-                                Opcion($array_acciones[$tecla][0], $tecla, "accion", "paccion");
-                            }
+                            <div class="list-group" id="list-tab" role="tablist">
+                                <?php
+                                foreach ($this->acciones as $key => $contenido) {
+                                    $tecla = $contenido["tecla"];
+                                    $array_acciones[$tecla] = array($contenido["accion"], $tecla);
+                                    Opcion($array_acciones[$tecla][0], $tecla, "accion", "paccion");
+                                }
 
-                            ?>
-
+                                ?>
+                            </div>
                         </div>
                     </div>
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Lugares</p>
 
                         <div class="w-100 flex-column h-100 d-flex" id="cpLugares" style="overflow: auto">
-                            <?php
-                            foreach ($this->lugares as $key => $contenido) {
-                                $tecla = $contenido["tecla"];
-                                $array_lugares[$tecla] = array($contenido["lugar"], $tecla);
-                                Opcion($array_lugares[$tecla][0], $tecla, "lugar", "plugar");
-                            }
-                            ?>
+                            <div class="list-group" id="list-tab" role="tablist">
+                                <?php
+                                foreach ($this->lugares as $key => $contenido) {
+                                    $tecla = $contenido["tecla"];
+                                    $array_lugares[$tecla] = array($contenido["lugar"], $tecla);
+                                    Opcion($array_lugares[$tecla][0], $tecla, "lugar", "plugar");
+                                }
+                                ?>
 
+                            </div>
                         </div>
                     </div>
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
@@ -159,9 +175,9 @@ $tecla = "";
                     </div>
                 </div>
                 <div class="form-group mb-2 w-100">
-                    <label class="m-0 label-inputs text-secondary"  for="validationCustom03">Nombre</label>
+                    <label class="m-0 label-inputs text-secondary" for="validationCustom03">Nombre</label>
                     <div class="w-100 position-relative">
-                        <input type="text" minlength="3"  value="gerson visoso ocampo" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                        <input type="text" minlength="3" value="gerson visoso ocampo" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
                         <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;

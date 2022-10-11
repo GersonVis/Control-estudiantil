@@ -1,5 +1,5 @@
 nuevos_ingresos()
-/*setInterval(()=>{
+setInterval(()=>{
     nuevos_ingresos()
 }, 3000)
-//*/
+//
