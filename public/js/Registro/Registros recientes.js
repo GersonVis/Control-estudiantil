@@ -8,7 +8,7 @@ const datos_hoy=new FormData()
 datos_hoy.append("fecha", fecha_hoy)
 
 const nuevos_ingresos=()=>{
-    fetch("Entrada/todos",{
+    fetch("Entrada/sinsalida",{
         method: "POST",
         body: datos_hoy
     })
@@ -30,4 +30,11 @@ const comparar_infomacion=(json_antigo, json_nuevo)=>{
             
         });
    }
+}
+const remover_de_padre=(id)=>{
+    let padre, registro
+    registro=document.querySelector("#"+id)
+    console.log(registro)
+    padre=registro.parentElement
+    padre.removeChild(registro)
 }

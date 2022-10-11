@@ -2,8 +2,9 @@
 Eventos despues de una exitosa insercion
 */
 const div_ingresos=document.querySelector("#lista_ingresos")
-const registro_exitoso=(id, nombre, no_control, lugar, hora_entrada)=>{
-    div_ingresos.innerHTML+=`<div id="registro${id}" class="w-100 dflex pt-1 mb-3" style="min-height: 95px">
+const registro_exitoso=({id_entrada, nombre, no_control, lugar, hora_entrada})=>{
+    
+    div_ingresos.innerHTML+=`<div id="registro${id_entrada}" class="bloqueado position-relative w-100 dflex pt-1 mb-3" style="min-height: 95px">
     <div class="w-100 h-25 d-flex">
         <div class="h-100 font-weight-bold texto-label " style="width: 60%;">${nombre}</div>
         <div class="h-100 texto-label text-secondary" style="width: 20%">${hora_entrada}</div>
