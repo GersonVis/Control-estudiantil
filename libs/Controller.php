@@ -30,5 +30,18 @@ class Controller{
         $this->modelo=new $nombre_modelo();
       
     }
+    function parametros_necesarios($array_parametros, $array_busqueda){
+        $msg=""; 
+        foreach($array_parametros as $parametro){
+            if(!isset($array_busqueda[$parametro])){
+                $msg.=" $parametro no encontrado, es necesario ";
+                continue;
+            }
+            if($array_busqueda[$parametro]==""){
+                $msg.=" $parametro no puede estar vacío ";
+            }
+         }
+        return $msg;
+    }
  }
 ?>

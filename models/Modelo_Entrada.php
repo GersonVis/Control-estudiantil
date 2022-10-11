@@ -36,10 +36,10 @@ class Modelo_Entrada extends Model{
         return $this->db->consulta_codigo($conexion, $total);
     }
 
-    function registrarEntrada($lugar, $no_control){
+    function registrarEntrada($lugar, $no_control, $nombre){
         $conexion=$this->db->conectar();
-        $entradas=$this->limpiar($conexion, array("no_control"=>$no_control, "lugar"=>$lugar));
-        $sql="insert into entradas_n( no_control, lugar) values('$entradas[lugar]', '$entradas[no_control]')";
+        $entradas=$this->limpiar($conexion, array("no_control"=>$no_control, "lugar"=>$lugar, "nombre"=>$nombre));
+        $sql="insert into entradas_n( no_control, lugar, nombre) values('$entradas[lugar]', '$entradas[no_control]', '$entradas[nombre]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
     function registrarSalida($no_control){
@@ -75,7 +75,7 @@ class Modelo_Entrada extends Model{
         }
         $sql=substr($sql, 0, -4);
         $total=$base_sql.($sql==""?"":" where ".$sql);
-        echo $total."<br><br>";
+       
         return $this->db->consulta_codigo($conexion, $total);
     }
    
@@ -89,6 +89,11 @@ class Modelo_Entrada extends Model{
         $conexion=$this->db->conectar();
         $entradas=$this->limpiar($conexion, array("no_control"=>$no_control));
         $sql="select * from entradas_n where no_control = '$entradas[no_control]' and fecha=curdate() order by hora_entrada desc  limit 1;";
+        return $this->db->consulta_codigo($conexion, $sql);
+    }
+    function sinSalida(){
+        $conexion=$this->db->conectar();
+        $sql="select * from entradas_n where hora_salida is null order by id_entrada desc;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
 }

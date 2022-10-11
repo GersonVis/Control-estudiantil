@@ -26,20 +26,45 @@ $tecla = "";
         }
 
         .vibrar {
-            animation-name: slidein;
+            animation-name: vibrar;
             animation-iteration-count: infinite;
             animation-duration: 0.5s;
             animation-direction: alternate-reverse;
             animation-timing-function: linear;
         }
 
-        @keyframes slidein {
+        .bloqueado::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 3px;
+            border-radius: 12px;
+            background-color: red;
+            bottom: 0;
+            animation-name: bloqueado;
+            animation-iteration-count: 1;
+            animation-duration: 3s;
+            animation-timing-function: cubic-bezier(0.06, 0.69, 0.59, -0.01);
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes vibrar {
             from {
                 transform: rotateZ(5deg);
             }
 
             to {
                 transform: rotateZ(-5deg);
+            }
+        }
+
+        @keyframes bloqueado {
+            from {
+                 width: 100%;
+            }
+
+            to {
+                width: 0%;
             }
         }
     </style>
@@ -55,9 +80,9 @@ $tecla = "";
             <hr class="my-2 bg-secondary" style="width: 200px">
             <div id="lista_ingresos" class="w-|00 flex-column h-100 redondear bg-white d-flex" style="overflow: auto">
                 <?php
-               // for ($c = 0; $c < 10; $c++) {
-              //      Lista_registro();
-             //   }
+                // for ($c = 0; $c < 10; $c++) {
+                //      Lista_registro();
+                //   }
                 ?>
             </div>
         </div>
@@ -70,7 +95,7 @@ $tecla = "";
                     <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Acción</p>
 
-                        <div class="w-100 flex-column h-100 d-flex" style="overflow: auto">
+                        <div class="position-relative w-100 flex-column h-100 d-flex" style="overflow: auto">
                             <?php
                             foreach ($this->acciones as $key => $contenido) {
                                 $tecla = $contenido["tecla"];
@@ -121,7 +146,7 @@ $tecla = "";
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" name="noControl" for="validationCustom01">No. Control</label>
                     <div class="w-100 position-relative">
-                        <input type="text" autocomplete="off" minlength="8" maxlength="8" size="8" name="noControl" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
+                        <input type="text" value="12345678" autocomplete="off" minlength="8" maxlength="8" size="8" name="noControl" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
                         <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;
@@ -134,9 +159,9 @@ $tecla = "";
                     </div>
                 </div>
                 <div class="form-group mb-2 w-100">
-                    <label class="m-0 label-inputs text-secondary" for="validationCustom03">Nombre</label>
+                    <label class="m-0 label-inputs text-secondary"  for="validationCustom03">Nombre</label>
                     <div class="w-100 position-relative">
-                        <input type="text" minlength="3" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                        <input type="text" minlength="3"  value="gerson visoso ocampo" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
                         <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;
@@ -150,7 +175,7 @@ $tecla = "";
                 </div>
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" for="validationCustom03">Carrera</label>
-                    <input type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
+                    <input value="Ingeniería en sistemas" type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
                 </div>
                 <button id="enviar" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
             </form>
@@ -196,13 +221,13 @@ $tecla = "";
     remover_clase = (elemento, clase) => {
         elemento.classList.remove(clase)
     }
-    var form_opciones=["", ""]
+    var form_opciones = ["", ""]
     var logica_seleccion = (letra_local) => {
 
         elemento_seleccionado = referencias[contador][letra_local]
         opcion_seleccionada = opciones[contador][letra_local]
         if (elemento_seleccionado) {
-            form_opciones[contador]=opciones[contador][letra_local]
+            form_opciones[contador] = opciones[contador][letra_local]
             aplicar_funcion_a_elementos(Object.values(referencias[contador]), mostrar_normal)
             pintar_tecla_seleccionada(elemento_seleccionado)
             //hacer una determinada acción por la posicion del contador
@@ -313,8 +338,10 @@ $tecla = "";
             })
     })()
 </script>
+<script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>
 <script src="public/js/Registro/formulario.js"></script>
 <script src="public/js/Registro/Registros recientes.js"></script>
 <script src="public/js/Registro/Registros base.js"></script>
+
 </html>

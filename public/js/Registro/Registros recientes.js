@@ -7,14 +7,53 @@ const fecha_hoy=hoy.getFullYear()+"-"+String(hoy.getMonth()+1).padStart(2, "0")+
 const datos_hoy=new FormData()
 datos_hoy.append("fecha", fecha_hoy)
 
+var jsss
 const nuevos_ingresos=()=>{
-    fetch("Entrada/todos",{
+    console.log("llamada")
+    fetch("Entrada/sinSalida",{
         method: "POST",
         body: datos_hoy
     })
-    .then(respuesta=>respuesta.text())
+    .then(respuesta=>respuesta.json())
     .then(json=>{
-         console.log(json)
+         if(json.respuesta){
+            if(Object.keys(personas_registradas).length==0){
+                json.contenido.forEach(elemento=>{
+                    personas_registradas[elemento.no_control]=elemento
+                    personas_registradas[elemento.no_control]["disponible"]=true
+                    registro_exitoso(elemento)
+                })
+                return
+            }
+            let no_encontrados
+            let nuevo_array={}
+            let contenido
+           
+            contenido=json.contenido
+            jjsss=contenido
+            Object.assign(nuevo_array, personas_registradas)
+            no_encontrados=contenido.filter(elemento=>{
+                console.log("ele")
+                console.log(elemento)
+                console.log("elef")
+                personas_registradas[elemento.no_control]=elemento
+                personas_registradas[elemento.no_control]["disponible"]=true
+                if(!nuevo_array[elemento.no_control]){
+                    console.log("entro")
+                    delete nuevo_array[elemento.no_control]
+                    return elemento
+                }
+                
+            })
+
+            console.log(nuevo_array)
+            no_encontrados.forEach(elemento=>{
+                registro_exitoso(elemento)
+            })
+           /* Object.values(nuevo_array).forEach(elemento=>{
+                remover_de_padre(elemento.id_entrada)
+            })*/
+         }
         //  comparar_infomacion(almacen_registros, json.contenido)
     })
     .catch(er=>{
@@ -30,4 +69,11 @@ const comparar_infomacion=(json_antigo, json_nuevo)=>{
             
         });
    }
+}
+const remover_de_padre=(id)=>{
+    let padre, registro
+    registro=document.querySelector("#"+id)
+    console.log(registro)
+    padre=registro.parentElement
+    padre.removeChild(registro)
 }
