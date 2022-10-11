@@ -338,6 +338,7 @@ $tecla = "";
             })
     })()
 </script>
+<script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>
 <script src="public/js/Registro/formulario.js"></script>
 <script src="public/js/Registro/Registros recientes.js"></script>

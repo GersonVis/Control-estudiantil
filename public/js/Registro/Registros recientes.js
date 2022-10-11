@@ -7,6 +7,7 @@ const fecha_hoy=hoy.getFullYear()+"-"+String(hoy.getMonth()+1).padStart(2, "0")+
 const datos_hoy=new FormData()
 datos_hoy.append("fecha", fecha_hoy)
 
+var jsss
 const nuevos_ingresos=()=>{
     console.log("llamada")
     fetch("Entrada/sinSalida",{
@@ -17,24 +18,41 @@ const nuevos_ingresos=()=>{
     .then(json=>{
          if(json.respuesta){
             if(Object.keys(personas_registradas).length==0){
-                respuesta.contenido.forEach(elemento=>{
+                json.contenido.forEach(elemento=>{
+                    personas_registradas[elemento.no_control]=elemento
+                    personas_registradas[elemento.no_control]["disponible"]=true
                     registro_exitoso(elemento)
                 })
                 return
             }
-            console.log(json)
+            let no_encontrados
+            let nuevo_array={}
+            let contenido
+           
             contenido=json.contenido
-            parejas=[]
-            nuevo_array={}
+            jjsss=contenido
             Object.assign(nuevo_array, personas_registradas)
-            encontrados=contenido.map(elemento=>{
+            no_encontrados=contenido.filter(elemento=>{
+                console.log("ele")
+                console.log(elemento)
+                console.log("elef")
+                personas_registradas[elemento.no_control]=elemento
+                personas_registradas[elemento.no_control]["disponible"]=true
                 if(!nuevo_array[elemento.no_control]){
+                    console.log("entro")
                     delete nuevo_array[elemento.no_control]
                     return elemento
                 }
+                
             })
-            console.log("nuevos ingresos")
-            
+
+            console.log(nuevo_array)
+            no_encontrados.forEach(elemento=>{
+                registro_exitoso(elemento)
+            })
+           /* Object.values(nuevo_array).forEach(elemento=>{
+                remover_de_padre(elemento.id_entrada)
+            })*/
          }
         //  comparar_infomacion(almacen_registros, json.contenido)
     })
