@@ -4,6 +4,7 @@ class Controller{
     {
         $this->view=new View($nombre);
         $this->nombre=$nombre;
+        //decidir si cargar modelo para consultas a la base de datos
         if($carga_de_modelo){
             $this->cargar_modelo();
         }
@@ -28,6 +29,19 @@ class Controller{
         include_once "Models/$nombre_modelo.php";
         $this->modelo=new $nombre_modelo();
       
+    }
+    function parametros_necesarios($array_parametros, $array_busqueda){
+        $msg=""; 
+        foreach($array_parametros as $parametro){
+            if(!isset($array_busqueda[$parametro])){
+                $msg.=" $parametro no encontrado, es necesario ";
+                continue;
+            }
+            if($array_busqueda[$parametro]==""){
+                $msg.=" $parametro no puede estar vacío ";
+            }
+         }
+        return $msg;
     }
  }
 ?>

@@ -8,13 +8,20 @@ class Database
   private $user;
   private $password;
   private $db;
+  private $tipos_consulta;
   function __construct()
   {
     $this->host = constant('HOST');
     $this->user = constant('USER');
     $this->password = constant('PASSWORD');
     $this->db = constant('DB');
-    $this->codigos_error = array(1452 => "Un dato especificado no se encuentra en el catalago", 0 => "La tarea se realizo correctamente", -1 => "Error no especificado");
+    $this->codigos_error = array(1064=>"Error en la consulta sql", 1452 => "Un dato especificado no se encuentra en el catalago", 0 => "La tarea se realizo correctamente", -1 => "Error no especificado");
+    $this->tipos_consulta= array(
+      "select"=>"seleccion",
+      "delete"=>"eliminacion",
+      "update"=>"actualizacion",
+      "insert"=>"creacion",
+    );
   }
   function conectar()
   {
@@ -95,23 +102,29 @@ class Database
   }
   function consulta_codigo($conexion, $sql)
   {
+    $pattern="/([a-z]*)\ (.*)/i";
+    preg_match_all($pattern, $sql, $resultado, PREG_SET_ORDER, 0);
+
+    $tipo_consulta=strtolower($resultado[0][1]);
+
+   
     $resultado = $this->consulta($conexion, $sql);
     $registros = array();
     if(gettype($resultado)!="boolean"){
       if ($resultado->num_rows>0) {
         foreach ($resultado as $key => $registro) {
-  
           $registros[$key] = $registro;
         }
       }
     }
-   
-
     $error_code = mysqli_errno($conexion);
+  //  $afectados = $tipo_consulta!="select"?$conexion->affected_rows:"no es posible";
     return array(
       "respuesta" => $error_code == 0 ? true : false,
       "codigo" => isset($this->codigos_error[$error_code]) ? $this->codigos_error[$error_code] : "Error sin descripcion: $error_code",
-      "contenido" => $registros
+      "contenido" => $registros,
+      "tipo_consulta"=>$this->tipos_consulta[$tipo_consulta],
+      "registros_afectados"=>$conexion->affected_rows
     );
   }
 }

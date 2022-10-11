@@ -1,49 +1,83 @@
 /*
 VALIDACIONES Y ANIMACIONES DEL FORMULARIO
 */
-//botón que envía el formulario
+//botón que envía el formulariov
+const btn_enviar = document.querySelector("#enviar")
+const formulario = document.querySelector("#forma")
+const numero_validaciones = 4
+
+var personas_registradas = {}
+var tiempo_bloqueo=3000
 var valor_anterior = ""
 var prueba
 var largo_no_control = 8
-var btn_enviar = document.querySelector("#enviar")
+var nombre
+var no_control
+var lugar
+var accion_por_opcion = {
+    "Entradad": () => {
+
+    },
+    "Automático": () => {
+        // si no esta en la lista se puede registrar
+        let persona=personas_registradas[no_control]??{disponible: true}
+       
+        if (persona.disponible) {
+            let formdata = new FormData(forma)
+            nombre = validationCustom03.value
+            no_control = validationCustom02.value
+            lugar = form_opciones[1][0]
+            formdata.append("lugar", lugar)
+            enviar_formulario(formdata)
+            return
+        }
+        alert("Número control bloqueado por 3s")
+    },
+    "Salida": () => {
+        let persona=personas_registradas[no_control]??{disponible: true}
+     
+        if (persona.disponible) {
+            let formdata = new FormData(forma)
+            nombre = validationCustom03.value
+            no_control = validationCustom02.value
+            lugar = form_opciones[1][0]
+            formdata.append("lugar", lugar)
+            enviar_formulario_salida(formdata)
+            return
+        }
+        
+    }
+}
+//que hacer dependiendo de la respuesta del envio del formulario
+const consecuencias = {
+    "creacion": registro_exitoso,//funcion en el archivo inserción
+    "actualizacion": ({id_entrada}) => {
+       
+        remover_de_padre("registro"+id_entrada)
+
+    }
+}
+
 // variable del formulario
 
 
 btn_enviar.addEventListener("click", function () {
-    let formdata = new FormData(forma)
-    formdata.append("lugar", form_opciones[1][0])
-    enviar_formulario(formdata)
+    if (formulario.querySelectorAll(":invalid").length == 0) {
+        alert("Formulario enviado")
+        accion_por_opcion[lugar = form_opciones[0][0]]()
+    }
 })
 
 
 
-
-
-//var rellenar = ["❌", "❌", "❌", "❌", "❌", "❌", "❌", "❌"]
-//"✔"
-
-/*$('#validationCustom01').keyup(function (event) {
-   // let rellenar = ["❌", "❌", "❌", "❌", "❌", "❌", "❌", "❌"]
-    texto = $('#validationCustom01').val()
-   /* for(let pos=0; pos<texto.length; pos++){
-        rellenar[pos]="✔"
-    }
-    rellenar=rellenar.toString().replaceAll(",","")
-    $("#mostrar_digitos").text(rellenar)*/
-/*  console.log(event)
-  prueba=event
-  if(!$.isNumeric(texto)){
-      alert("entro")
-      event.preventDefault()
-      return event
-  }
-  valor_anterior=texto
-  $("#mostrar_digitos").text((largo_no_control-texto.length)+" Dígitos restantes")
-
-})*/
 validationCustom02.addEventListener("keypress", impedir_letras)
+validationCustom02.addEventListener("input", regla_numeros)
+function regla_numeros(evt) {
+    let largo = $('#validationCustom02').val().length
 
+    $("#mostrar_digitos").text((largo_no_control - (largo)) + " Dígitos restantes")
 
+}
 function impedir_letras(evt) {
     var charCode = evt.charCode;
     if (charCode != 0) {
@@ -51,30 +85,49 @@ function impedir_letras(evt) {
         if (!$.isNumeric(numero)) {
             evt.preventDefault();
             // $("#mostrar_digitos").text("Solo números")
-
         }
-        texto = $('#validationCustom02').val()
-        $("#mostrar_digitos").text((largo_no_control - texto.length) + " Dígitos restantes")
     }
 }
-
-//validamos formulario
-//enviar.click()
-
-
+var prueba = ""
 const enviar_formulario = (formdata) => {
 
-    console.log("formulario enviado")
-    fetch("Entrada/registrarEntrada", {
+    fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
     })
-        .then(respuesta => respuesta.text())
-        .then(texto => {
-            console.log(texto)
+        .then(respuesta => respuesta.json())
+        .then(json => {
+           if(json.respuesta){
+            prueba = json
+            registro=json.contenido[0]
+            consecuencias[json.tipo_consulta](registro)
+            agregar_registro(json)
+            no_disponible(no_control)
+            bloquear_por_tiempo(no_control, tiempo_bloqueo)
+            console.log(json)
+           }
         })
         .catch(er => {
             console.error("ocurrio un error en la solicitud")
+            console.error(er)
         })
     return false
+}
+
+const disponibilidad=(no_control)=>{
+    personas_registradas[no_control].disponible=true
+}
+const no_disponible=(no_control)=>{
+    personas_registradas[no_control].disponible=false
+}
+const bloquear_por_tiempo=(no_control, tiempo)=>{
+    setTimeout(()=>{disponibilidad(no_control)}, tiempo)
+}
+const agregar_registro=(json)=>{
+    personas_registradas[no_control]=json
+    personas_registradas[no_control]["disponible"]=false
+}
+
+const enviar_formulario_salida=()=>{
+
 }
