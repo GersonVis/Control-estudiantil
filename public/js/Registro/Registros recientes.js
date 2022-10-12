@@ -8,6 +8,7 @@ const datos_hoy=new FormData()
 datos_hoy.append("fecha", fecha_hoy)
 
 var jsss
+
 const nuevos_ingresos=()=>{
     console.log("llamada")
     fetch("Entrada/sinSalida",{
@@ -32,27 +33,28 @@ const nuevos_ingresos=()=>{
             contenido=json.contenido
             jjsss=contenido
             Object.assign(nuevo_array, personas_registradas)
+      
             no_encontrados=contenido.filter(elemento=>{
                 console.log("ele")
                 console.log(elemento)
                 console.log("elef")
                 personas_registradas[elemento.no_control]=elemento
                 personas_registradas[elemento.no_control]["disponible"]=true
+                console.log(nuevo_array[elemento.no_control])
                 if(!nuevo_array[elemento.no_control]){
                     console.log("entro")
-                    delete nuevo_array[elemento.no_control]
                     return elemento
                 }
-                
+                delete nuevo_array[elemento.no_control]
             })
 
-            console.log(nuevo_array)
+          
             no_encontrados.forEach(elemento=>{
                 registro_exitoso(elemento)
             })
-           /* Object.values(nuevo_array).forEach(elemento=>{
-                remover_de_padre(elemento.id_entrada)
-            })*/
+            Object.values(nuevo_array).forEach(elemento=>{
+                remover_de_padre("registro"+elemento.id_entrada)
+            })
          }
         //  comparar_infomacion(almacen_registros, json.contenido)
     })

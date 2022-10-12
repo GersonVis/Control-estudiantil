@@ -5,7 +5,8 @@ VALIDACIONES Y ANIMACIONES DEL FORMULARIO
 const btn_enviar = document.querySelector("#enviar")
 const formulario = document.querySelector("#forma")
 const numero_validaciones = 4
-
+const lista_lugares=document.querySelector("#list-lugares")
+const lista_accciones=document.querySelector("#list-acciones")
 var personas_registradas = {}
 var tiempo_bloqueo=3000
 var valor_anterior = ""
@@ -15,23 +16,32 @@ var nombre
 var no_control
 var lugar
 var accion_por_opcion = {
-    "Entradad": () => {
-
+    "Entrada": () => {
+        let formdata = new FormData(forma)
+        nombre = validationCustom03.value
+        no_control = validationCustom02.value
+        lugar = seleccion_opciones[1]
+        formdata.append("lugar", lugar)
+        enviar_formulario_entrada(formdata)
+        return
     },
     "Automático": () => {
         // si no esta en la lista se puede registrar
         let persona=personas_registradas[no_control]??{disponible: true}
-       
-        if (persona.disponible) {
-            let formdata = new FormData(forma)
-            nombre = validationCustom03.value
-            no_control = validationCustom02.value
-            lugar = form_opciones[1][0]
-            formdata.append("lugar", lugar)
-            enviar_formulario(formdata)
+        if(lista_lugares.querySelectorAll(".active").length==1){
+            if (persona.disponible) {
+                let formdata = new FormData(forma)
+                nombre = validationCustom03.value
+                no_control = validationCustom02.value
+                lugar = seleccion_opciones[1]
+                formdata.append("lugar", lugar)
+                enviar_formulario(formdata)
+                return
+            }
+            alert("Número control bloqueado por 3s")
             return
         }
-        alert("Número control bloqueado por 3s")
+        mostrar_informacion("Sin lugar seleccionado", "No has seleccionado ningún lugar todavía, da click sobre alguna de las opciones de la lista de lugares")
     },
     "Salida": () => {
         let persona=personas_registradas[no_control]??{disponible: true}
@@ -63,8 +73,11 @@ const consecuencias = {
 
 btn_enviar.addEventListener("click", function () {
     if (formulario.querySelectorAll(":invalid").length == 0) {
-        alert("Formulario enviado")
-        accion_por_opcion[lugar = form_opciones[0][0]]()
+        if(lista_accciones.querySelectorAll(".active").length==1){
+            accion_por_opcion[seleccion_opciones[0]]()
+            return
+        }
+        mostrar_informacion("Sin acción seleccionada", "No has seleccionado ningúna acción todavía, da click sobre alguna de las acciones de la lista de acciones")
     }
 })
 
@@ -90,13 +103,14 @@ function impedir_letras(evt) {
 }
 var prueba = ""
 const enviar_formulario = (formdata) => {
-
+    
     fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
     })
         .then(respuesta => respuesta.json())
         .then(json => {
+            console.log(json)
            if(json.respuesta){
             prueba = json
             registro=json.contenido[0]
@@ -113,6 +127,60 @@ const enviar_formulario = (formdata) => {
         })
     return false
 }
+const enviar_formulario_entrada=(formdata)=>{
+    bloquear_por_tiempo(no_control, tiempo_bloqueo)
+    fetch("Entrada/registrarEntrada", {
+        method: "POST",
+        body: formdata
+    })
+        .then(respuesta => respuesta.json())
+        .then(json => {
+            console.log(json)
+           if(json.respuesta){
+            prueba = json
+            registro=json.contenido[0]
+            //agrega el registro a la lista pero sin animacion de bloqueo
+            registro_exitoso_entrada(registro)
+            agregar_registro(json)
+            no_disponible(no_control)
+           
+            return
+           }
+           mostrar_informacion("Error", json.codigo)
+        })
+        .catch(er => {
+            console.error("ocurrio un error en la solicitud")
+            console.error(er)
+        })
+}
+const enviar_formulario_salida=(formdata)=>{
+    bloquear_por_tiempo(no_control, tiempo_bloqueo)
+    fetch("Entrada/registrarSalida", {
+        method: "POST",
+        body: formdata
+    })
+        .then(respuesta => respuesta.json())
+        .then(json => {
+            console.log(json)
+           if(json.respuesta){
+            if(json.registros_afectados!=0){
+                registro=json.contenido[0]
+                consecuencias[json.tipo_consulta](registro)
+                mostrar_informacion("Salida", json.codigo)
+                return
+            }
+            mostrar_informacion("Salida", "El usuario no se encontró dentro de ningún lugar")
+            return
+           }
+           mostrar_informacion("Error", json.codigo)
+        })
+        .catch(er => {
+            console.error("ocurrio un error en la solicitud")
+            console.error(er)
+        })
+}
+
+
 
 const disponibilidad=(no_control)=>{
     personas_registradas[no_control].disponible=true
@@ -128,6 +196,3 @@ const agregar_registro=(json)=>{
     personas_registradas[no_control]["disponible"]=false
 }
 
-const enviar_formulario_salida=()=>{
-
-}

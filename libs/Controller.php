@@ -39,6 +39,11 @@ class Controller{
             }
             if($array_busqueda[$parametro]==""){
                 $msg.=" $parametro no puede estar vacío ";
+                continue;
+            }
+            if($array_busqueda[$parametro]=="undefined"){
+                $msg.=" $parametro no puede ser undefined ";
+                continue;
             }
          }
         return $msg;

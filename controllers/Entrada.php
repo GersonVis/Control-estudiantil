@@ -72,6 +72,7 @@ class Entrada extends Controller
 
     function entradaAumatica()
     {
+        
         $json_respuesta = array();
         $requerido = $this->parametros_necesarios(array("nombre", "lugar", "noControl"), $_POST);
         if ($requerido != "") {
@@ -86,9 +87,12 @@ class Entrada extends Controller
         $nombre = $_POST["nombre"];
         //ver si se encuentra registrado en algún lugar la persona
         $disponibilidad = $this->modelo->estaDisponible($no_control);
+
         //si en la consulta de disponibilidad no hay registros registramos
         if (count($disponibilidad["contenido"]) == 0) {
+            
             $registro_entrada = $this->modelo->registrarEntrada($no_control, $lugar, $nombre);
+           
             if ($registro_entrada["respuesta"]) {
                 // cargamos información del registro creado
                 $info = $this->modelo->info($no_control);
