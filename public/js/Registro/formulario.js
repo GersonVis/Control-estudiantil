@@ -8,6 +8,9 @@ const numero_validaciones = 4
 const lista_lugares=document.querySelector("#list-lugares")
 const lista_accciones=document.querySelector("#list-acciones")
 var personas_registradas = {}
+
+
+
 var tiempo_bloqueo=3000
 var valor_anterior = ""
 var prueba
@@ -61,10 +64,9 @@ var accion_por_opcion = {
 //que hacer dependiendo de la respuesta del envio del formulario
 const consecuencias = {
     "creacion": registro_exitoso,//funcion en el archivo inserción
-    "actualizacion": ({id_entrada}) => {
-       
+    "actualizacion": ({id_entrada, no_control}) => {
         remover_de_padre("registro"+id_entrada)
-
+        console.log(delete personas_registradas[no_control])
     }
 }
 
@@ -114,11 +116,10 @@ const enviar_formulario = (formdata) => {
            if(json.respuesta){
             prueba = json
             registro=json.contenido[0]
-            consecuencias[json.tipo_consulta](registro)
             agregar_registro(json)
             no_disponible(no_control)
             bloquear_por_tiempo(no_control, tiempo_bloqueo)
-            console.log(json)
+            consecuencias[json.tipo_consulta](registro)
            }
         })
         .catch(er => {

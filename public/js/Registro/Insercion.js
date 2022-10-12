@@ -29,6 +29,8 @@ const registro_exitoso=({id_entrada, nombre, no_control, lugar, hora_entrada})=>
         </div>
     </div>
 </div>`
+//elemento=crear_elemento()
+
 }
 const registro_exitoso_entrada=({id_entrada, nombre, no_control, lugar, hora_entrada})=>{
     
