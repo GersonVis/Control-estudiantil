@@ -3,7 +3,7 @@ Eventos despues de una exitosa insercion
 */
 const div_ingresos=document.querySelector("#lista_ingresos")
 const registro_exitoso=({id_entrada, nombre, no_control, lugar, hora_entrada})=>{
-    
+    alert("registro exitoso")
     div_ingresos.innerHTML+=`<div id="registro${id_entrada}" class="bloqueado position-relative w-100 dflex pt-1 mb-3" style="min-height: 95px">
     <div class="w-100 h-25 d-flex">
         <div class="h-100 font-weight-bold texto-label " style="width: 60%;">${nombre}</div>
@@ -31,7 +31,7 @@ const registro_exitoso=({id_entrada, nombre, no_control, lugar, hora_entrada})=>
 </div>`
 }
 const registro_exitoso_entrada=({id_entrada, nombre, no_control, lugar, hora_entrada})=>{
-    
+    alert("registro exitoso entrada")
     div_ingresos.innerHTML+=`<div id="registro${id_entrada}" class="position-relative w-100 dflex pt-1 mb-3" style="min-height: 95px">
     <div class="w-100 h-25 d-flex">
         <div class="h-100 font-weight-bold texto-label " style="width: 60%;">${nombre}</div>
@@ -60,6 +60,7 @@ const registro_exitoso_entrada=({id_entrada, nombre, no_control, lugar, hora_ent
 }
 /* */
 const crear_elemento=({id_entrada, nombre, no_control, lugar, hora_entrada})=>{
+    alert("crear elemento")
     let elemento=document.createElement("div")
     elemento.classList.add("position-relative")
     elemento.classList.add("w-100")
