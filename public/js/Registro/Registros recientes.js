@@ -22,7 +22,7 @@ const nuevos_ingresos=()=>{
                 json.contenido.forEach(elemento=>{
                     personas_registradas[elemento.no_control]=elemento
                     personas_registradas[elemento.no_control]["disponible"]=true
-                    registro_exitoso(elemento)
+                    registro_exitoso_entrada(elemento)
                 })
                 return
             }
@@ -35,9 +35,6 @@ const nuevos_ingresos=()=>{
             Object.assign(nuevo_array, personas_registradas)
       
             no_encontrados=contenido.filter(elemento=>{
-                console.log("ele")
-                console.log(elemento)
-                console.log("elef")
                 personas_registradas[elemento.no_control]=elemento
                 personas_registradas[elemento.no_control]["disponible"]=true
                 console.log(nuevo_array[elemento.no_control])
@@ -50,7 +47,7 @@ const nuevos_ingresos=()=>{
 
           
             no_encontrados.forEach(elemento=>{
-                registro_exitoso(elemento)
+                registro_exitoso_entrada(elemento)
             })
             Object.values(nuevo_array).forEach(elemento=>{
                 remover_de_padre("registro"+elemento.id_entrada)

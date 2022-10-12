@@ -128,7 +128,7 @@ const enviar_formulario = (formdata) => {
     return false
 }
 const enviar_formulario_entrada=(formdata)=>{
-    bloquear_por_tiempo(no_control, tiempo_bloqueo)
+  
     fetch("Entrada/registrarEntrada", {
         method: "POST",
         body: formdata
@@ -154,7 +154,7 @@ const enviar_formulario_entrada=(formdata)=>{
         })
 }
 const enviar_formulario_salida=(formdata)=>{
-    bloquear_por_tiempo(no_control, tiempo_bloqueo)
+    
     fetch("Entrada/registrarSalida", {
         method: "POST",
         body: formdata
