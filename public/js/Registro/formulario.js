@@ -160,7 +160,7 @@ const enviar_formulario_entrada = (formdata) => {
                 prueba = json
                 registro = json.contenido[0]
                 //agrega el registro a la lista pero sin animacion de bloqueo
-              //  registro_exitoso_entrada(registro)
+                registro_exitoso_entrada(registro)
                 agregar_registro(json)
                 no_disponible(no_control)
 
