@@ -1,6 +1,6 @@
 <?php
 function Opcion($nombre_accion, $tecla, $id, $clase){
-    echo '<div id="'.$clase.$tecla.'" class="lista-opcion '.$clase.' list-group-item list-group-item-action opcion w-100 dflex border p-3 mb-3 rounded " style="min-height: 95px" data-toggle="list">
+    echo '<div tecla="'.$tecla.'" nombre-accion="'.$nombre_accion.'" id="'.$clase.$tecla.'" class="lista-opcion '.$clase.' list-group-item list-group-item-action opcion w-100 dflex border p-3 mb-3 rounded " style="min-height: 95px" data-toggle="list">
     <div class="ptitulo w-100 h-25 d-flex  align-items-center">
         <p class="m-0 font-weight-bold texto-label">'.$nombre_accion.'</p>
     </div>

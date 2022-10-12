@@ -35,12 +35,13 @@ $tecla = "";
             background-color: var(--principal-color);
             min-height: 130px !important;
         }
+
         .list-group-item::after {
             content: "";
-        
+
             position: absolute;
             bottom: 0;
-           
+
             background-image: url("public/ilustraciones/registrando.png");
         }
 
@@ -70,6 +71,7 @@ $tecla = "";
             animation-duration: 0.5s;
             animation-direction: alternate-reverse;
             animation-timing-function: linear;
+            background-color: #0062cc;
         }
 
         .bloqueado::after {
@@ -90,10 +92,12 @@ $tecla = "";
         @keyframes vibrar {
             from {
                 transform: rotateZ(5deg);
+                background-color: #007bff;
             }
 
             to {
                 transform: rotateZ(-5deg);
+                background-color: #007bff;
             }
         }
 
@@ -147,10 +151,10 @@ $tecla = "";
                             </div>
                         </div>
                     </div>
-                    <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
+                    <div class="w-25 h-100 d-flex flex-column p-2" id="cpLugares" style="width: 20%;">
                         <p class="font-weight-bold text-left w-100 mb-3" style="margin: 0px">Lugares</p>
 
-                        <div class="w-100 flex-column h-100 d-flex" id="cpLugares" style="overflow: auto">
+                        <div class="w-100 flex-column h-100 d-flex" id="" style="overflow: auto">
                             <div class="list-group" id="list-lugares" role="tablist">
                                 <?php
                                 foreach ($this->lugares as $key => $contenido) {
@@ -222,6 +226,24 @@ $tecla = "";
                 <button id="enviar" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
             </form>
         </div>
+        <div class="modal fade" id="modalInformacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitulo">Información</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalContenido">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 <script>
     combinar_indices_elementos = (indices, prefijo) => {
@@ -234,7 +256,7 @@ $tecla = "";
     pintar_tecla_seleccionada = (elemento) => {
         remover_clase(elemento, "bg-secondary")
         aplicar_clase(elemento, "bg-primary")
-        
+
     }
     aplicar_funcion_a_elementos = (elementos, funcion_aplicar) => {
         elementos.forEach(elemento => {
@@ -290,7 +312,7 @@ $tecla = "";
     var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
     var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
 
-    let acciones_valores = Object.values(acciones)
+    /*let acciones_valores = Object.values(acciones)
 
     var acciones_por_contador = [(valor) => {
         accion_seleccionada = valor
@@ -303,56 +325,141 @@ $tecla = "";
     var seleccionando = false
     var restaurar = () => {
         cpLugares.style.visibility = "visible"
-    }
-    acciones_valores.forEach(elemento => {
-        if (elemento[0] == "Salida") {
-            elemento.push(function() {
-                cpLugares.style.visibility = "hidden"
-                contador = 2
-                seleccionando = false
-            })
-            return
-        }
-        elemento.push(restaurar)
-    })
+    }*/
+    /*   acciones_valores.forEach(elemento => {
+           if (elemento[0] == "Salida") {
+               elemento.push(function() {
+                   cpLugares.style.visibility = "hidden"
+                   contador = 2
+                   seleccionando = false
+               })
+               return
+           }
+           elemento.push(restaurar)
+       })
 
-    var opciones = [acciones, lugares]
+       var opciones = [acciones, lugares]
 
-    // creamos referencias entre los elementos visuales y los ids de teclas
-    var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
-    var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
-
-
-    var referencias = [teclas_accion, teclas_lugares]
+       // creamos referencias entre los elementos visuales y los ids de teclas
+       var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
+       var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
 
 
-    var accion_seleccionada
-    var lugar_seleccionado
+       var referencias = [teclas_accion, teclas_lugares]
+
+
+       var accion_seleccionada
+       var lugar_seleccionado*/
 
     // escogemos la primera opción de las opciones
+    var opcion_anterior = ""
 
+
+    var opciones = document.querySelectorAll(".lista-opcion")
+    const ocultar = (ele) => {
+        ele.style.visibility = "hidden"
+    }
+    const mostrar = (ele) => {
+        ele.style.visibility = "visible"
+    }
+    const remover_varios = (elementos, clase_nombre) => {
+        elementos.forEach(ele => {
+            ele.classList.remove(clase_nombre)
+        })
+    }
+    const agregar_varios = (elementos, clase_nombre) => {
+        elementos.forEach(ele => {
+            ele.classList.add(clase_nombre)
+        })
+    }
+    const elementos_clase = (prefijo, contenido) => {
+        adjunto = {}
+        contenido.forEach(ele => {
+            adjunto[ele[1]] = {
+                elemento: document.querySelector("#" + prefijo + ele[1]),
+                opcion: ele[0]
+            }
+        })
+        return adjunto
+    }
+    const evento_seleccion = (letra) => {
+        seleccion = contenedor[c][letra]
+        if (seleccion) {
+            seleccion["elemento"].click()
+            remover_varios(contenido_teclas[c], "vibrar")
+            seleccion_opciones[c] = seleccion["opcion"]
+
+            if (++c == 1) {
+                seleccion["funcion"](cpLugares)
+            } else {
+                c = 0
+                seleccionando = false
+            }
+        }
+    }
+    acciones = elementos_clase("paccion", Object.values(acciones))
+    lugares = elementos_clase("plugar", Object.values(lugares))
+    var teclas_acciones = document.querySelectorAll(".accion")
+    var teclas_lugares = document.querySelectorAll(".lugar")
+    var contenido_teclas = [teclas_acciones, teclas_lugares]
+
+    var contenedor = [acciones, lugares]
+
+    var seleccion_opciones = ["", ""]
+
+    var todos = document.querySelectorAll(".lista-opcion")
+    atr_todos = {}
+    todos.forEach(ele => {
+        atr_todos[ele.attributes["tecla"].value] = ele
+    })
+    Object.values(acciones).forEach(e => {
+        if (e["opcion"] == "Salida") {
+            e["funcion"] = (lugar) => {
+                remover_varios(contenido_teclas[c], "vibrar")
+                c = 0
+                seleccionando = false
+                ocultar(lugar)
+            }
+
+            return
+        }
+        e["funcion"] = mostrar
+    })
+
+    var seleccion
+    var c = 0
+    var seleccionando = false
+    var ya_seleccionados = [false, false]
     window.onload = (ev) => {
         document.addEventListener("keydown", e => {
             let letra = String.fromCharCode(e.which)
+
             if (!seleccionando) {
                 if (e.ctrlKey && e.which == 69) {
                     e.stopPropagation()
                     e.preventDefault()
-
-                    aplicar_funcion_a_elementos(Object.values(referencias[0]), mostrar_normal)
-                    aplicar_funcion_a_elementos(Object.values(referencias[1]), mostrar_normal)
-
-                    mostrar_seleccionable()
+                    c = 0
+                    ya_seleccionados = [false, false]
+                    remover_varios(opciones, "active")
+                    agregar_varios(teclas_acciones, "vibrar")
+                    agregar_varios(teclas_lugares, "vibrar")
+                    mostrar(cpLugares)
+                    //  aplicar_funcion_a_elementos(Object.values(referencias[0]), mostrar_normal)
+                    //   aplicar_funcion_a_elementos(Object.values(referencias[1]), mostrar_normal)
+                    // mostrar_seleccionable()
                     seleccionando = true
                 }
                 return
             }
-            logica_seleccion(letra)
+            elemento = contenedor[c][letra]["elemento"]
+            if (elemento) {
+                elemento.click()
+            }
         })
     }
 
-    var accion_seleccionada = Object.values(acciones)[0][1]
-    var lugar_seleccionado = Object.values(lugares)[0][1]
+    // var accion_seleccionada = Object.values(acciones)[0][1]
+    //  var lugar_seleccionado = Object.values(lugares)[0][1]
     //   logica_seleccion(accion_seleccionada)
     //  logica_seleccion(lugar_seleccionado)
 </script>
@@ -380,15 +487,52 @@ $tecla = "";
             })
     })()
     //lista
-    $('#list-acciones div').on('click', function(e) {
+    $('#list-acciones .lista-opcion').on('click', function(e) {
         e.preventDefault()
-        //$(this).tab('show')
-        console.log($(this))
+        /*  seleccion = contenedor[0][$(this).attr("tecla")]
+          c = 1
+          seleccion["funcion"](cpLugares)
+          seleccion_opciones[0] = $(this).attr("nombre-accion")*/
+
+        remover_varios(contenido_teclas[0], "vibrar")
+        seleccion_opciones[0] = $(this).attr("nombre-accion")
+        ya_seleccionados[0] = true
+
+        c = 1
+        if (ya_seleccionados[1]) {
+            seleccionando = false
+            c = 0
+        } else {
+            seleccionando = true
+        }
+
+
+        if ($(this).attr("nombre-accion") == "Salida") {
+            remover_varios(contenido_teclas[1], "vibrar")
+            ocultar(cpLugares)
+            seleccionando = false
+            c = 0
+        } else {
+            mostrar(cpLugares)
+        }
     })
-    $('#list-lugares div').on('click', function(e) {
+    $('#list-lugares .lista-opcion').on('click', function(e) {
         e.preventDefault()
-        alert("pulsado")
+        seleccion_opciones[1] = $(this).attr("nombre-accion")
+        remover_varios(contenido_teclas[1], "vibrar")
+        c = 0
+        ya_seleccionados[1] = true
+        if (ya_seleccionados[0]) {
+            seleccionando = false
+        } else {
+            seleccionando = true
+        }
     })
+    const mostrar_informacion = (titulo, msg) => {
+        $("#modalTitulo").text(titulo)
+        $("#modalContenido").text(msg)
+        $("#modalInformacion").modal("show")
+    }
 </script>
 <script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>
