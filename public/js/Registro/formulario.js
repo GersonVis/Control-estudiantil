@@ -128,6 +128,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
     })
         .then(respuesta => respuesta.json())
         .then(json => {
+            bloquear_elemento(boton_enviar, false)
             console.log(json)
             if (json.respuesta) {
                 prueba = json
@@ -147,6 +148,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
             }
         })
         .catch(er => {
+            bloquear_elemento(boton_enviar, false)
             console.error("ocurrio un error en la solicitud")
             console.error(er)
             // bloqueos[no_control].disponible=true
@@ -250,6 +252,20 @@ const remover_padre=()=>{
 
 }
 
+                    mostrar_informacion("Salida", json.codigo)
+                    return
+                }
+                mostrar_informacion("Salida", "El usuario no se encontró dentro de ningún lugar")
+                return
+            }
+            mostrar_informacion("Error", json.codigo)
+        })
+        .catch(er => {
+            console.error("ocurrio un error en la solicitud")
+            console.error(er)
+        })
+}
+const remover_padre=()=>{
 
 const disponibilidad = (no_control) => {
     personas_registradas[no_control].disponible = true
