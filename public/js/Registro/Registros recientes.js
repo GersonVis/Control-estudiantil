@@ -33,10 +33,10 @@ const nuevos_ingresos = () => {
                 contenido = json.contenido
                 jjsss = contenido
                 Object.assign(nuevo_array, personas_registradas)
-                console.log("contenido")
+              /*  console.log("contenido")
                 console.log(contenido)
                 console.log("nuevo array")
-                console.log(nuevo_array)
+                console.log(nuevo_array)*/
 
                 no_encontrados = contenido.filter(elemento => {
                     personas_registradas[elemento.no_control] = elemento
@@ -46,8 +46,8 @@ const nuevos_ingresos = () => {
                     }
                     delete nuevo_array[elemento.no_control]
                 })
-                console.log("nuevo array2")
-                console.log(nuevo_array)
+              /*  console.log("nuevo array2")
+                console.log(nuevo_array)*/
 
                 no_encontrados.forEach(elemento => {
                     registro_exitoso_entrada(elemento)
