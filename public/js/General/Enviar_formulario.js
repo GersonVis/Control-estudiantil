@@ -1,7 +1,8 @@
 
 const enviar_formulario = async (url_formulario, datos={})=>{
     try {
-        let formData=new FormData() 
+        let formData=new FormData()
+        console.log(datos)
         Object.entries(datos).forEach(entrada=>{
             formData.append(entrada[0], entrada[1])
          })
@@ -9,9 +10,11 @@ const enviar_formulario = async (url_formulario, datos={})=>{
             method: "POST",
             body: formData
         })
-        let texto= await respuesta.json()
-        return texto
-    } catch (error) {
+        let json= await respuesta.json()
+        
+        return json
+     } catch (error) {
+        console.error(error)
         return {respuesta: false, contenido:[]}
     }
    

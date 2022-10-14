@@ -1,4 +1,5 @@
 const agregar_registros = (contenedor, registros) => {
+    
     registros.forEach(registro => {
         let contenedor_creado=contenedor_registro(registro)
         contenedor.appendChild(contenedor_creado)

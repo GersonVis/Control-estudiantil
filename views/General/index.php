@@ -31,6 +31,21 @@ $tecla = "";
             border: none;
             font-size: 10pt
         }
+        .lista-opcion{
+            position: relative;
+        }
+        .lista-opcion.active::after{
+           content: "";
+           position: absolute;
+           bottom: 0;
+           width: 6px;
+           height: 6px;
+           background-color: red;
+           border-radius: 50% 50%;
+           left: 0px;
+           right: 0px;
+           margin: auto;
+        }
     </style>
 </head>
 
@@ -40,7 +55,7 @@ $tecla = "";
     ?>
     <div class="d-flex container-fluid w-100 h-100" style="padding-top: 110px;overflow: hidden;padding-left: 0px;padding-right: 0px;">
         <div class="w-100 m-0 d-flex flex-column">
-            <div class="w-100 d-flex flex-column" style="width: 20%; padding: 0px 24px 0px 24px; height: 180px;">
+            <div class="w-100 d-flex flex-column" style="width: 20%; padding: 0px 24px 0px 24px; min-height: 125px;">
                 <p class="font-weight-bold  text-left w-100" style="margin: 0px">Información de lugares</p>
                 <hr class="my-2 bg-decorativo">
                 <div id="plugares_personas" class="d-flex flex-roww-100" style="gap: 14px">
@@ -252,7 +267,7 @@ $tecla = "";
                             <?php
                             foreach ($this->lugares as $registro => $contenido) {
                             ?>
-                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" style="">
+                                <a class="list-group-item list-group-item-action" lugar="<?php echo $contenido["lugar"];?>" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" style="">
                                     <?php
                                     echo $contenido["lugar"];
                                     ?>
@@ -265,8 +280,8 @@ $tecla = "";
                     </div>
                 </div>
                 <div class="h-100 w-100">
-                    <div class="w-100 h-25 d-flex flex-row p-3" id="lista-supopciones" >
-                        <div class="lista-opcion d-flex flex-row" supopcion="dentro" style="width: 200px;">
+                    <div class="w-100 h-25 d-flex flex-row p-3" id="lista-supopciones">
+                        <div class="lista-opcion d-flex flex-row active" id="personas-dentro"supopcion="dentro" style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
                                 <img src="public/ilustraciones/entradas.png" style="width: 80px; height: auto;" alt="">
                             </div>
@@ -340,7 +355,7 @@ $tecla = "";
                                 </div>
                             </div>
                         </div>
-                        <div class="lista-opcion d-flex flex-row" supopcion="entradas"style="width: 200px;">
+                        <div class="lista-opcion d-flex flex-row" supopcion="entradas" style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
                                 <img src="public/ilustraciones/dentro.png" style="width: 80px; height: auto;" alt="">
                             </div>
@@ -378,34 +393,41 @@ $tecla = "";
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 h-100">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="text-secondary" style="border: 0px;">ID</th>
-                                    <th scope="col" class="text-secondary" style="border: 0px;">Nombre</th>
-                                    <th scope="col" class="text-secondary" style="border: 0px;">No. Control</th>
-                                    <th scope="col" class="text-secondary" style="border: 0px;">Hora entrada</th>
-                                    <th scope="col" class="text-secondary" style="border: 0px;">Hora salida</th>
-                                </tr>
-                            </thead>
-                            <tbody id="lista_registros">
-                               
-                            </tbody>
-                        </table>
+                    <div class="w-100 h-100" style="overflow: auto;">
+                        <div style="
+    height: 370px;
+    overflow-x: auto;
+">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-secondary" style="border: 0px;">ID</th>
+                                        <th scope="col" class="text-secondary" style="border: 0px;">Nombre</th>
+                                        <th scope="col" class="text-secondary" style="border: 0px;">No. Control</th>
+                                        <th scope="col" class="text-secondary" style="border: 0px;">Hora entrada</th>
+                                        <th scope="col" class="text-secondary" style="border: 0px;">Hora salida</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista_registros">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
 </body>
-<script>
-    const lista_registros=document.querySelector("#lista_registros")
-    var nombre_lugar="Todos"
-    var sub_opcion="dentro"
-</script>
+
 <script src="public/js/General/Agregar_registros.js"></script>
 <script src="public/js/General/Enviar_formulario.js"></script>
 <script src="public/js/General/acciones_por_lugar.js"></script>
 <script src="public/js/General/Seleccion_opcion.js"></script>
+<script>
+    const lista_registros = document.querySelector("#lista_registros")
+    var nombre_lugar = "Todos"
+    var sub_opcion = "dentro"
+    var supopcion_seleccionada=document.querySelector("#personas-dentro")
+    ordenar_peticion(nombre_lugar, sub_opcion)
+</script>
 </html>
