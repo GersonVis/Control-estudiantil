@@ -6,7 +6,8 @@ class Modelo_Entrada extends Model{
         parent::__construct();
     }
     
-    function todos($entradas=""){
+    function todos($entradas="", $nulos=0){
+        $complemento="";
         $conexion=$this->db->conectar();
         $base_sql="select * from entradas_n ";
         $sql="";
@@ -26,14 +27,27 @@ class Modelo_Entrada extends Model{
             unset($entradas["fecha"]);
             unset($entradas["fecha_fin"]);
         } 
+        
         foreach($entradas as $key=>$data){
            if($data != ""){
             $sql.=" $key='$data' and ";
            }  
         }
         $sql=substr($sql, 0, -4);
-        $total=$base_sql.($sql==""?"":" where ".$sql);
-        return $this->db->consulta_codigo($conexion, $total);
+        switch($nulos){
+            case 0:
+                    $base_sql.=$sql!=""?" where ".$sql: "";
+                    break;
+            case 'si':
+                    $base_sql.=" where hora_salida is null and".$sql;
+                break;
+            case 'no':
+                    $base_sql.=" where hora_salida is not null and ".$sql;
+                break;
+            default:
+        }
+        echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
     function registrarEntrada($lugar, $no_control, $nombre){
@@ -97,5 +111,3 @@ class Modelo_Entrada extends Model{
         return $this->db->consulta_codigo($conexion, $sql);
     }
 }
-
-?>

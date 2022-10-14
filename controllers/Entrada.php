@@ -17,12 +17,12 @@ class Entrada extends Controller
     }
     function todos()
     {
-
         $fecha = $_POST["fecha"] ?? "";
         $lugar = $_POST["lugar"] ?? "";
         $noControl = $_POST["noControl"] ?? "";
         $fecha_fin = $_POST["fecha_fin"] ?? "";
-        $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin));
+        $nulos = $_POST["nulos"]??"0";
+        $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin), $nulos);
         $this->view->renderizar();
     }
     function registrarEntrada()
@@ -129,3 +129,4 @@ class Entrada extends Controller
         $this->view->renderizar();
     }
 }
+//select count(*) as conteo, case when hora_salida is null then "vacio" else "no vacio" end as vacio from entradas_n group by vacio

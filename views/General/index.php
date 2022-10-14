@@ -247,15 +247,26 @@ $tecla = "";
                         <p class="m-0 p-0 font-weight-bold">Lugares</p>
                     </div>
                     <div class="w-100 h-100" style="padding: 0px 16px 0px 16px;">
-                        <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" style="">Home</a>
-                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" style="">Settings</a>
+                        <div class="list-group" id="list-lugares" role="tablist">
+                            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" style="">Todos</a>
+                            <?php
+                            foreach ($this->lugares as $registro => $contenido) {
+                            ?>
+                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" style="">
+                                    <?php
+                                    echo $contenido["lugar"];
+                                    ?>
+                                </a>
+                            <?php
+                            }
+                            ?>
+
                         </div>
                     </div>
                 </div>
                 <div class="h-100 w-100">
-                    <div class="w-100 h-25 d-flex flex-row p-3">
-                        <div class="d-flex flex-row" style="width: 200px;">
+                    <div class="w-100 h-25 d-flex flex-row p-3" id="lista-supopciones" >
+                        <div class="lista-opcion d-flex flex-row" supopcion="dentro" style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
                                 <img src="public/ilustraciones/entradas.png" style="width: 80px; height: auto;" alt="">
                             </div>
@@ -292,7 +303,7 @@ $tecla = "";
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex flex-row" style="width: 200px;">
+                        <div class="lista-opcion d-flex flex-row" supopcion="salidas" style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
                                 <img src="public/ilustraciones/salidas.png" style="width: 80px; height: auto;" alt="">
                             </div>
@@ -329,7 +340,7 @@ $tecla = "";
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex flex-row" style="width: 200px;">
+                        <div class="lista-opcion d-flex flex-row" supopcion="entradas"style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
                                 <img src="public/ilustraciones/dentro.png" style="width: 80px; height: auto;" alt="">
                             </div>
@@ -378,15 +389,8 @@ $tecla = "";
                                     <th scope="col" class="text-secondary" style="border: 0px;">Hora salida</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td width="2%">' . $value["id"] . '</td>
-                                    <td width="40%">' . $value["alumno"] . '</td>
-                                    <td width="20%">' . $value["nocontrol"] . '</td>
-                                    <td width="20%">' . $value["hora"] . '</td>
-                                    <td width="20%">' . $value["hora_salida"] . '</td>
-
-                                </tr>
+                            <tbody id="lista_registros">
+                               
                             </tbody>
                         </table>
                     </div>
@@ -395,6 +399,13 @@ $tecla = "";
         </div>
 
 </body>
-
-
+<script>
+    const lista_registros=document.querySelector("#lista_registros")
+    var nombre_lugar="Todos"
+    var sub_opcion="dentro"
+</script>
+<script src="public/js/General/Agregar_registros.js"></script>
+<script src="public/js/General/Enviar_formulario.js"></script>
+<script src="public/js/General/acciones_por_lugar.js"></script>
+<script src="public/js/General/Seleccion_opcion.js"></script>
 </html>
