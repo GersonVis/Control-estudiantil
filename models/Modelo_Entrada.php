@@ -11,102 +11,26 @@ class Modelo_Entrada extends Model
     {
         $conexion = $this->db->conectar();
         $base_sql = "select * from entradas_n ";
-        $sql = "";
-
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
         $entradas = $this->limpiar($conexion, $entradas);
-        if (isset($entradas["fecha"])) {
-            if ($entradas["fecha"] != "") {
-                $sql .= "fecha between '$entradas[fecha]' and '$entradas[fecha_fin]' ";
-                if ($entradas["fecha_fin"] == "") {
-                    $sql = " fecha='$entradas[fecha]'  ";
-                }
-                $sql .= " and ";
-            }
-            unset($entradas["fecha"]);
-            unset($entradas["fecha_fin"]);
-        }
-
-        foreach ($entradas as $key => $data) {
-            if ($data != "") {
-                $sql .= " $key='$data' and ";
-            }
-        }
-        $sql = substr($sql, 0, -4);
-        switch ($nulos) {
-            case 0:
-                $base_sql .= $sql != "" ? " where " . $sql : "";
-                break;
-            case 'si':
-                if ($sql != "") {
-                    $base_sql .= " where hora_salida is null and " . $sql;
-                } else {
-                    $base_sql .= " where hora_salida is null ";
-                }
-                break;
-            case 'no':
-                if ($sql != "") {
-                    $base_sql .= " where hora_salida is not null and " . $sql;
-                } else {
-                    $base_sql .= " where hora_salida is not null ";
-                }
-                break;
-            default:
-        }
-      //  echo $base_sql;
+        $base_sql=$this->formar_sql($base_sql, $entradas);
+       
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
-    function conteo($entradas = "", $nulos = 0)
+    function conteo($entradas = "")
     {
         $conexion = $this->db->conectar();
-        $base_sql = "select * from entradas_n ";
-        $sql = "";
-
+        $base_sql = "select count(*) as conteo, case when hora_salida is null then 'vacio' else 'no vacio' end as Estado from entradas_n ";
         if (is_string($entradas)) {
-            return $this->db->consulta_codigo($conexion, $base_sql);
+            return $this->db->consulta_codigo($conexion, $base_sql." group by Estado");
         }
         $entradas = $this->limpiar($conexion, $entradas);
-        if (isset($entradas["fecha"])) {
-            if ($entradas["fecha"] != "") {
-                $sql .= "fecha between '$entradas[fecha]' and '$entradas[fecha_fin]' ";
-                if ($entradas["fecha_fin"] == "") {
-                    $sql = " fecha='$entradas[fecha]'  ";
-                }
-                $sql .= " and ";
-            }
-            unset($entradas["fecha"]);
-            unset($entradas["fecha_fin"]);
-        }
-
-        foreach ($entradas as $key => $data) {
-            if ($data != "") {
-                $sql .= " $key='$data' and ";
-            }
-        }
-        $sql = substr($sql, 0, -4);
-        switch ($nulos) {
-            case 0:
-                $base_sql .= $sql != "" ? " where " . $sql : "";
-                break;
-            case 'si':
-                if ($sql != "") {
-                    $base_sql .= " where hora_salida is null and " . $sql;
-                } else {
-                    $base_sql .= " where hora_salida is null ";
-                }
-                break;
-            case 'no':
-                if ($sql != "") {
-                    $base_sql .= " where hora_salida is not null and " . $sql;
-                } else {
-                    $base_sql .= " where hora_salida is not null ";
-                }
-                break;
-            default:
-        }
-      //  echo $base_sql;
+        
+        $sql_armada=$this->formar_sql($base_sql, $entradas);
+        $base_sql=$sql_armada." group by Estado";
+     //   echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
@@ -174,6 +98,11 @@ class Modelo_Entrada extends Model
     {
         $conexion = $this->db->conectar();
         $sql = "select * from entradas_n where hora_salida is null order by id_entrada desc;";
+        return $this->db->consulta_codigo($conexion, $sql);
+    }
+    function resumenLugares(){
+        $conexion = $this->db->conectar();
+        $sql="select lugar, count(*), case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from entradas_n group by esnulo, lugar;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
 }

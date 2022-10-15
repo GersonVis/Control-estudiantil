@@ -1,13 +1,14 @@
 $("#list-lugares a").on("click", function (e) {
     nombre_lugar=$(this).attr("lugar")
     ordenar_peticion(nombre_lugar, sub_opcion)
-    alert("informacion enviada")
+    
 })
 $("#lista-supopciones .lista-opcion").on("click", function (ev) {
     ev.preventDefault();
     sub_opcion=$(this).attr("supopcion")
+
     ordenar_peticion(nombre_lugar, sub_opcion)
-    alert("informacion enviada")
+   
 
     //cambiamos estilo y regresamos al estado normal el elemento anterior
     supopcion_seleccionada=pasar_seleccion(supopcion_seleccionada, this)
@@ -16,20 +17,23 @@ $("#lista-supopciones .lista-opcion").on("click", function (ev) {
 const ordenar_peticion=(nombre_lugar, sub_opcion)=>{
     nombre_lugar=nombre_lugar=="Todos"?"":nombre_lugar
     acciones={
-        "dentro": "no",
-        "salidas": "si",
-        "entradas": "0"
+        "dentro": "is null",
+        "salidas": "is not null",
+        "entradas": ""
     }
     data={
         lugar: nombre_lugar,
-        nulos: acciones[sub_opcion]
+        hora_salida: acciones[sub_opcion],
+        fecha: hoy
     }
     realizar_accion(data)
+    //número de personas por acción
+    solicitar_numeros(nombre_lugar, hoy)
 }
+
 const realizar_accion=(data)=>{
     enviar_formulario("entrada/todos", data)
     .then(json => {
-        console.log(json)
         if (json.respuesta) {
             //limpiamos registros
             lista_registros.innerHTML=""

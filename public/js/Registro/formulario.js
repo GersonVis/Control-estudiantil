@@ -163,12 +163,21 @@ const enviar_formulario_entrada = (formdata) => {
         .then(json => {
             console.log(json)
             if (json.respuesta) {
-                prueba = json
+              /*  prueba = json
                 registro = json.contenido[0]
                 //agrega el registro a la lista pero sin animacion de bloqueo
                 registro_exitoso_entrada(registro)
                 agregar_registro(json)
-                no_disponible(no_control)
+               // no_disponible(no_control)*/
+               registro = json.contenido[0]
+
+               // no_disponible(no_control)
+               bloqueos[no_control]["disponible"] = false
+
+
+             //  bloquear_por_tiempo(no_control, tiempo_bloqueo)
+
+               consecuencias[json.tipo_consulta](registro)
 
                 return
             }
@@ -207,7 +216,10 @@ const enviar_formulario_salida = (formdata, no_control_dentro) => {
 }
 
 const accion_salida = (id_entrada, no_control_dentro) => {
+    console.log(id_entrada)
+    console.log(no_control_dentro)
     let formdata = new FormData()
+    //mostrar_informacion("Registrar salida", "Registraras salida para esta persona")
     formdata.append("noControl", no_control_dentro)
     fetch("Entrada/registrarSalida", {
         method: "POST",
