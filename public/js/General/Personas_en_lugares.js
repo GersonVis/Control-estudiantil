@@ -1,14 +1,13 @@
-var publico
+
 const solicitar_numeros = (lugar, fecha) => {
     let data = {
         lugar: lugar,
         fecha: fecha
     }
-    console.log(data)
+ //   console.log(data)
     enviar_formulario("entrada/conteo", data)
         .then(json => {
            
-            publico = json
             if (json.respuesta) {
                 let dentro, entradas, salidas
                 let estados
