@@ -9,7 +9,7 @@ $("#lista-supopciones .lista-opcion").on("click", function (ev) {
 
     ordenar_peticion(nombre_lugar, sub_opcion)
    
-
+    
     //cambiamos estilo y regresamos al estado normal el elemento anterior
     supopcion_seleccionada=pasar_seleccion(supopcion_seleccionada, this)
   
@@ -26,6 +26,8 @@ const ordenar_peticion=(nombre_lugar, sub_opcion)=>{
         hora_salida: acciones[sub_opcion],
         fecha: hoy
     }
+    console.log("data")
+    console.log(data)
     realizar_accion(data)
     //número de personas por acción
     solicitar_numeros(nombre_lugar, hoy)

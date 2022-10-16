@@ -97,12 +97,12 @@ class Modelo_Entrada extends Model
     function sinSalida()
     {
         $conexion = $this->db->conectar();
-        $sql = "select * from entradas_n where hora_salida is null order by id_entrada desc;";
+        $sql = "select * from entradas_n where hora_salida is null and fecha=curdate() order by id_entrada desc;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
     function resumenLugares(){
         $conexion = $this->db->conectar();
-        $sql="select lugar, count(*), case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from entradas_n group by esnulo, lugar;";
+        $sql="select lugar, count(*) as conteo, case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from entradas_n where fecha=curdate() group by esnulo, lugar;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
 }
