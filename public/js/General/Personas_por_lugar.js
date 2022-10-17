@@ -42,14 +42,14 @@ const total_por_lugar = () => {
                 }
                 delete copia_personas[a[0]]
                 let lugar=personas_lugar[a[0]]
-                let dentro=a[1]["nulos"]??0
-                let salidas=a[1]["no nulos"]??0
-                if(lugar["nulos"]!=dentro){
+                let dentro=a[1]["no nulo"]??0
+                let salidas=a[1]["nulo"]??0
+                if(lugar["nulo"]!=dentro){
                     lugar["nulo"]=dentro
                     lugar.dentro.innerText=dentro
                 }
-                if(lugar["no nulos"]!=salidas){
-                    lugar["no nulos"]=salidas
+                if(lugar["no nulo"]!=salidas){
+                    lugar["no nulo"]=salidas
                     lugar.salidas.innerText=salidas
                 }
             })
@@ -57,7 +57,8 @@ const total_por_lugar = () => {
                  let elemento_dom=a[1].referencia
                  plugares_personas.removeChild(elemento_dom)
             })
-
+            console.log(personas_lugar)
+            console.log(informacion)
         })
 }
 const elementos_con_referencias=(lugar, nonulos, nulos)=>{
@@ -72,8 +73,8 @@ const elementos_con_referencias=(lugar, nonulos, nulos)=>{
     empaquetado["referencia"] = contenedor
     empaquetado["dentro"] = contenedor.querySelector(id_dentro)
     empaquetado["salidas"] = contenedor.querySelector(id_salidas)
-    empaquetado["no nulos"]=nonulos
-    empaquetado["nulos"]=nulos
+    empaquetado["no nulo"]=nonulos
+    empaquetado["nulo"]=nulos
     return empaquetado
 }
 const cuadro_lugar = (lugar, dentro, salidas) => {

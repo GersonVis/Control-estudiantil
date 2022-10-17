@@ -253,9 +253,9 @@ $tecla = "";
     ordenar_peticion(nombre_lugar, sub_opcion)
     total_por_lugar()
     //timers
-  /*  setInterval(() => {
+    setInterval(() => {
         total_por_lugar()
-    }, 10000)*/
+    }, 10000)
 </script>
 
 </html>
