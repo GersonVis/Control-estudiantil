@@ -36,6 +36,7 @@ class Modelo_Entrada extends Model
 
     function registrarEntrada($lugar, $no_control, $nombre)
     {
+        //nueva linea
         $conexion = $this->db->conectar();
         $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre));
         $sql = "insert into entradas_n( no_control, lugar, nombre) values('$entradas[lugar]', '$entradas[no_control]', '$entradas[nombre]')";
