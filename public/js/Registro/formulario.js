@@ -7,17 +7,10 @@ const formulario = document.querySelector("#forma")
 const numero_validaciones = 4
 const lista_lugares = document.querySelector("#list-lugares")
 const lista_accciones = document.querySelector("#list-acciones")
-<<<<<<< HEAD
-const lista_ingresos = document.querySelector("#lista_ingresos")
-const boton_enviar=document.querySelector("#enviar")
-
-var personas_registradas = {}
-=======
 var personas_registradas = {}
 
 var bloqueos = {}
 
->>>>>>> modificando-metodo-todos
 var tiempo_bloqueo = 3000
 var valor_anterior = ""
 var prueba
@@ -37,18 +30,6 @@ var accion_por_opcion = {
     },
     "Automático": () => {
         // si no esta en la lista se puede registrar
-<<<<<<< HEAD
-        let persona = personas_registradas[no_control] ?? { disponible: true }
-        if (lista_lugares.querySelectorAll(".active").length == 1) {
-            if (persona.disponible) {
-                let json_datos, registro
-                let formdata
-                let nombre, no_control, lugar
-
-                bloquear_elemento(boton_enviar)
-
-                formdata = new FormData(forma)
-=======
         let persona = bloqueos[no_control] ?? { disponible: true }
         console.log(bloqueos)
         if (lista_lugares.querySelectorAll(".active").length == 1) {
@@ -61,24 +42,12 @@ var accion_por_opcion = {
 
 
                 let formdata = new FormData(forma)
->>>>>>> modificando-metodo-todos
                 nombre = validationCustom03.value
 
                 lugar = seleccion_opciones[1]
                 formdata.append("lugar", lugar)
-<<<<<<< HEAD
-
-             /*   if (personas[no_control]) {
-                    json_datos = { no_control: no_control, lugar: lugar, nombre: nombre, hora_entrada: "Esperando respuesta" }
-                    registro = crear_elemento(json_datos)
-                }*/
-
-                enviar_formulario(formdata)
-
-=======
                 let no_control_dentro = no_control.toString()
                 enviar_formulario(formdata, no_control_dentro)
->>>>>>> modificando-metodo-todos
                 return
             }
             mostrar_informacion("Espera", "El número de control esta bloqueado por 3 segundos")
@@ -103,12 +72,6 @@ var accion_por_opcion = {
 }
 //que hacer dependiendo de la respuesta del envio del formulario
 const consecuencias = {
-<<<<<<< HEAD
-    "creacion": registro_exitoso,//funcion en el archivo inserción
-    "actualizacion": ({ id_entrada }) => {
-
-        remover_de_padre("registro" + id_entrada)
-=======
     "creacion": (json) => {
         personas_registradas[json.no_control] = json
         mostrar_informacion("Registro", "Se realizo el registro correctamente")
@@ -119,7 +82,6 @@ const consecuencias = {
         mostrar_informacion("Salida", "Se registro salida para el Número de control " + no_control)
         remover_de_padre("registro" + id_entrada)
         delete personas_registradas[no_control]
->>>>>>> modificando-metodo-todos
 
     }
 }
@@ -158,33 +120,18 @@ function impedir_letras(evt) {
     }
 }
 var prueba = ""
-<<<<<<< HEAD
-const enviar_formulario = (formdata) => {
-
-=======
 const enviar_formulario = (formdata, no_control_dentro) => {
     mostrar_informacion("Formulario enviado", "Se esta realizando la petición")
->>>>>>> modificando-metodo-todos
+ modificando-metodo-todos
     fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
     })
         .then(respuesta => respuesta.json())
         .then(json => {
-            bloquear_elemento(boton_enviar, false)
             console.log(json)
             if (json.respuesta) {
                 prueba = json
-<<<<<<< HEAD
-                registro = json.contenido[0]
-                consecuencias[json.tipo_consulta](registro)
-                agregar_registro(json)
-
-                no_disponible(no_control)
-
-                bloquear_por_tiempo(no_control, tiempo_bloqueo)
-                console.log(json)
-=======
 
 
                 registro = json.contenido[0]
@@ -198,11 +145,9 @@ const enviar_formulario = (formdata, no_control_dentro) => {
                 consecuencias[json.tipo_consulta](registro)
 
 
->>>>>>> modificando-metodo-todos
             }
         })
         .catch(er => {
-            bloquear_elemento(boton_enviar, false)
             console.error("ocurrio un error en la solicitud")
             console.error(er)
             // bloqueos[no_control].disponible=true
@@ -219,18 +164,11 @@ const enviar_formulario_entrada = (formdata) => {
         .then(json => {
             console.log(json)
             if (json.respuesta) {
-<<<<<<< HEAD
-                prueba = json
-=======
               /*  prueba = json
->>>>>>> modificando-metodo-todos
                 registro = json.contenido[0]
                 //agrega el registro a la lista pero sin animacion de bloqueo
                 registro_exitoso_entrada(registro)
                 agregar_registro(json)
-<<<<<<< HEAD
-                no_disponible(no_control)
-=======
                // no_disponible(no_control)*/
                registro = json.contenido[0]
 
@@ -241,7 +179,6 @@ const enviar_formulario_entrada = (formdata) => {
              //  bloquear_por_tiempo(no_control, tiempo_bloqueo)
 
                consecuencias[json.tipo_consulta](registro)
->>>>>>> modificando-metodo-todos
 
                 return
             }
@@ -252,11 +189,7 @@ const enviar_formulario_entrada = (formdata) => {
             console.error(er)
         })
 }
-<<<<<<< HEAD
-const enviar_formulario_salida = (formdata) => {
-=======
 const enviar_formulario_salida = (formdata, no_control_dentro) => {
->>>>>>> modificando-metodo-todos
 
     fetch("Entrada/registrarSalida", {
         method: "POST",
@@ -268,11 +201,7 @@ const enviar_formulario_salida = (formdata, no_control_dentro) => {
             if (json.respuesta) {
                 if (json.registros_afectados != 0) {
                     registro = json.contenido[0]
-<<<<<<< HEAD
-                    consecuencias[json.tipo_consulta](registro)
-=======
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
->>>>>>> modificando-metodo-todos
                     mostrar_informacion("Salida", json.codigo)
                     return
                 }
@@ -329,17 +258,6 @@ const disponibilidad = (no_control) => {
 const no_disponible = (no_control) => {
     personas_registradas[no_control].disponible = false
 }
-<<<<<<< HEAD
-const bloquear_por_tiempo = (no_control, tiempo) => {
-    setTimeout(() => { disponibilidad(no_control) }, tiempo)
-}
-const agregar_registro = (json) => {
-    personas_registradas[no_control] = json
-    personas_registradas[no_control]["disponible"] = false
-}
-const bloquear_elemento=(elemento, bloquear=true)=>{
-    elemento.disabled=bloquear
-=======
 
 
 const bloquear_por_tiempo = (no_control_a, tiempo) => {
@@ -351,5 +269,5 @@ const bloquear_por_tiempo = (no_control_a, tiempo) => {
 
 const agregar_registro = (json) => {
     personas_registradas[json.no_control] = json
->>>>>>> modificando-metodo-todos
 }
+
