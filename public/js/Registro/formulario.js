@@ -123,9 +123,13 @@ var prueba = ""
 const enviar_formulario = (formdata, no_control_dentro) => {
     mostrar_informacion("Formulario enviado", "Se esta realizando la petición")
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
  modificando-metodo-todos
 >>>>>>> ae6ba0b (perro)
+=======
+ modificando-metodo-todos
+>>>>>>> a0e2fb6e9a441103fecb4f2339602181f884a3e1
     fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
