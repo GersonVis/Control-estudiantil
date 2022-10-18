@@ -312,46 +312,6 @@ $tecla = "";
     var acciones = <?php echo json_encode($array_acciones, JSON_UNESCAPED_UNICODE); ?>;
     var lugares = <?php echo json_encode($array_lugares, JSON_UNESCAPED_UNICODE); ?>;
 
-    /*let acciones_valores = Object.values(acciones)
-
-    var acciones_por_contador = [(valor) => {
-        accion_seleccionada = valor
-    }, (valor) => {
-        lugar_seleccionado = valor
-    }]
-
-
-    var contador = 0
-    var seleccionando = false
-    var restaurar = () => {
-        cpLugares.style.visibility = "visible"
-    }*/
-    /*   acciones_valores.forEach(elemento => {
-           if (elemento[0] == "Salida") {
-               elemento.push(function() {
-                   cpLugares.style.visibility = "hidden"
-                   contador = 2
-                   seleccionando = false
-               })
-               return
-           }
-           elemento.push(restaurar)
-       })
-
-       var opciones = [acciones, lugares]
-
-       // creamos referencias entre los elementos visuales y los ids de teclas
-       var teclas_accion = combinar_indices_elementos(Object.keys(acciones), "accion")
-       var teclas_lugares = combinar_indices_elementos(Object.keys(lugares), "lugar")
-
-
-       var referencias = [teclas_accion, teclas_lugares]
-
-
-       var accion_seleccionada
-       var lugar_seleccionado*/
-
-    // escogemos la primera opción de las opciones
     var opcion_anterior = ""
 
 

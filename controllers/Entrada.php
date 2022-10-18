@@ -17,12 +17,21 @@ class Entrada extends Controller
     }
     function todos()
     {
-
         $fecha = $_POST["fecha"] ?? "";
         $lugar = $_POST["lugar"] ?? "";
         $noControl = $_POST["noControl"] ?? "";
         $fecha_fin = $_POST["fecha_fin"] ?? "";
-        $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin));
+        $hora_salida = $_POST["hora_salida"]??"";
+        $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+        $this->view->renderizar();
+    }
+    function conteo(){
+        $fecha = $_POST["fecha"] ?? "";
+        $lugar = $_POST["lugar"] ?? "";
+        $noControl = $_POST["noControl"] ?? "";
+        $fecha_fin = $_POST["fecha_fin"] ?? "";
+        $hora_salida = $_POST["hora_salida"]??"";
+        $this->view->resultado = $this->modelo->conteo(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
         $this->view->renderizar();
     }
     function registrarEntrada()
@@ -128,4 +137,10 @@ class Entrada extends Controller
         $this->view->resultado = $resultado;
         $this->view->renderizar();
     }
+    function resumenLugares(){
+        $resultado=$this->modelo->resumenLugares();
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
 }
+//select count(*) as conteo, case when hora_salida is null then "vacio" else "no vacio" end as vacio from entradas_n group by vacio
