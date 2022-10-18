@@ -138,7 +138,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
 
                 // no_disponible(no_control)
                 bloqueos[no_control_dentro]["disponible"] = false
-
+                // agregamos una nueva linea de codigo
 
                 bloquear_por_tiempo(no_control_dentro, tiempo_bloqueo)
 
