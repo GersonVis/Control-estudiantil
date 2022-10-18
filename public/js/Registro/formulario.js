@@ -122,13 +122,16 @@ function impedir_letras(evt) {
 var prueba = ""
 const enviar_formulario = (formdata, no_control_dentro) => {
     mostrar_informacion("Formulario enviado", "Se esta realizando la petición")
+<<<<<<< HEAD
+=======
+ modificando-metodo-todos
+>>>>>>> ae6ba0b (perro)
     fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
     })
         .then(respuesta => respuesta.json())
         .then(json => {
-            bloquear_elemento(boton_enviar, false)
             console.log(json)
             if (json.respuesta) {
                 prueba = json
@@ -148,7 +151,6 @@ const enviar_formulario = (formdata, no_control_dentro) => {
             }
         })
         .catch(er => {
-            bloquear_elemento(boton_enviar, false)
             console.error("ocurrio un error en la solicitud")
             console.error(er)
             // bloqueos[no_control].disponible=true
