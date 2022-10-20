@@ -28,7 +28,7 @@ class Entrada extends Controller
     function conteo(){
         $fecha = $_POST["fecha"] ?? "";
         $lugar = $_POST["lugar"] ?? "";
-        $noControl = $_POST["noControl"] ?? "";
+        $noControl = $_POST["no_control"] ?? "";
         $fecha_fin = $_POST["fecha_fin"] ?? "";
         $hora_salida = $_POST["hora_salida"]??"";
         $this->view->resultado = $this->modelo->conteo(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
@@ -37,35 +37,17 @@ class Entrada extends Controller
     function registrarEntrada()
     {
         $json_respuesta = array();
-        $requerido = $this->parametros_necesarios(array("nombre", "lugar", "noControl"), $_POST);
-        if ($requerido != "") {
-            $json_respuesta["respuesta"] = false;
-            $json_respuesta["codigo"] = $requerido;
-            $this->view->resultado = $json_respuesta;
+        $requerido = $this->parametros_necesarios(array("nombre", "lugar", "no_control", "carrera"), $_POST);
+        if ($requerido) {
+            $this->view->resultado = $requerido;
             $this->view->renderizar();
             exit;
         }
-        $no_control = $_POST["noControl"];
+        $no_control = $_POST["no_control"];
         $lugar = $_POST["lugar"];
         $nombre = $_POST["nombre"];
-        $json_respuesta = $this->modelo->estaDisponible($no_control);
-
-        //ver si se encuentra registrado en algún lugar la persona
-
-        //si en la consulta de disponibilidad no hay registros registramos
-        if (count($json_respuesta["contenido"]) == 0) {
-            $json_respuesta = $this->modelo->registrarEntrada($no_control, $lugar, $nombre);
-            if ($json_respuesta["respuesta"]) {
-                $resultado_registro = $this->modelo->info($no_control);
-                $json_respuesta["contenido"] = $resultado_registro["contenido"];
-                $this->view->resultado = $json_respuesta;
-                $this->view->renderizar();
-                exit;
-            }
-        }
-        $json_respuesta["respuesta"] = false;
-        $json_respuesta["codigo"] = "El usuario debe registrar salida primero";
-        $json_respuesta["contenido"] = array();
+        $carrera= $_POST["carrera"];
+        $json_respuesta = $this->modelo->registrarEntrada($lugar, $no_control, $nombre, $carrera);
         $this->view->resultado = $json_respuesta;
         $this->view->renderizar();
     }
@@ -81,46 +63,30 @@ class Entrada extends Controller
 
     function entradaAumatica()
     {
-        
         $json_respuesta = array();
-        $requerido = $this->parametros_necesarios(array("nombre", "lugar", "noControl"), $_POST);
-        if ($requerido != "") {
-            $json_respuesta["respuesta"] = false;
-            $json_respuesta["codigo"] = $requerido;
-            $this->view->resultado = $json_respuesta;
+        $requerido = $this->parametros_necesarios(array("nombre", "lugar", "no_control", "carrera"), $_POST);
+        if ($requerido) {
+            $this->view->resultado = $requerido;
             $this->view->renderizar();
             exit;
         }
-        $no_control = $_POST["noControl"];
+        $no_control = $_POST["no_control"];
         $lugar = $_POST["lugar"];
         $nombre = $_POST["nombre"];
-        //ver si se encuentra registrado en algún lugar la persona
-        $disponibilidad = $this->modelo->estaDisponible($no_control);
-
-        //si en la consulta de disponibilidad no hay registros registramos
-        if (count($disponibilidad["contenido"]) == 0) {
-            
-            $registro_entrada = $this->modelo->registrarEntrada($no_control, $lugar, $nombre);
-           
-            if ($registro_entrada["respuesta"]) {
-                // cargamos información del registro creado
-                $info = $this->modelo->info($no_control);
-                $registro_entrada["contenido"] = $info["contenido"];
-                $this->view->resultado = $registro_entrada;
-                $this->view->renderizar();
-                exit;
-            }
-        }
-        //registramos salida y añadimos información del registro afectado
-        $salida = $this->modelo->registrarSalida($no_control);
-        $info = $this->modelo->info($no_control);
-        $salida["contenido"] = $info["contenido"];
-        $this->view->resultado = $salida;
+        $carrera= $_POST["carrera"];
+        $json_respuesta = $this->modelo->entradaAumatica($lugar, $no_control, $nombre, $carrera);
+        $this->view->resultado = $json_respuesta;
         $this->view->renderizar();
     }
     function registrarSalida()
     {
-        $no_control = $_POST["noControl"];
+        $requerido=$this->parametros_necesarios(array("No_control"), $_POST);
+        if($requerido){
+            $this->view->resultado = $requerido;
+            $this->view->renderizar();
+            exit;
+        }
+        $no_control = $_POST["No_control"];
         $resultado = $this->modelo->registrarSalida($no_control);
         $this->view->resultado = $resultado;
         $this->view->renderizar();
@@ -143,4 +109,3 @@ class Entrada extends Controller
         $this->view->renderizar();
     }
 }
-//select count(*) as conteo, case when hora_salida is null then "vacio" else "no vacio" end as vacio from entradas_n group by vacio

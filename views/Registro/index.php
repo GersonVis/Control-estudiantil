@@ -192,7 +192,7 @@ $tecla = "";
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" name="noControl" for="validationCustom01">No. Control</label>
                     <div class="w-100 position-relative">
-                        <input type="text" value="12345678" autocomplete="off" minlength="8" maxlength="8" size="8" name="noControl" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
+                        <input type="text" value="12345678" autocomplete="off" minlength="8" maxlength="8" size="8" name="no_control" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
                         <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;
@@ -221,7 +221,7 @@ $tecla = "";
                 </div>
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" for="validationCustom03">Carrera</label>
-                    <input value="Ingeniería en sistemas" type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
+                    <input value="Ingeniería en sistemas computacionales" type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
                 </div>
                 <button id="enviar" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
             </form>

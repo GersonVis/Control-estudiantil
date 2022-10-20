@@ -34,19 +34,19 @@ class Modelo_Entrada extends Model
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
-    function registrarEntrada($lugar, $no_control, $nombre)
+    function registrarEntrada($lugar, $no_control, $nombre, $carrera, $apellido_paterno="", $apellido_materno="")
     {
         //nueva linea
         $conexion = $this->db->conectar();
-        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre));
-        $sql = "insert into entradas_n( no_control, lugar, nombre) values('$entradas[lugar]', '$entradas[no_control]', '$entradas[nombre]')";
+        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno"=> $apellido_materno));
+        $sql = "call registrar_entrada('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
-    function registrarSalida($no_control)
+    function registrarSalida($No_control)
     {
         $conexion = $this->db->conectar();
-        $entradas = $this->limpiar($conexion, array("no_control" => $no_control));
-        $sql = "update entradas_n set hora_salida=now() where fecha=curdate() and hora_salida is null and no_control='$entradas[no_control]'";
+        $entradas = $this->limpiar($conexion, array("No_control" => $No_control));
+        $sql = "call registrar_salida('$entradas[No_control]');";
         return $this->db->consulta_codigo($conexion, $sql);
     }
     function borrar($entradas)
@@ -98,12 +98,20 @@ class Modelo_Entrada extends Model
     function sinSalida()
     {
         $conexion = $this->db->conectar();
-        $sql = "select * from entradas_n where hora_salida is null and fecha=curdate() order by id_entrada desc;";
+        $sql = "call sin_salida();";
         return $this->db->consulta_codigo($conexion, $sql);
     }
     function resumenLugares(){
         $conexion = $this->db->conectar();
         $sql="select lugar, count(*) as conteo, case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from entradas_n where fecha=curdate() group by esnulo, lugar;";
+        return $this->db->consulta_codigo($conexion, $sql);
+    }
+    function entradaAumatica($lugar, $no_control, $nombre, $carrera, $apellido_paterno="", $apellido_materno="")
+    {
+        //nueva linea
+        $conexion = $this->db->conectar();
+        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno"=> $apellido_materno));
+        $sql = "call registro_accion_automatica('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
 }

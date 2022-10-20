@@ -46,8 +46,16 @@ class Controller{
                 continue;
             }
          }
-        return $msg;
+         
+         if ($msg != "") {
+             $json_respuesta["respuesta"] = false;
+             $json_respuesta["codigo"] = $msg;
+             return $json_respuesta;
+         }
+         return false;
+        
     }
+    
  }
  
 ?>
