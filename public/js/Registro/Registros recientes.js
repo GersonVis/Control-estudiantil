@@ -20,8 +20,8 @@ const nuevos_ingresos = () => {
             if (json.respuesta) {
                 if (Object.keys(personas_registradas).length == 0) {
                     json.contenido.forEach(elemento => {
-                        personas_registradas[elemento.no_control] = elemento
-                        personas_registradas[elemento.no_control]["disponible"] = true
+                        personas_registradas[elemento.No_control] = elemento
+                        personas_registradas[elemento.No_control]["disponible"] = true
                         registro_exitoso_entrada(elemento)
                     })
                     return
@@ -39,12 +39,12 @@ const nuevos_ingresos = () => {
                 console.log(nuevo_array)*/
 
                 no_encontrados = contenido.filter(elemento => {
-                    personas_registradas[elemento.no_control] = elemento
-                    personas_registradas[elemento.no_control]["disponible"] = true
-                    if (!nuevo_array[elemento.no_control]) {
+                    personas_registradas[elemento.No_control] = elemento
+                    personas_registradas[elemento.No_control]["disponible"] = true
+                    if (!nuevo_array[elemento.No_control]) {
                         return elemento
                     }
-                    delete nuevo_array[elemento.no_control]
+                    delete nuevo_array[elemento.No_control]
                 })
               /*  console.log("nuevo array2")
                 console.log(nuevo_array)*/
@@ -54,7 +54,7 @@ const nuevos_ingresos = () => {
                 })
                 
                 Object.values(nuevo_array).forEach(elemento => {
-                    remover_de_padre("registro" + elemento.id_entrada)
+                    remover_de_padre("registro" + elemento.Id_acceso)
                 })
             }
             //  comparar_infomacion(almacen_registros, json.contenido)

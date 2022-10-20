@@ -78,10 +78,10 @@ const consecuencias = {
         registro_exitoso(json)
 
     },//funcion en el archivo inserción
-    "actualizacion": ({ id_entrada, no_control }) => {
-        mostrar_informacion("Salida", "Se registro salida para el Número de control " + no_control)
-        remover_de_padre("registro" + id_entrada)
-        delete personas_registradas[no_control]
+    "actualizacion": ({ Id_acceso, No_control }) => {
+        mostrar_informacion("Salida", "Se registro salida para el Número de control " + No_control)
+        remover_de_padre("registro" + Id_acceso)
+        delete personas_registradas[No_control]
 
     }
 }
@@ -129,8 +129,9 @@ const enviar_formulario = (formdata, no_control_dentro) => {
         .then(respuesta => respuesta.json())
         .then(json => {
             console.log(json)
+            prueba = json
             if (json.respuesta) {
-                prueba = json
+                
 
 
                 registro = json.contenido[0]
@@ -215,12 +216,13 @@ const enviar_formulario_salida = (formdata, no_control_dentro) => {
         })
 }
 
-const accion_salida = (id_entrada, no_control_dentro) => {
-    console.log(id_entrada)
+const accion_salida = (Id_acceso, no_control_dentro) => {
+    console.log(Id_acceso)
     console.log(no_control_dentro)
     let formdata = new FormData()
     //mostrar_informacion("Registrar salida", "Registraras salida para esta persona")
-    formdata.append("noControl", no_control_dentro)
+    formdata.append("No_control", no_control_dentro)
+    formdata.append("Id_acceso", Id_acceso)
     fetch("Entrada/registrarSalida", {
         method: "POST",
         body: formdata

@@ -8,7 +8,7 @@ class Modelo_Accion extends Model{
     
     function Todos(){
         $conexion=$this->db->conectar();
-        $resultado=$this->db->consulta($conexion, "select * from acciones_n;");
+        $resultado=$this->db->consulta($conexion, "select * from acciones_p;");
         return $resultado;
     }
 
