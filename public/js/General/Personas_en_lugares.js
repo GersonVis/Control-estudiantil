@@ -1,13 +1,13 @@
-
+var data_g
 const solicitar_numeros = (lugar, fecha) => {
     let data = {
-        lugar: lugar,
+        Id_lugar: lugar,
         fecha: fecha
     }
  //   console.log(data)
     enviar_formulario("entrada/conteo", data)
         .then(json => {
-           
+            data_g=json
             if (json.respuesta) {
                 let dentro, entradas, salidas
                 let estados

@@ -10,7 +10,7 @@ class Modelo_Entrada extends Model
     function todos($entradas = "", $nulos = 0)
     {
         $conexion = $this->db->conectar();
-        $base_sql = "select * from entradas_n ";
+        $base_sql = "select * from accesos_p inner join personas_p using(Id_persona) inner join estudiantes_p using(Id_persona) ";
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
@@ -22,7 +22,7 @@ class Modelo_Entrada extends Model
     function conteo($entradas = "")
     {
         $conexion = $this->db->conectar();
-        $base_sql = "select count(*) as conteo, case when hora_salida is null then 'vacio' else 'no vacio' end as Estado from entradas_n ";
+        $base_sql = "select count(*) as conteo, case when hora_salida is null then 'vacio' else 'no vacio' end as Estado from accesos_n ";
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql." group by Estado");
         }
@@ -103,7 +103,7 @@ class Modelo_Entrada extends Model
     }
     function resumenLugares(){
         $conexion = $this->db->conectar();
-        $sql="select lugar, count(*) as conteo, case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from entradas_n where fecha=curdate() group by esnulo, lugar;";
+        $sql="select Id_lugar, count(*) as conteo, case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from accesos_p where fecha=curdate() group by esnulo, Id_lugar;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
     function entradaAumatica($lugar, $no_control, $nombre, $carrera, $apellido_paterno="", $apellido_materno="")

@@ -14,23 +14,28 @@ $("#lista-supopciones .lista-opcion").on("click", function (ev) {
     supopcion_seleccionada=pasar_seleccion(supopcion_seleccionada, this)
   
 })
+
 const ordenar_peticion=(nombre_lugar, sub_opcion)=>{
-    nombre_lugar=nombre_lugar=="Todos"?"":nombre_lugar
+    nombre_lugar=nombre_lugar=="Todos"?"":nombre_lugar//si es "Todos" envía ""
     acciones={
+        //es para la consulta sql, cuando están dentro hora salida es null
+        // cuando ya salieron is not null no es nulo, tienen salida registrada
+        // entradas es traer todos los registros de hoy
         "dentro": "is null",
         "salidas": "is not null",
         "entradas": ""
     }
     data={
-        lugar: nombre_lugar,
-        hora_salida: acciones[sub_opcion],
-        fecha: hoy
+        Id_lugar: nombre_lugar,
+        Hora_salida: acciones[sub_opcion],
+        Fecha: hoy
     }
     console.log("data")
     console.log(data)
+
     realizar_accion(data)
     //número de personas por acción
-    solicitar_numeros(nombre_lugar, hoy)
+    solicitar_numeros(nombre_lugar, hoy)//funcion en archivo personas_en_lugares.js
 }
 
 const realizar_accion=(data)=>{

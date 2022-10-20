@@ -7,7 +7,7 @@ const fecha_hoy = hoy.getFullYear() + "-" + String(hoy.getMonth() + 1).padStart(
 const datos_hoy = new FormData()
 datos_hoy.append("fecha", fecha_hoy)
 
-var jsss
+var dentro
 
 const nuevos_ingresos = () => {
     console.log("llamada")

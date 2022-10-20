@@ -2,16 +2,18 @@
 //hay un timer en la parte de abajo que actualiza el elemento de los lugares
 var personas_lugar = {}
 const personas_por_lugar = async () => {
+     // creamos un json con la estructura
+    // personas_lugar{Id_lugar:{esnulo: 2//numero de los, nulos: 4//numero de no nulos}}
     let json = await enviar_formulario("entrada/resumenLugares")
     let personas_lugar = {}
     if (json.respuesta) {
         json.contenido.forEach(registro => {
-            if (!personas_lugar[registro.lugar]) {
-                personas_lugar[registro.lugar] = {}
-                personas_lugar[registro.lugar][registro.esnulo] = registro.conteo
+            if (!personas_lugar[registro.Id_lugar]) {
+                personas_lugar[registro.Id_lugar] = {}
+                personas_lugar[registro.Id_lugar][registro.esnulo] = registro.conteo
                 return
             }
-            personas_lugar[registro.lugar][registro.esnulo] = registro.conteo
+            personas_lugar[registro.Id_lugar][registro.esnulo] = registro.conteo
         })
     }
     return personas_lugar

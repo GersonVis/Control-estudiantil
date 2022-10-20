@@ -17,21 +17,21 @@ class Entrada extends Controller
     }
     function todos()
     {
-        $fecha = $_POST["fecha"] ?? "";
-        $lugar = $_POST["lugar"] ?? "";
-        $noControl = $_POST["noControl"] ?? "";
-        $fecha_fin = $_POST["fecha_fin"] ?? "";
-        $hora_salida = $_POST["hora_salida"]??"";
+        $fecha = $_POST["Fecha"] ?? "";
+        $lugar = $_POST["Id_lugar"] ?? "";
+        $noControl = $_POST["No_control"] ?? "";
+        $fecha_fin = $_POST["Fecha_fin"] ?? "";
+        $hora_salida = $_POST["Hora_salida"]??"";
         $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
         $this->view->renderizar();
     }
     function conteo(){
         $fecha = $_POST["fecha"] ?? "";
-        $lugar = $_POST["lugar"] ?? "";
+        $Id_lugar = $_POST["Id_lugar"] ?? "";
         $noControl = $_POST["no_control"] ?? "";
         $fecha_fin = $_POST["fecha_fin"] ?? "";
         $hora_salida = $_POST["hora_salida"]??"";
-        $this->view->resultado = $this->modelo->conteo(array("fecha" => $fecha, "lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+        $this->view->resultado = $this->modelo->conteo(array("fecha" => $fecha, "lugar" => $Id_lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
         $this->view->renderizar();
     }
     function registrarEntrada()
