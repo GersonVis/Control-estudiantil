@@ -10,7 +10,7 @@ const enviar_formulario = async (url_formulario, datos={})=>{
             method: "POST",
             body: formData
         })
-        let json= await respuesta.text()
+        let json= await respuesta.json()
         
         return json
      } catch (error) {

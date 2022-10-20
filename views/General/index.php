@@ -252,10 +252,8 @@ $tecla = "";
     // cargamos opcion por default
     ordenar_peticion(nombre_lugar, sub_opcion)
     total_por_lugar()
-    //timers
- /*   setInterval(() => {
-        total_por_lugar()
-    }, 10000)*/
-</script>
 
+</script>
+<!--Los timers necesitan que todas las demás funciones estén cargadas-->
+<script src="public/js/General/Timers.js"></script>
 </html>

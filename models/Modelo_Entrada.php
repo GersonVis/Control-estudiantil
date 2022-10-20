@@ -22,7 +22,7 @@ class Modelo_Entrada extends Model
     function conteo($entradas = "")
     {
         $conexion = $this->db->conectar();
-        $base_sql = "select count(*) as conteo, case when hora_salida is null then 'vacio' else 'no vacio' end as Estado from accesos_n ";
+        $base_sql = "select count(*) as conteo, case when hora_salida is null then 'vacio' else 'no vacio' end as Estado from accesos_p ";
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql." group by Estado");
         }
