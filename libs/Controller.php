@@ -1,8 +1,13 @@
 <?php
 class Controller{
-    function __construct($nombre, $metodo, $clase, $indice="")
+    function __construct($nombre, $metodo, $clase, $indice="", $carga_de_modelo=false)
     {
         $this->view=new View($nombre);
+        $this->nombre=$nombre;
+        //decidir si cargar modelo para consultas a la base de datos
+        if($carga_de_modelo){
+            $this->cargar_modelo();
+        }
         if(!$this->ejecuto_el_metodo($clase, $metodo, $indice)){
           $clase->principal();
         }
@@ -17,8 +22,40 @@ class Controller{
         }
         return $existe_el_metodo;
     }
-    function cargar_modelo(){
+    function cargar_modelo($nombre_modelo=""){
+        $nombre_modelo="Modelo_".($nombre_modelo==""?$this->nombre:$nombre_modelo);
+       
+        // cargamos el archivo con el modelo para poder crear la clase
+        include_once "Models/$nombre_modelo.php";
+        $this->modelo=new $nombre_modelo();
+      
+    }
+    function parametros_necesarios($array_parametros, $array_busqueda){
+        $msg=""; 
+        foreach($array_parametros as $parametro){
+            if(!isset($array_busqueda[$parametro])){
+                $msg.=" $parametro no encontrado, es necesario ";
+                continue;
+            }
+            if($array_busqueda[$parametro]==""){
+                $msg.=" $parametro no puede estar vacío ";
+                continue;
+            }
+            if($array_busqueda[$parametro]=="undefined"){
+                $msg.=" $parametro no puede ser undefined ";
+                continue;
+            }
+         }
+         
+         if ($msg != "") {
+             $json_respuesta["respuesta"] = false;
+             $json_respuesta["codigo"] = $msg;
+             return $json_respuesta;
+         }
+         return false;
         
     }
+    
  }
+ 
 ?>

@@ -7,6 +7,8 @@
     :root {
         --principal-color: #F3F8FB;
         --color-decorativo: #DADADA;
+        --prioridad-alta: #D9EBFF;
+        --sub-prioridad-alta: #ECF5FF;
     }
 
     .color-principal {
@@ -16,7 +18,9 @@
     .bg-decorativo {
         background-color: var(--color-decorativo);
     }
-
+    .bg-sub-prioridad-alta{
+        background-color: var(--sub-prioridad-alta);
+    }
     .sombra-secundaria {
         -webkit-box-shadow: 0px 0px 22px 0px rgba(204, 204, 204, 1);
         -moz-box-shadow: 0px 0px 22px 0px rgba(204, 204, 204, 1);
@@ -33,7 +37,9 @@
     .redondear {
         border-radius: 22px;
     }
-
+    .redondear-secundario{
+        border-radius: 12px;
+    }
     .label-inputs {
         font-size: 10pt;
         font-weight: bold;
