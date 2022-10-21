@@ -2,30 +2,37 @@
 //hay un timer en la parte de abajo que actualiza el elemento de los lugares
 var personas_lugar = {}
 const personas_por_lugar = async () => {
+     // creamos un json con la estructura
+    // personas_lugar{Id_lugar:{esnulo: 2//numero de los, nulos: 4//numero de no nulos}}
     let json = await enviar_formulario("entrada/resumenLugares")
     let personas_lugar = {}
     if (json.respuesta) {
         json.contenido.forEach(registro => {
-            if (!personas_lugar[registro.lugar]) {
-                personas_lugar[registro.lugar] = {}
-                personas_lugar[registro.lugar][registro.esnulo] = registro.conteo
+            if (!personas_lugar[registro.Id_lugar]) {
+                personas_lugar[registro.Id_lugar] = {}
+                personas_lugar[registro.Id_lugar][registro.esnulo] = registro.conteo
                 return
             }
-            personas_lugar[registro.lugar][registro.esnulo] = registro.conteo
+            personas_lugar[registro.Id_lugar][registro.esnulo] = registro.conteo
         })
     }
     return personas_lugar
 }
+var copia_personas_g
 const total_por_lugar = () => {
     personas_por_lugar()
         .then(informacion => {
+            //si no tenemos registros pasamos directamente la informacion
             if (Object.keys(personas_lugar) == 0) {
-    
-                Object.entries(informacion).forEach((a) => {  
-                    let json_informacion=elementos_con_referencias(a[0], a[1]["no nulo"] ?? 0, a[1]["nulo"] ?? 0)
-                    personas_lugar[a[0]]=json_informacion
-                    // lo agregamos al DOM
-                    plugares_personas.appendChild(json_informacion.referencia)
+                Object.entries(informacion).forEach((a) => {
+                    let dentro
+                    dentro=a[1]["no nulo"] ?? 0
+                    if(dentro!=0){
+                        let json_informacion=elementos_con_referencias(a[0], dentro, a[1]["nulo"] ?? 0)
+                        personas_lugar[a[0]]=json_informacion
+                        // lo agregamos al DOM
+                        plugares_personas.appendChild(json_informacion.referencia)
+                    }  
                 })
                 return
             }
@@ -33,7 +40,18 @@ const total_por_lugar = () => {
             let no_estan={}
             Object.assign(copia_personas, personas_lugar)
             Object.entries(informacion).forEach((a) => {
-                if(!personas_lugar[a[0]]){
+                // si el lugar no esta dentro del almacen de registros agrega uno nuevo
+                // ejemplo: a[0]="Laboratorio de sistemas"
+                let dentro, salidas;
+                let lugar;
+                lugar=personas_lugar[a[0]]
+                dentro=a[1]["no nulo"]??0
+                /* si ya no hay ninguna persona dentro no hacemos nada
+                 y al no quitar la clave dentro de copia_personas, se eliminara*/
+                if(dentro==0){
+                    return
+                }
+                if(!lugar){
                     let json_informacion=elementos_con_referencias(a[0], a[1]["no nulo"] ?? 0, a[1]["nulo"] ?? 0)
                     personas_lugar[a[0]]=json_informacion
                     // lo agregamos al DOM
@@ -41,9 +59,11 @@ const total_por_lugar = () => {
                     return
                 }
                 delete copia_personas[a[0]]
-                let lugar=personas_lugar[a[0]]
-                let dentro=a[1]["no nulo"]??0
-                let salidas=a[1]["nulo"]??0
+                salidas=a[1]["nulo"]??0
+                /*si las cantidades son diferentes entre la informacion recivida
+                 y la información que se tiene almacenada entonces la informacion
+                 se actualiza
+                */
                 if(lugar["nulo"]!=dentro){
                     lugar["nulo"]=dentro
                     lugar.dentro.innerText=dentro
@@ -53,8 +73,10 @@ const total_por_lugar = () => {
                     lugar.salidas.innerText=salidas
                 }
             })
+            copia_personas_g=copia_personas
             Object.entries(copia_personas).forEach(a=>{
                  let elemento_dom=a[1].referencia
+                 delete personas_lugar[a[0]]
                  plugares_personas.removeChild(elemento_dom)
             })
             console.log(personas_lugar)
@@ -75,6 +97,7 @@ const elementos_con_referencias=(lugar, nonulos, nulos)=>{
     empaquetado["salidas"] = contenedor.querySelector(id_salidas)
     empaquetado["no nulo"]=nonulos
     empaquetado["nulo"]=nulos
+    empaquetado["lugar"]=lugar
     return empaquetado
 }
 const cuadro_lugar = (lugar, dentro, salidas) => {

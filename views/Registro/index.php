@@ -142,7 +142,7 @@ $tecla = "";
                             <div class="list-group" id="list-acciones" role="tablist">
                                 <?php
                                 foreach ($this->acciones as $key => $contenido) {
-                                    $tecla = $contenido["tecla"];
+                                    $tecla = $contenido["Id_tecla"];
                                     $array_acciones[$tecla] = array($contenido["accion"], $tecla);
                                     Opcion($array_acciones[$tecla][0], $tecla, "accion", "paccion");
                                 }
@@ -158,8 +158,8 @@ $tecla = "";
                             <div class="list-group" id="list-lugares" role="tablist">
                                 <?php
                                 foreach ($this->lugares as $key => $contenido) {
-                                    $tecla = $contenido["tecla"];
-                                    $array_lugares[$tecla] = array($contenido["lugar"], $tecla);
+                                    $tecla = $contenido["Id_tecla"];
+                                    $array_lugares[$tecla] = array($contenido["Id_lugar"], $tecla);
                                     Opcion($array_lugares[$tecla][0], $tecla, "lugar", "plugar");
                                 }
                                 ?>

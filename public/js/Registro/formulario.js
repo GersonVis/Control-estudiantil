@@ -73,7 +73,7 @@ var accion_por_opcion = {
 //que hacer dependiendo de la respuesta del envio del formulario
 const consecuencias = {
     "creacion": (json) => {
-        personas_registradas[json.no_control] = json
+        personas_registradas[json.No_control] = json
         mostrar_informacion("Registro", "Se realizo el registro correctamente")
         registro_exitoso(json)
 

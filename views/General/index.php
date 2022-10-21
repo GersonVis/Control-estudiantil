@@ -76,9 +76,9 @@ $tecla = "";
                             <?php
                             foreach ($this->lugares as $registro => $contenido) {
                             ?>
-                                <a class="list-group-item list-group-item-action" lugar="<?php echo $contenido["lugar"]; ?>" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" style="">
+                                <a class="list-group-item list-group-item-action" lugar="<?php echo $contenido["Id_lugar"]; ?>" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" style="">
                                     <?php
-                                    echo $contenido["lugar"];
+                                    echo $contenido["Id_lugar"];
                                     ?>
                                 </a>
                             <?php
@@ -252,10 +252,8 @@ $tecla = "";
     // cargamos opcion por default
     ordenar_peticion(nombre_lugar, sub_opcion)
     total_por_lugar()
-    //timers
-    setInterval(() => {
-        total_por_lugar()
-    }, 10000)
-</script>
 
+</script>
+<!--Los timers necesitan que todas las demás funciones estén cargadas-->
+<script src="public/js/General/Timers.js"></script>
 </html>

@@ -155,6 +155,7 @@ class Database
 
     }
     $resultado = $this->consulta($conexion, $sql);
+    //echo $sql;
     $registros = array();
     if(gettype($resultado)!="boolean"){
       if ($resultado->num_rows>0) {
