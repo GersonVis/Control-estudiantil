@@ -117,7 +117,7 @@ const cuadro_lugar = (lugar, dentro, salidas) => {
                         <div class="w-100 h-50 d-flex">
                             <div class="h-100 d-flex" style="width: 80px;margin: 0px 4px 0px -2px;">
                                 <div class="h-100 w-50 d-flex justify-content-center align-items-center">
-                                    <img src="public/ilustraciones/entradas.png" style="height: auto; width: 50%;" alt="">
+                                    <img src="public/ilustraciones/dentro.png" style="height: auto; width: 50%;" alt="">
                                 </div>
                                 <div class="w-50 h-100 d-flex flex-column">
                                     <div class="h-25 w-100 d-flex">

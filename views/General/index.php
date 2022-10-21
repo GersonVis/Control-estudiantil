@@ -92,7 +92,7 @@ $tecla = "";
                     <div class="w-100 h-25 d-flex flex-row p-3" id="lista-supopciones">
                         <div class="lista-opcion d-flex flex-row active" id="personas-dentro" supopcion="dentro" style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
-                                <img src="public/ilustraciones/entradas.png" style="width: 80px; height: auto;" alt="">
+                                <img src="public/ilustraciones/dentro.png" style="width: 80px; height: auto;" alt="">
                             </div>
                             <div class="h-100 w-50">
                                 <div class="w-100 h-25">
@@ -166,7 +166,7 @@ $tecla = "";
                         </div>
                         <div class="lista-opcion d-flex flex-row" supopcion="entradas" style="width: 200px;">
                             <div class="d-flex h-100 w-50 justify-content-center align-items-center">
-                                <img src="public/ilustraciones/dentro.png" style="width: 80px; height: auto;" alt="">
+                                <img src="public/ilustraciones/entradas.png" style="width: 80px; height: auto;" alt="">
                             </div>
                             <div class="h-100 w-50">
                                 <div class="w-100 h-25">
