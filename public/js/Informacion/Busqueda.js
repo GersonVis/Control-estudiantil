@@ -41,7 +41,7 @@ const enter_pulsado=(e)=>{
     let tecla = e.keyCode
     if(tecla==13) alert("has pulsado enter")
 }
-
+//comentario para git
 window.addEventListener("mousedown", function(e){
     let elemento=e.target
     let visible
