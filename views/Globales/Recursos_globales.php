@@ -9,6 +9,8 @@
         --color-decorativo: #DADADA;
         --prioridad-alta: #D9EBFF;
         --sub-prioridad-alta: #ECF5FF;
+        --color-prioridad-baja-baja: #A9A9A9;
+        --color-prioridad-baja-media: #737373;
     }
 
     .color-principal {
@@ -62,6 +64,7 @@
     /* Works on Chrome, Edge, and Safari */
     *::-webkit-scrollbar {
         width: 5px;
+        height: 5px;
     }
 
     *::-webkit-scrollbar-track {
@@ -71,6 +74,15 @@
     *::-webkit-scrollbar-thumb {
         background-color: var(--color-decorativo);
         border-radius: 20px;
-       
+        height: 5px;
+    }
+    .text-decorative{
+        color: var(--color-decorativo);
+    }
+    .text-bajo{
+        color: var(--color-prioridad-baja-baja);
+    }
+    .text-medio{
+        color: var(--color-prioridad-baja-media);
     }
 </style>
