@@ -9,18 +9,13 @@ class Informacion extends Controller{
     }
     function principal(){
         $this->view->nombre = "gerson";
-        $this->view->opcion = "Registro";
-        $this->cargar_modelo("Accion");
-        //obtenemos las acciones y las teclas asignadas
-        $acciones=$this->modelo->todos();
-        $this->view->acciones=$this->modelo->a_array($acciones);
+        $this->view->opcion = "Informacion";
 
-        //obtenemos los lugares con las teclas asignadas
+        //lista de lugares para mostrar en las opciones
         $this->cargar_modelo("Lugar");
         $lugares=$this->modelo->todos();
         $this->view->lugares=$this->modelo->a_array($lugares);
-
-        //mostramos en el navegador
+        //mostramos en pantalla la informacion
         $this->view->renderizar();
     }
 
