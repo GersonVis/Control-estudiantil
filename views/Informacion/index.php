@@ -173,9 +173,11 @@ $tecla = "";
             <div class="w-100" style="height: 90%;">
                 <div class="w-100 d-flex flex-column" style="height: 45%">
                     <b>Lugares</b>
+
                     <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares" style="height: 200px; overflow-x: auto; overflow-y: hidden; gap: 14px">
                         
                         
+
 
                     </div>
                 </div>
@@ -184,8 +186,6 @@ $tecla = "";
                         <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
                     </div>
                     <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; overflow: auto; padding-bottom: 14px; gap: 14px">
-                       
-                      
 
                     </div>
                 </div>
@@ -214,9 +214,11 @@ $tecla = "";
 
 
 <script src="public/js/Informacion/Busqueda.js"></script>
+
 <script src="public/js/Informacion/Solicitar_alumnos.js"></script>
 <script src="public/js/Informacion/Solicitar_lugares.js"></script>
 <script>
+
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
 </script>
