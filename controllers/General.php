@@ -1,9 +1,10 @@
 <?php
 class General extends Controller{
-    function __construct($nombre, $metodo, $indice)
+    function __construct($nombre, $datos_usuario, $metodo, $indice)
     {
-        parent::__construct($nombre, $metodo, $this, $indice);
+        parent::__construct($nombre, $datos_usuario, $metodo, $this, $indice);
     }
+
     function prueba(){
         echo "somos metodo prueba";
     }

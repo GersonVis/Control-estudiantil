@@ -1,8 +1,8 @@
 <?php
 class Accion extends Controller{
-    function __construct($nombre, $metodo, $indice)
+    function __construct($nombre, $datos_usuario, $metodo, $indice)
     {
-        parent::__construct($nombre, $metodo, $this, $indice, true);
+        parent::__construct($nombre, $datos_usuario, $metodo, $this, $indice, true);
     }
     function principal(){
         $respuesta=$this->modelo->todos();
