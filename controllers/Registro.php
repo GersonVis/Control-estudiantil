@@ -18,7 +18,7 @@ class Registro extends Controller{
         //obtenemos los lugares con las teclas asignadas
         $this->cargar_modelo("Lugar");
         $lugares=$this->modelo->todos();
-        $this->view->lugares=$this->modelo->a_array($lugares);
+        $this->view->lugares=$this->modelo->a_array($lugares["contenido"]);
 
         //mostramos en el navegador
         $this->view->renderizar();

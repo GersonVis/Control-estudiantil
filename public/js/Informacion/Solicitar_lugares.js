@@ -13,5 +13,7 @@ solicitar_lugares=(url, contenedor_respuesta)=>{
     })
 }
 window.addEventListener("load", function(ev){
-    solicitar_lugares(url_lugares, lista_contenedor_alumnos)//url_alumnos se encuentra en el index
+    let elemento_general=lugar({nombre_lugar: "General"})
+    lista_contenedor_lugares.appendChild(elemento_general.principal)
+    solicitar_lugares(url_lugares, lista_contenedor_lugares)//url_alumnos se encuentra en el index
 })

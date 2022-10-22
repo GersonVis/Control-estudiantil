@@ -1,7 +1,8 @@
 const lugar = ({ nombre_lugar}) => {
     let elemento_padre = document.createElement("div")
     elemento_padre.style.minWidth="110px"
-    elemento_padre.style.widows="110px"
+    elemento_padre.style.width="110px"
+
     elemento_padre.classList.add("h-100")
     elemento_padre.classList.add("d-flex")
     elemento_padre.classList.add("flex-column")
@@ -12,7 +13,7 @@ const lugar = ({ nombre_lugar}) => {
         </div>
     </div>
     <div class="w-100" style="height: 25%;">
-        <p align="center" class="m-0 p-0 text-secondary">${nombre_lugar}</p>
+        <p align="center" class="m-0 p-0 text-secondary" style="max-width: 100%; max-height: 100%; text-overflow: ellipsis; overflow: hidden">${nombre_lugar}</p>
     </div>`
     return { principal: elemento_padre }
 }

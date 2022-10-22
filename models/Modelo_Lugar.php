@@ -7,9 +7,9 @@ class Modelo_Lugar extends Model{
     }
     
     function Todos(){
-        $conexion=$this->db->conectar();
-        $resultado=$this->db->consulta($conexion, "select * from lugares_p;");
-        return $resultado;
+        $conexion = $this->db->conectar();
+        $base_sql="select * from lugares_p";
+        return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
 }

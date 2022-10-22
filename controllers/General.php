@@ -14,7 +14,7 @@ class General extends Controller{
         //lista de lugares para mostrar en las opciones
         $this->cargar_modelo("Lugar");
         $lugares=$this->modelo->todos();
-        $this->view->lugares=$this->modelo->a_array($lugares);
+        $this->view->lugares=$this->modelo->a_array($lugares["contenido"]);
         //mostramos en pantalla la informacion
         $this->view->renderizar();
     }
