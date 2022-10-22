@@ -11,16 +11,20 @@ const enviar_formulario = async (url_formulario, datos={})=>{
             body: formData
         })
         let convertir;
+        let texto
         try{
-            convertir = await respuesta.json()
+            texto= await respuesta.text()
+            convertir = JSON.parse(texto)
         }catch(error){
+            console.error(error)
             convertir = {
                 tipo: "Mensaje local",
                 respuesta: false, 
                 contenido: [], 
-                mensaje: await respuesta.text(),
+                mensaje: texto,
                 error: "respuesta json no valida"
              }
+            console.log(convertir)
         }
         return convertir
      } catch (error) {

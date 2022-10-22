@@ -173,7 +173,11 @@ $tecla = "";
             <div class="w-100" style="height: 90%;">
                 <div class="w-100 d-flex flex-column" style="height: 45%">
                     <b>Lugares</b>
-                    <div class="w-100 d-flex flex-row p-1" style="height: 200px; overflow-x: auto; overflow-y: hidden; gap: 14px">
+
+                    <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares" style="height: 200px; overflow-x: auto; overflow-y: hidden; gap: 14px">
+                        
+                        
+
 
                     </div>
                 </div>
@@ -199,6 +203,7 @@ $tecla = "";
     const input_busqueda = document.querySelector("#input_busqueda")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
     const lista_contenedor_alumnos=document.querySelector("#contenedor_personas")
+    const lista_contenedor_lugares=document.querySelector("#contenedor_lugares")
     //funciones para carga de la pagina
 </script>
 

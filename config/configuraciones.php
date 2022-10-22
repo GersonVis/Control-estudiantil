@@ -8,5 +8,5 @@
  define('USER', 'root');
  define('PASSWORD', '1234');
  define('CHARSET', 'utf8mb4');
- define('RUTAPUBLICA', 'public/documentacion/');
+ define('RUTA_PUBLICA', 'public/archivos/');
 ?>

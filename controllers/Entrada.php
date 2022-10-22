@@ -1,14 +1,14 @@
 <?php
 class Entrada extends Controller
 {
-    function __construct($nombre, $metodo, $indice)
+    function __construct($nombre, $datos_usuario, $metodo, $indice)
     {
-        parent::__construct($nombre, $metodo, $this, $indice, true);
+        parent::__construct($nombre, $datos_usuario, $metodo, $this, $indice, true);
     }
     function principal()
     {
         $this->view->resultado = $this->todos();
-        $this->view->renderizar();
+        //$this->view->renderizar();
     }
     function otro()
     {
@@ -23,6 +23,7 @@ class Entrada extends Controller
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
         $hora_salida = $_POST["Hora_salida"]??"";
         $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+       
         $this->view->renderizar();
     }
     function conteo(){
@@ -107,5 +108,30 @@ class Entrada extends Controller
         $resultado=$this->modelo->resumenLugares();
         $this->view->resultado=$resultado;
         $this->view->renderizar();
+    }
+    function prueba(){
+        $nombre_archivo="prueba.csv";
+        $creacion=$this->crear_archivo($nombre_archivo);
+        //consultamos informacion a la base de datos
+        $consulta=$_POST["consulta"];
+        $contenido=$this->modelo->prueba($consulta)["contenido"];
+        echo $creacion;
+        $this->crear_csv($creacion, $contenido);
+        fclose($creacion);
+        if(!is_string($creacion)){
+            $this->descargar_archivo($nombre_archivo);
+            exit();       
+        }
+        $this->respuesta_formateada(false, $creacion, "creacion archivo", "0");
+      /*  $consulta=$_POST["consulta"];
+        $resultado=$this->modelo->prueba($consulta)["contenido"];
+        echo var_dump(array_keys($resultado[0]));
+        $archivo=fopen("public/archivos/data.csv", "w");
+        foreach($resultado as $key=>$contenido){
+           fputcsv($archivo, $contenido);
+        }
+        fclose($archivo);
+       // $this->view->resultado=$resultado;
+        $this->view->renderizar();*/
     }
 }
