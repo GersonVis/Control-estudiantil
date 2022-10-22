@@ -8,7 +8,7 @@ class Entrada extends Controller
     function principal()
     {
         $this->view->resultado = $this->todos();
-        $this->view->renderizar();
+        //$this->view->renderizar();
     }
     function otro()
     {
@@ -23,6 +23,7 @@ class Entrada extends Controller
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
         $hora_salida = $_POST["Hora_salida"]??"";
         $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+       
         $this->view->renderizar();
     }
     function conteo(){
