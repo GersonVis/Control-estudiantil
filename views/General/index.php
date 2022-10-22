@@ -229,12 +229,13 @@ $tecla = "";
 </body>
 <script src="public/js/General/Personas_por_lugar.js"></script>
 <script src="public/js/General/Agregar_registros.js"></script>
-<script src="public/js/General/Enviar_formulario.js"></script>
 <script src="public/js/General/acciones_por_lugar.js"></script>
 <script src="public/js/General/Seleccion_opcion.js"></script>
 <script src="public/js/General/Personas_en_lugares.js"></script>
-<script src="public/js/Compartido/Funciones_publicas.js"></script>
 
+
+<script src="public/js/Compartido/Funciones_publicas.js"></script>
+<script src="public/js/Compartido/Enviar_formulario.js"></script>
 
 
 <script>

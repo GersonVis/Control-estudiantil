@@ -1,1 +1,3 @@
-somos la vista de alumno
+<?php
+echo json_encode($this->resultado??"", JSON_UNESCAPED_UNICODE);
+?>
