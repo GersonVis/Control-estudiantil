@@ -175,8 +175,8 @@ $tecla = "";
                     <b>Lugares</b>
 
                     <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares" style="height: 200px; overflow-x: auto; overflow-y: hidden; gap: 14px">
-                        
-                        
+
+
 
 
                     </div>
@@ -186,8 +186,31 @@ $tecla = "";
                         <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
                     </div>
                     <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; overflow: auto; padding-bottom: 14px; gap: 14px">
+                       
+                      
 
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modales-->
+    <div class="modal fade" id="modal_datos_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -202,12 +225,13 @@ $tecla = "";
     //referencias a elementos
     const input_busqueda = document.querySelector("#input_busqueda")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
-    const lista_contenedor_alumnos=document.querySelector("#contenedor_personas")
-    const lista_contenedor_lugares=document.querySelector("#contenedor_lugares")
+    const lista_contenedor_alumnos = document.querySelector("#contenedor_personas")
+    const lista_contenedor_lugares = document.querySelector("#contenedor_lugares")
     //funciones para carga de la pagina
 </script>
 
 <script src="public/js/Compartido/Enviar_formulario.js"></script>
+<script src="public/js/Compartido/Mostrar_modal.js"></script>
 
 <script src="public/js/Componentes/Alumno_lista.js"></script>
 <script src="public/js/Componentes/Lugar.js"></script>
