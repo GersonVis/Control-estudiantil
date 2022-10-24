@@ -186,8 +186,8 @@ $tecla = "";
                         <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
                     </div>
                     <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; overflow: auto; padding-bottom: 14px; gap: 14px">
-                       
-                      
+
+
 
                     </div>
                 </div>
@@ -196,21 +196,63 @@ $tecla = "";
     </div>
 
     <!-- modales-->
-    <div class="modal fade" id="modal_datos_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- modal persona-->
+    <div class="modal fade bd-example-modal-lg" id="modal_datos_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <div id="identificador_persona">
+                        <div class="w-100 d-flex flex-row" style="height: 70px">
+                            <div class="h-100 d-flex justify-content-center align-items-center" style="width: 50px; margin: 0 14px 0 14px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path fill="#DADADA" d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                    <path fill="#DADADA" fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                </svg>
+                            </div>
+                            <div class="h-100 d-flex flex-column" style="flex-grow: 1">
+                                <div class="h-50 d-flex align-items-end">
+                                    <b class="p-0 m-0 text-medio" id="nombre_persona_modal"></b>
+                                </div>
+                                <div class="h-50">
+                                    <p class="text-bajo p-0 m-0" id="no_control_persona_modal"></p>
+                                </div>
+                            </div>
+                            <div class="h-100">
+
+                            </div>
+                        </div>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal lugar-->
+    <div class="modal fade bd-example-modal-lg" id="modal_datos_lugar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div id="identificador_persona">
+                        <div class="position-relative w-100 d-flex justify-content-center align-items-center" style="height: 75%; background-image: linear-gradient(#f3f8fbd9, #f3f8fbd9), url('public/ilustraciones/136.jpg'); background-size: cover;">
+                            <p class="text-secondary" style="font-size: 18pt;" id="inicial_lugar_modal"></p>
+                            
+                        </div>
+                        <div class="w-100" style="height: 25%;">
+                            <p align="center" class="m-0 p-0 text-secondary" style="max-width: 100%; max-height: 100%; text-overflow: ellipsis; overflow: hidden" id="nombre_lugar_modal"></p>
+                        </div>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="body_modal_lugar">
+                   
                 </div>
             </div>
         </div>
@@ -227,14 +269,26 @@ $tecla = "";
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
     const lista_contenedor_alumnos = document.querySelector("#contenedor_personas")
     const lista_contenedor_lugares = document.querySelector("#contenedor_lugares")
+    const identificador_persona = document.querySelector("#identificador_persona")
+
+    const no_control_persona_modal = document.querySelector("#no_control_persona_modal")
+    const nombre_persona_modal = document.querySelector("#nombre_persona_modal")
+
+    const modal_datos_lugar = document.querySelector("#modal_datos_lugar")
+    const inicial_lugar_modal = document.querySelector("#inicial_lugar_modal")
+    const nombre_lugar_modal = document.querySelector("#nombre_lugar_modal")
     //funciones para carga de la pagina
 </script>
 
 <script src="public/js/Compartido/Enviar_formulario.js"></script>
 <script src="public/js/Compartido/Mostrar_modal.js"></script>
 
+<script src="public/js/Informacion/Alumnos_modal.js"></script>
+<script src="public/js/Informacion/Lugar_modal.js"></script>
+
 <script src="public/js/Componentes/Alumno_lista.js"></script>
 <script src="public/js/Componentes/Lugar.js"></script>
+<script src="public/js/Componentes/Cuadro_dias.js"></script>
 
 
 <script src="public/js/Informacion/Busqueda.js"></script>
@@ -242,9 +296,10 @@ $tecla = "";
 <script src="public/js/Informacion/Solicitar_alumnos.js"></script>
 <script src="public/js/Informacion/Solicitar_lugares.js"></script>
 <script>
-
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
+    body_modal_lugar.appendChild(crear_cuadro_dias(360, 7))
+    
 </script>
 
 </html>
