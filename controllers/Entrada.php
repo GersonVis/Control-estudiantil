@@ -134,4 +134,9 @@ class Entrada extends Controller
        // $this->view->resultado=$resultado;
         $this->view->renderizar();*/
     }
+    function diasAlumno($no_control){
+        $resultado=$this->modelo->diasAlumno($no_control);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
 }
