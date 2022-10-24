@@ -17,9 +17,9 @@ const alumno_lista = ({ No_control, Nombre }) => {
         </div>
     </div>
     <div class="h-100">
-        <div class="d-flex justify-content-center align-items-center m-2" style="top: 14px;background: white;border-radius: 50% 50%;right: 14px;width: 24px;height: 24px;">
+     <!--   <div class="d-flex justify-content-center align-items-center m-2" style="top: 14px;background: white;border-radius: 50% 50%;right: 14px;width: 24px;height: 24px;">
             <i class="bi-arrow-up-right-circle"></i>
-        </div>
+        </div>-->
     </div>
    </div>`
     return {principal: elemento_padre}
