@@ -103,44 +103,61 @@ $tecla = "";
             overflow: hidden;
             animation-fill-mode: forwards;
         }
-        .cuadrito{
+
+        .cuadrito {
             background-color: var(--sub-prioridad-alta);
         }
-        .asistencia{
+
+        .asistencia {
             background-color: rgb(97, 232, 0) !important;
         }
-        .cuadrito.seleccionado{
+
+        .cuadrito.seleccionado {
             background-color: #4399FF;
-            border: 1px solid black;
+          /*  border: 1px solid black;*/
             position: relative;
             animation-name: desplazar;
             animation-duration: 1s;
             animation-fill-mode: forwards;
             z-index: 100;
         }
-        .cuadrito.no-seleccionado{
+        .cuadrito.seleccionado::after {
+          position: absolute;
+          content: "";
+          height: 10%;
+          width: 100%;
+            background-color: black;
+            top: 45%;
+            border-radius: 50% 50%;
+        }
+
+        .cuadrito.no-seleccionado {
             background-color: var(--sub-prioridad-alta);
             animation-name: desplazar-r;
             animation-duration: 1s;
             animation-fill-mode: forwards;
             z-index: 0;
         }
-        @keyframes desplazar{
-            from{
+
+        @keyframes desplazar {
+            from {
                 transform: translateY(0px);
                 background-color: var(--sub-prioridad-alta);
             }
-            to{
+
+            to {
                 transform: translateY(11px);
                 background-color: #4399FF;
             }
         }
-        @keyframes desplazar-r{
-            from{
+
+        @keyframes desplazar-r {
+            from {
                 transform: translateY(11px);
                 background-color: #4399FF;
             }
-            to{
+
+            to {
                 transform: translateY(0px);
                 background-color: var(--sub-prioridad-alta);
             }
@@ -239,7 +256,7 @@ $tecla = "";
 
     <!-- modales-->
     <!-- modal persona-->
-    <div class="modal fade bd-example-modal-lg" id="modal_datos_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" id="modal_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -264,11 +281,11 @@ $tecla = "";
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" id="modal_persona_cerrar" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal_body_persona">
+                <div class="modal-body" id="body_modal_persona">
 
                 </div>
             </div>
@@ -283,18 +300,18 @@ $tecla = "";
                     <div id="identificador_persona">
                         <div class="position-relative w-100 d-flex justify-content-center align-items-center" style="height: 75%; background-image: linear-gradient(#f3f8fbd9, #f3f8fbd9), url('public/ilustraciones/136.jpg'); background-size: cover;">
                             <p class="text-secondary" style="font-size: 18pt;" id="inicial_lugar_modal"></p>
-                            
+
                         </div>
                         <div class="w-100" style="height: 25%;">
                             <p align="center" class="m-0 p-0 text-secondary" style="max-width: 100%; max-height: 100%; text-overflow: ellipsis; overflow: hidden" id="nombre_lugar_modal"></p>
                         </div>
                     </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" id="modal_lugar_cerrar" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" id="body_modal_lugar">
-                   
+
                 </div>
             </div>
         </div>
@@ -305,7 +322,7 @@ $tecla = "";
     //urls de solicitudes
     const url_personas = "Alumno"
     const url_lugares = "Lugar"
-     
+
     //referencias a elementos
     const input_busqueda = document.querySelector("#input_busqueda")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
@@ -313,16 +330,23 @@ $tecla = "";
     const lista_contenedor_lugares = document.querySelector("#contenedor_lugares")
     const identificador_persona = document.querySelector("#identificador_persona")
 
+    const modal_persona = document.querySelector("#modal_persona")
+    const body_modal_persona = document.querySelector("#body_modal_persona")
+    const modal_persona_cerrar = document.querySelector("#modal_persona_cerrar")
     const no_control_persona_modal = document.querySelector("#no_control_persona_modal")
     const nombre_persona_modal = document.querySelector("#nombre_persona_modal")
 
+
+
+    const body_modal_lugar = document.querySelector("#body_modal_lugar")
     const modal_datos_lugar = document.querySelector("#modal_datos_lugar")
+    const modal_lugar_cerrar = document.querySelector("#modal_lugar_cerrar")
     const inicial_lugar_modal = document.querySelector("#inicial_lugar_modal")
     const nombre_lugar_modal = document.querySelector("#nombre_lugar_modal")
 
+
     //variable ocupada para deseleccionar
-    var cuadritos_mes_lugar=undefined
-    //funciones para carga de la pagina
+    var cuadritos_mes_lugar = undefined
 </script>
 
 <script src="public/js/Compartido/Enviar_formulario.js"></script>
@@ -344,9 +368,16 @@ $tecla = "";
 <script>
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
-    body_modal_lugar.appendChild(crear_cuadro_dias(7, "lugar"))
-    body_modal_persona.appendChild(crear_cuadro_dias(7, "persona"))
-    
+    //funciones de carga de componentes
+    datos_dias_lugar = crear_cuadro_dias(7, "lugar", modal_lugar_cerrar)
+    datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
+    body_modal_lugar.appendChild(datos_dias_lugar.principal)
+    body_modal_persona.appendChild(datos_dias_persona.principal)
+
+    const dias_lugar=datos_dias_lugar.refencias_cuadritos
+    const dias_persona=datos_dias_persona.refencias_cuadritos
+
+  //  solicitar_dias("20670109", {grilla_dias: dias_persona, label_dias_dentro: dias_lugar.etiqueta_dias_dentro})
 </script>
 
 </html>

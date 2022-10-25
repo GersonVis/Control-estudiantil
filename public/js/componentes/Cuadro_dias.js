@@ -1,19 +1,23 @@
 
 var pr_to
-function crear_cuadro_dias(separacion, identificador) {
+function crear_cuadro_dias(separacion, identificador, boton_reinicio) {
+    var cuadritos_seleccionados
     let principal, contenedor_grilla
     let datos_creacion
+    let contenedor_dias_dentro, p_mostrar_dias
+
+    p_mostrar_dias=crear_elemento({id: "numero_modal_lugar", tipo: "p", clases: ["m-0", "p-0"], estilos: [{estilo: "color", valor: "var(--color-prioridad-baja-media)"}]})
+    contenedor_dias_dentro=crear_elemento({tipo: "div", clases: ["d-flex"]})
+    contenedor_dias_dentro.appendChild(p_mostrar_dias)
+
     principal = document.createElement("div")
     principal.classList.add("d-flex")
     principal.classList.add("flex-column")
     principal.classList.add("m-1")
     principal.classList.add("p-1")
-    principal.innerHTML =
-        `<div class="d-flex">
-        <p  id="numero_modal_lugar" class="m-0 p-0" style="color: var(--color-prioridad-baja-media)">
-            132 dias dentro de algún lugar
-        </p>
-        </div>`
+
+
+    principal.appendChild(contenedor_dias_dentro)
     // datos del año para poder crear el cuadro de los días
     datos_creacion = datos_a_no(identificador)
     contenedor_grilla = document.createElement("div")
@@ -36,12 +40,12 @@ function crear_cuadro_dias(separacion, identificador) {
         div_mes.addEventListener("mouseover", function () {
             let dias_mios = cuadritos_en_mes[nombre_mes]
             //cuadritos_mes_lugar es una variable global esta en el index
-            if (cuadritos_mes_lugar) {
-                cuadritos_mes_lugar.forEach(cuadrito => {
+            if (cuadritos_seleccionados) {
+                cuadritos_seleccionados.forEach(cuadrito => {
                     cuadrito.classList.replace("seleccionado", "no-seleccionado")
                 })
             }
-            cuadritos_mes_lugar = dias_mios
+            cuadritos_seleccionados = dias_mios
             dias_mios.forEach(cuadrito => {
                 cuadrito.classList.remove("no-seleccionado")
                 cuadrito.classList.add("seleccionado")
@@ -50,11 +54,29 @@ function crear_cuadro_dias(separacion, identificador) {
         div_mes.innerText = nombre_mes
         contenedor_meses.appendChild(div_mes)
     })
+
     contenedor_grilla.appendChild(grilla)
     principal.appendChild(contenedor_grilla)
     pr_to = grilla
-    return principal
+    
+    
+    boton_reinicio.addEventListener("click", function(){
+        if(cuadritos_seleccionados){
+            Object.values(cuadritos_en_mes).forEach(meses => {
+                meses.forEach(cuadrito=>{
+                    cuadrito.classList.remove("seleccionado")
+                    cuadrito.classList.remove("no-seleccionado")
+                })
+            })
+            cuadritos_seleccionados=undefined
+        }
+    })
+
+
+    return {principal: principal, etiqueta_dias_dentro: p_mostrar_dias,refencias_cuadritos: cuadritos_en_mes} 
 }
+
+
 function obtener_meses_nombres() {
     let meses = []
     let nombre_mes, mayuscula
@@ -68,7 +90,9 @@ function obtener_meses_nombres() {
     return meses
 }
 
-
+function reiniciar_dias(identificador){
+     datos_mes
+}
 
 
 function crear_elemento({ tipo, clases, estilos, id }) {
