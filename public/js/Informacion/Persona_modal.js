@@ -1,5 +1,5 @@
 function modal_personas({principal, datos }){
-    mostrar_modal({id_modal: "modal_datos_persona"})
+    mostrar_modal({id_modal: "modal_persona"})
     editar_datos_persona(datos)
 }
 

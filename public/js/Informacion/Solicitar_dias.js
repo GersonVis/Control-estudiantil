@@ -1,10 +1,17 @@
+var respuesta
 function solicitar_dias(no_control){
-  
     enviar_formulario("entrada/diasAlumno/"+no_control)
     .then(json=>{
         if(json.respuesta){
+            respuesta=json
             json.contenido.forEach(registro=>{
-                let cuadrito=document.querySelector("#lugar"+registro.fecha)
+                let fecha, datos_fecha
+                let mes, dia
+                fecha=registro.fecha
+                datos_fecha=fecha.split("-")
+                mes=datos_fecha[1]
+                dia=datos_fecha[2]
+                let cuadrito=Object.values(contenedor_dias)[parseInt(mes)][parseInt(dia)-1]
                 if(cuadrito){
                     cuadrito.classList.add("asistencia")
                     return
@@ -20,4 +27,3 @@ function solicitar_dias(no_control){
     }
     )
 }
-solicitar_dias("20670109")
