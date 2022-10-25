@@ -103,7 +103,9 @@ $tecla = "";
             overflow: hidden;
             animation-fill-mode: forwards;
         }
-
+        .lugar2022-04{
+            background-color: red;
+        }
         @keyframes entrada-creciente {
             from {
                 height: 0%;
@@ -295,10 +297,11 @@ $tecla = "";
 
 <script src="public/js/Informacion/Solicitar_alumnos.js"></script>
 <script src="public/js/Informacion/Solicitar_lugares.js"></script>
+<script src="public/js/Informacion/Solicitar_dias.js"></script>
 <script>
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
-    body_modal_lugar.appendChild(crear_cuadro_dias(360, 7))
+    body_modal_lugar.appendChild(crear_cuadro_dias(7, "lugar"))
     
 </script>
 

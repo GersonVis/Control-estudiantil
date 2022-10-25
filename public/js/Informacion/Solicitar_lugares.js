@@ -4,7 +4,7 @@ solicitar_lugares=(url, contenedor_respuesta)=>{
     .then(respuesta=>{
        if(respuesta){
             let lugares=respuesta.contenido.map(datos => {
-                console.log(datos)
+                //console.log(datos)
                 let interfaz_lugar=lugar({nombre_lugar: datos.Id_lugar})
                 add_eventos_lugar({principal: interfaz_lugar.principal, datos: datos})
                 contenedor_respuesta.appendChild(interfaz_lugar.principal)

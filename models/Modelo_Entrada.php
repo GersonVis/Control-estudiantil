@@ -114,9 +114,17 @@ class Modelo_Entrada extends Model
         $sql = "call registro_accion_automatica('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
+    function diasAlumno($no_control){
+        $conexion = $this->db->conectar();
+        $entradas = $this->limpiar($conexion, array("no_control" =>$no_control));
+        $sql = "select count(*) as conteo, fecha from registro where nocontrol='$entradas[no_control]' group by fecha";
+        return $this->db->consulta_codigo($conexion, $sql);
+    }
+    
     // prueba
     function prueba($consulta){
         $conexion = $this->db->conectar();
         return $this->db->consulta_codigo($conexion, $consulta);
     }
+
 }
