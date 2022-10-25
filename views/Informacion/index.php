@@ -103,9 +103,49 @@ $tecla = "";
             overflow: hidden;
             animation-fill-mode: forwards;
         }
-        .lugar2022-04{
-            background-color: red;
+        .cuadrito{
+            background-color: var(--sub-prioridad-alta);
         }
+        .asistencia{
+            background-color: rgb(97, 232, 0) !important;
+        }
+        .cuadrito.seleccionado{
+            background-color: #4399FF;
+            border: 1px solid black;
+            position: relative;
+            animation-name: desplazar;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            z-index: 100;
+        }
+        .cuadrito.no-seleccionado{
+            background-color: var(--sub-prioridad-alta);
+            animation-name: desplazar-r;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            z-index: 0;
+        }
+        @keyframes desplazar{
+            from{
+                transform: translateY(0px);
+                background-color: var(--sub-prioridad-alta);
+            }
+            to{
+                transform: translateY(11px);
+                background-color: #4399FF;
+            }
+        }
+        @keyframes desplazar-r{
+            from{
+                transform: translateY(11px);
+                background-color: #4399FF;
+            }
+            to{
+                transform: translateY(0px);
+                background-color: var(--sub-prioridad-alta);
+            }
+        }
+
         @keyframes entrada-creciente {
             from {
                 height: 0%;
@@ -228,7 +268,7 @@ $tecla = "";
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal_body_persona">
 
                 </div>
             </div>
@@ -263,13 +303,13 @@ $tecla = "";
 
 <script>
     //urls de solicitudes
-    const url_alumnos = "Alumno"
+    const url_personas = "Alumno"
     const url_lugares = "Lugar"
-
+     
     //referencias a elementos
     const input_busqueda = document.querySelector("#input_busqueda")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
-    const lista_contenedor_alumnos = document.querySelector("#contenedor_personas")
+    const lista_contenedor_personas = document.querySelector("#contenedor_personas")
     const lista_contenedor_lugares = document.querySelector("#contenedor_lugares")
     const identificador_persona = document.querySelector("#identificador_persona")
 
@@ -279,13 +319,16 @@ $tecla = "";
     const modal_datos_lugar = document.querySelector("#modal_datos_lugar")
     const inicial_lugar_modal = document.querySelector("#inicial_lugar_modal")
     const nombre_lugar_modal = document.querySelector("#nombre_lugar_modal")
+
+    //variable ocupada para deseleccionar
+    var cuadritos_mes_lugar=undefined
     //funciones para carga de la pagina
 </script>
 
 <script src="public/js/Compartido/Enviar_formulario.js"></script>
 <script src="public/js/Compartido/Mostrar_modal.js"></script>
 
-<script src="public/js/Informacion/Alumnos_modal.js"></script>
+<script src="public/js/Informacion/Persona_modal.js"></script>
 <script src="public/js/Informacion/Lugar_modal.js"></script>
 
 <script src="public/js/Componentes/Alumno_lista.js"></script>
@@ -295,13 +338,14 @@ $tecla = "";
 
 <script src="public/js/Informacion/Busqueda.js"></script>
 
-<script src="public/js/Informacion/Solicitar_alumnos.js"></script>
+<script src="public/js/Informacion/Solicitar_personas.js"></script>
 <script src="public/js/Informacion/Solicitar_lugares.js"></script>
 <script src="public/js/Informacion/Solicitar_dias.js"></script>
 <script>
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
     body_modal_lugar.appendChild(crear_cuadro_dias(7, "lugar"))
+    body_modal_persona.appendChild(crear_cuadro_dias(7, "persona"))
     
 </script>
 
