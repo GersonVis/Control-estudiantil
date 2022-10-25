@@ -1,5 +1,5 @@
 
-solicitar_alumnos=(url, contenedor_respuesta)=>{
+solicitar_personas=(url, contenedor_respuesta)=>{
     enviar_formulario(url)
     .then(respuesta=>{
        if(respuesta){
@@ -13,7 +13,8 @@ solicitar_alumnos=(url, contenedor_respuesta)=>{
     })
 }
 window.addEventListener("load", function(ev){
-    solicitar_alumnos(url_alumnos, lista_contenedor_alumnos)//url_alumnos se encuentra en el index
+   
+    solicitar_personas(url_personas, lista_contenedor_personas)//url_alumnos se encuentra en el index
 })
 
 function add_eventos_persona({principal,  datos }){

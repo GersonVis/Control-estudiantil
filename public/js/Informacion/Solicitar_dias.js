@@ -6,7 +6,7 @@ function solicitar_dias(no_control){
             json.contenido.forEach(registro=>{
                 let cuadrito=document.querySelector("#lugar"+registro.fecha)
                 if(cuadrito){
-                    cuadrito.style.backgroundColor="green"
+                    cuadrito.classList.add("asistencia")
                     return
                 }
              //   console.log(registro.fecha)
