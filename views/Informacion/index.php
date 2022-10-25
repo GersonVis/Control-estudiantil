@@ -103,7 +103,9 @@ $tecla = "";
             overflow: hidden;
             animation-fill-mode: forwards;
         }
-
+        .lugar2022-04{
+            background-color: red;
+        }
         @keyframes entrada-creciente {
             from {
                 height: 0%;
