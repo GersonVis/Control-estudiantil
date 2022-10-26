@@ -369,13 +369,16 @@ $tecla = "";
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
     //funciones de carga de componentes
-    datos_dias_lugar = crear_cuadro_dias(7, "lugar", modal_lugar_cerrar)
-    datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
-    body_modal_lugar.appendChild(datos_dias_lugar.principal)
-    body_modal_persona.appendChild(datos_dias_persona.principal)
+    cuadro_dias_lugar = new Cuadro_dias(7, "lugar")
+    console.log(Cuadro_dias)
 
+
+ //   datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
+    body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
+   // body_modal_persona.appendChild(datos_dias_persona.principal)
+/*
     const dias_lugar=datos_dias_lugar.refencias_cuadritos
-    const dias_persona=datos_dias_persona.refencias_cuadritos
+    const dias_persona=datos_dias_persona.refencias_cuadritos*/
 
   //  solicitar_dias("20670109", {grilla_dias: dias_persona, label_dias_dentro: dias_lugar.etiqueta_dias_dentro})
 </script>
