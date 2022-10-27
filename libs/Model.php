@@ -28,6 +28,7 @@ class Model
     function crear_sql($entradas){
         $sql="";
         foreach ($entradas as $key => $data) {
+           
             if($data=="is null"){
                 $sql .= " $key is null and ";
                 continue;

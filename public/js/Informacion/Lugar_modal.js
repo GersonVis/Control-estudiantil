@@ -10,7 +10,8 @@ function editar_datos_lugar({ Id_lugar }) {
 
 window.addEventListener("load", function () {
     modal_lugar_cerrar.addEventListener("click", function () {
-        
+        console.log(cuadro_dias_lugar)
+        cuadro_dias_lugar.reiniciar_estilos_cuadro()
     }
     )
 })

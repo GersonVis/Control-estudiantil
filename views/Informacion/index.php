@@ -111,6 +111,9 @@ $tecla = "";
         .asistencia {
             background-color: rgb(97, 232, 0) !important;
         }
+        .no-asistencia {
+            background-color: red !important;
+        }
 
         .cuadrito.seleccionado {
             background-color: #4399FF;
@@ -146,14 +149,14 @@ $tecla = "";
             }
 
             to {
-                transform: translateY(11px);
+                transform: translateY(5px);
                 background-color: #4399FF;
             }
         }
 
         @keyframes desplazar-r {
             from {
-                transform: translateY(11px);
+                transform: translateY(5px);
                 background-color: #4399FF;
             }
 
@@ -317,12 +320,13 @@ $tecla = "";
         </div>
     </div>
 </body>
-
+<script src="public/js/Compartido/Funciones_publicas.js"></script>
 <script>
     //urls de solicitudes
     const url_personas = "Alumno"
     const url_lugares = "Lugar"
-
+    const hoy=obtener_fecha()
+    const fecha_inicio=hoy.split("-")[0]+"-01-01"//para la obtención de rangos de datos
     //referencias a elementos
     const input_busqueda = document.querySelector("#input_busqueda")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
@@ -370,12 +374,12 @@ $tecla = "";
     input_busqueda.focus();
     //funciones de carga de componentes
     cuadro_dias_lugar = new Cuadro_dias(7, "lugar")
-    console.log(Cuadro_dias)
+    cuadro_dias_persona = new Cuadro_dias(7, "persona")
 
 
  //   datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
     body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
-   // body_modal_persona.appendChild(datos_dias_persona.principal)
+    body_modal_persona.appendChild(cuadro_dias_persona.crear_interfaz())
 /*
     const dias_lugar=datos_dias_lugar.refencias_cuadritos
     const dias_persona=datos_dias_persona.refencias_cuadritos*/

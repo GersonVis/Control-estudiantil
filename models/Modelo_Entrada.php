@@ -114,11 +114,22 @@ class Modelo_Entrada extends Model
         $sql = "call registro_accion_automatica('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
-    function diasAlumno($no_control){
-        $conexion = $this->db->conectar();
+    function diasAlumno($entradas=""){
+       /* $conexion = $this->db->conectar();
         $entradas = $this->limpiar($conexion, array("no_control" =>$no_control));
-        $sql = "select count(*) as conteo, fecha from registro where nocontrol='$entradas[no_control]' group by fecha";
-        return $this->db->consulta_codigo($conexion, $sql);
+        $sql = "select count(*) as conteo, fecha from accesos_p inner join estudiantes_p using(id_persona) where no_control='$entradas[no_control]' group by fecha";
+        return $this->db->consulta_codigo($conexion, $sql);*/
+
+        $conexion = $this->db->conectar();
+       
+        $base_sql = "select count(*) as conteo, fecha from accesos_p inner join estudiantes_p using(id_persona)  ";
+        if (is_string($entradas)) {
+            return $this->db->consulta_codigo($conexion, $base_sql);
+        }
+        $entradas = $this->limpiar($conexion, $entradas);
+        $base_sql=$this->formar_sql($base_sql, $entradas)." group by fecha";
+      //  echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
     }
     
     // prueba

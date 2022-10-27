@@ -24,8 +24,9 @@ const enviar_formulario = async (url_formulario, datos={})=>{
                 mensaje: texto,
                 error: "respuesta json no valida"
              }
-            console.log(convertir)
+            console.log(texto)
         }
+       // console.log(texto)
         return convertir
      } catch (error) {
         console.error(error)
