@@ -223,7 +223,7 @@ function Cuadro_dias(separacion, identificador) {
 
 
           
-            renglon = this.crear_row()
+         /*   renglon = this.crear_row()
             renglon.classList.add("justify-content-end")
             let dias_semana=["J", "V", "S", "D", "L", "M", "M"]
             for (dentro in [...Array(7).keys()]) {
@@ -240,11 +240,17 @@ function Cuadro_dias(separacion, identificador) {
                 renglon.appendChild(cuadrito)
             }
             contenedor_grilla.appendChild(renglon)
+*/
 
+            let contenedor_cuadritos=this.cuadro();
 
             let recorrido = inicio_an_o.getUTCDay()
             renglon = this.crear_row()
-            renglon.classList.add("justify-content-end")
+          //  renglon.classList.add("justify-content-end")
+
+            
+           
+
             for (dentro in [...Array(recorrido).keys()]) {
                 pos++
                 dia_mes++
@@ -254,17 +260,26 @@ function Cuadro_dias(separacion, identificador) {
                 dias_en_mes[nombre_mes].push(cuadrito)
                 renglon.appendChild(cuadrito)
             }
-            contenedor_grilla.appendChild(renglon)
+
+            
+            contenedor_cuadritos.appendChild(renglon)
+
+
+        //    contenedor_grilla.appendChild(contenedor_cuadritos)
             columnas = parseInt((dias_a_no - recorrido) / separacion)
+            let crear_nuevo=false
             for (vuelta in [...Array(columnas).keys()]) {
                 renglon = this.crear_row()
+                
                 for (dentro in [...Array(separacion).keys()]) {
+                    
                     pos++
                     dia_mes++
                     if (pos > pos_corte) {
                         let datos = datos_a_no[id_corte]
                   //      console.log(datos)
                         if (datos) {
+                            crear_nuevo=true
                             identificador_corte = datos["mes"]
                             color_mes = datos["color"]
                             pos_corte += datos["dias"]
@@ -284,10 +299,16 @@ function Cuadro_dias(separacion, identificador) {
                     let cuadrito = this.crear_cuadrito({mes:nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0)})
                     // guardamos el elemento en el array
                     dias_en_mes[nombre_mes].push(cuadrito)
-
                     renglon.appendChild(cuadrito)
+                    
                 }
-                contenedor_grilla.appendChild(renglon)
+                contenedor_cuadritos.appendChild(renglon)
+                if(crear_nuevo){
+                    crear_nuevo=false
+                    contenedor_grilla.appendChild(contenedor_cuadritos)
+                    contenedor_cuadritos=this.cuadro()
+                }
+               
             }
             let restantes = (dias_a_no - (columnas * separacion)) - recorrido
             if (restantes != 0) {
@@ -301,11 +322,21 @@ function Cuadro_dias(separacion, identificador) {
                     dias_en_mes[nombre_mes].push(cuadrito)
                     renglon.appendChild(cuadrito)
                 }
-                contenedor_grilla.appendChild(renglon)
+                contenedor_cuadritos.appendChild(renglon)
+                
+               
             }
+            if(!crear_nuevo) contenedor_grilla.appendChild(contenedor_cuadritos)
+
 
             return { grilla: contenedor_grilla, cuadritos_en_mes: dias_en_mes }
         }
+    this.cuadro=function(){
+        let elemento=this.crear_elemento({tipo:"div",
+        clases: ["d-flex", "flex-row"]
+         })
+         return elemento
+    }
     this.crear_cuadrito = function ({ id, color, clase, dia, mes }) {
         let cuadrito = document.createElement("div")
         cuadrito.id = id
