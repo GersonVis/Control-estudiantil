@@ -9,11 +9,14 @@ function Cuadro_dias(separacion, identificador) {
 
         let principal, contenedor_grilla
         let datos_creacion
-        let contenedor_dias_dentro, p_numero_entradas
+        let contenedor_dias_dentro, p_numero_entradas, p_numero_no_entradas
 
         p_numero_entradas = this.crear_elemento({ id: "numero_modal_lugar", tipo: "p", clases: ["m-0", "p-0"], estilos: [{ estilo: "color", valor: "var(--color-prioridad-baja-media)" }] })
-        contenedor_dias_dentro = this.crear_elemento({ tipo: "div", clases: ["d-flex"] })
+        p_numero_no_entradas = this.crear_elemento({ id: "numero_modal_lugar", tipo: "p", clases: ["m-0", "p-0"], estilos: [{ estilo: "color", valor: "var(--color-prioridad-baja-media)" }] })
+        contenedor_dias_dentro = this.crear_elemento({ tipo: "div", clases: ["d-flex", "flex-column"] })
         contenedor_dias_dentro.appendChild(p_numero_entradas)
+        contenedor_dias_dentro.appendChild(p_numero_no_entradas)
+        
 
         principal = document.createElement("div")
         principal.classList.add("d-flex")
@@ -37,11 +40,12 @@ function Cuadro_dias(separacion, identificador) {
         datos_creacion["separacion"] = this.separacion
         //  console.log(datos_creacion)
         // cuadritos en mes son referencias a todos los cuadritos
-        const { grilla, cuadritos_en_mes } = this.grilla_cuadros(datos_creacion)
+        const { grilla, cuadritos_en_mes, textos_mes } = this.grilla_cuadros(datos_creacion)
         //creamos un elemento por cada mes
         var mes_anterior = ""
+        var c = 0
         datos_creacion.datos_a_no.forEach(({ nombre_mes }) => {
-            let div_mes = this.crear_elemento({ tipo: "div", estilos: [{ estilo: "color", valor: "var(--color-prioridad-baja-media)" }] })
+            let div_mes = textos_mes[++c]
             //añadimos evento click del mnes
             div_mes.addEventListener("mouseover", function () {
                 let dias_mios = cuadritos_en_mes[nombre_mes]
@@ -76,7 +80,7 @@ function Cuadro_dias(separacion, identificador) {
 
             })
             div_mes.innerText = nombre_mes
-            contenedor_meses.appendChild(div_mes)
+            //  contenedor_meses.appendChild(div_mes)
         })
 
 
@@ -86,7 +90,7 @@ function Cuadro_dias(separacion, identificador) {
         principal.appendChild(contenedor_grilla)
         pr_to = grilla
 
-        let contenedor_indicadores = this.crear_elemento({ tipo: "div", clases: ["d-flex", "flex-column"] })
+        let contenedor_indicadores = this.crear_elemento({ tipo: "div", clases: ["d-flex", "flex-column", "mt-2"] })
 
         let contenedor_asistencia = this.crear_elemento({
             tipo: "div", clases: ["d-flex", "flex-row", "align-items-center"],
@@ -124,7 +128,8 @@ function Cuadro_dias(separacion, identificador) {
 
 
         this.cuadros_dias = cuadritos_en_mes
-        this.interfaz["entradas_registradas"] = p_numero_entradas
+        this.interfaz["entradas_sin_salida"] = p_numero_no_entradas
+        this.interfaz["entradas_registradas"] = p_numero_entradas 
         return principal
     }
     this.obtener_meses_nombres = function () {
@@ -155,7 +160,7 @@ function Cuadro_dias(separacion, identificador) {
     this.reiniciar_dias = function (identificador) {
         datos_mes
     }
-    this.marcar_dias = function (dias, clase_nombre) {
+    this.marcar_dias = function (dias, nombre_interfaz, clase_nombre, hacer) {
         let entradas = 0
         dias.forEach(registro => {
             let fecha, datos_fecha
@@ -173,7 +178,11 @@ function Cuadro_dias(separacion, identificador) {
             //   console.log(registro.fecha)
 
         })
-        this.interfaz["entradas_registradas"].innerText = entradas + " Entradas registradas"
+        hacer(entradas, this.interfaz[nombre_interfaz])
+      /*  if(entradas==1){
+            this.interfaz[nombre_interfaz].innerText = entradas + complemento
+        }*/
+        
     }
 
     this.crear_elemento = function ({ tipo, clases, estilos, id }) {
@@ -185,7 +194,7 @@ function Cuadro_dias(separacion, identificador) {
             elemento.classList.add(clase)
         })
         estilos.forEach(datos => {
-           // console.log(datos)
+            // console.log(datos)
             elemento.style[datos["estilo"]] = datos["valor"]
         })
         return elemento
@@ -200,6 +209,7 @@ function Cuadro_dias(separacion, identificador) {
             let contenedor_grilla
             let dias_en_mes
             let datos_corte
+            let meses_elementos = []
             dias_en_mes = {}
             contenedor_grilla = document.createElement("div")
             contenedor_grilla.classList.add("d-flex")
@@ -222,64 +232,64 @@ function Cuadro_dias(separacion, identificador) {
 
 
 
-          
-         /*   renglon = this.crear_row()
-            renglon.classList.add("justify-content-end")
-            let dias_semana=["J", "V", "S", "D", "L", "M", "M"]
-            for (dentro in [...Array(7).keys()]) {
 
-               
+            renglon = this.crear_row()
+            renglon.classList.add("justify-content-end")
+            let dias_semana = ["S", "D", "L", "M", "M", "J", "V"]
+            for (dentro in [...Array(7).keys()]) {
                 let cuadrito = this.crear_cuadrito({ id: "", color: color_mes, clase: identificador_corte })
-                let dia_letra=this.crear_elemento({tipo: "p", 
-                clases:["m-0","p-0"], estilos:[{estilo: "font-size", valor:"7pt"}]})
-                dia_letra.innerText=dias_semana[dentro]
+                let dia_letra = this.crear_elemento({
+                    tipo: "p",
+                    clases: ["m-0", "p-0"], estilos: [{ estilo: "font-size", valor: "7pt" }]
+                })
+                dia_letra.innerText = dias_semana[dentro]
                 cuadrito.appendChild(dia_letra)
-                cuadrito.classList=[]
+                cuadrito.classList = []
                 cuadrito.classList.add("justify-content-center")
                 cuadrito.classList.add("align-items-center")
                 renglon.appendChild(cuadrito)
             }
             contenedor_grilla.appendChild(renglon)
-*/
 
-            let contenedor_cuadritos=this.cuadro();
 
-            let recorrido = inicio_an_o.getUTCDay()
+            let recorrido = inicio_an_o.getUTCDay()+1
             renglon = this.crear_row()
-          //  renglon.classList.add("justify-content-end")
+            renglon.classList.add("justify-content-end")
 
-            
-           
-
+            let contenedor_cuadritos = this.cuadro(nombre_mes)
+            meses_elementos.push(contenedor_cuadritos.texto_mes)
+            pos = 0
+            dia_mes = 0
             for (dentro in [...Array(recorrido).keys()]) {
-                pos++
-                dia_mes++
+
                 let id_cuadrito = identificador_corte + "-" + dia_mes.toString().padStart(2, 0)
-              //  console.log(id_cuadrito)
-              let cuadrito = this.crear_cuadrito({mes:nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0)})
+                //  console.log(id_cuadrito)
+                let cuadrito = this.crear_cuadrito({ mes: nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0) })
                 dias_en_mes[nombre_mes].push(cuadrito)
                 renglon.appendChild(cuadrito)
+                pos++
+                dia_mes++
             }
+            pos--
+            dia_mes--
+            contenedor_cuadritos.contenedor_cuadritos.appendChild(renglon)
 
-            
-            contenedor_cuadritos.appendChild(renglon)
+            //  contenedor_grilla.appendChild(renglon)
 
 
-        //    contenedor_grilla.appendChild(contenedor_cuadritos)
+            let nuevo_cuadro = false
+
             columnas = parseInt((dias_a_no - recorrido) / separacion)
-            let crear_nuevo=false
             for (vuelta in [...Array(columnas).keys()]) {
                 renglon = this.crear_row()
-                
                 for (dentro in [...Array(separacion).keys()]) {
-                    
                     pos++
                     dia_mes++
                     if (pos > pos_corte) {
                         let datos = datos_a_no[id_corte]
-                  //      console.log(datos)
+                        //      console.log(datos)
                         if (datos) {
-                            crear_nuevo=true
+                            nuevo_cuadro = true
                             identificador_corte = datos["mes"]
                             color_mes = datos["color"]
                             pos_corte += datos["dias"]
@@ -293,22 +303,23 @@ function Cuadro_dias(separacion, identificador) {
                             pos_corte = dias
                         }
                     }
-                    console.log(nombre_mes)
+
                     let id_cuadrito = identificador_corte + "-" + dia_mes.toString().padStart(2, 0)
                     //  console.log(id_cuadrito)
-                    let cuadrito = this.crear_cuadrito({mes:nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0)})
+                    let cuadrito = this.crear_cuadrito({ mes: nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0) })
                     // guardamos el elemento en el array
                     dias_en_mes[nombre_mes].push(cuadrito)
+
                     renglon.appendChild(cuadrito)
-                    
                 }
-                contenedor_cuadritos.appendChild(renglon)
-                if(crear_nuevo){
-                    crear_nuevo=false
-                    contenedor_grilla.appendChild(contenedor_cuadritos)
-                    contenedor_cuadritos=this.cuadro()
+                contenedor_cuadritos.contenedor_cuadritos.appendChild(renglon)
+                if (nuevo_cuadro) {
+                    nuevo_cuadro = false
+                    contenedor_grilla.appendChild(contenedor_cuadritos.principal)
+                    meses_elementos.push(contenedor_cuadritos.texto_mes)
+                    contenedor_cuadritos = this.cuadro(nombre_mes)
                 }
-               
+
             }
             let restantes = (dias_a_no - (columnas * separacion)) - recorrido
             if (restantes != 0) {
@@ -317,30 +328,52 @@ function Cuadro_dias(separacion, identificador) {
                     pos++
                     dia_mes++
                     let id_cuadrito = identificador_corte + "-" + dia_mes.toString().padStart(2, 0)
-                 //   console.log(id_cuadrito)
-                 let cuadrito = this.crear_cuadrito({mes:nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0)})
+                    //   console.log(id_cuadrito)
+                    let cuadrito = this.crear_cuadrito({ mes: nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0) })
                     dias_en_mes[nombre_mes].push(cuadrito)
                     renglon.appendChild(cuadrito)
                 }
-                contenedor_cuadritos.appendChild(renglon)
-                
-               
+                contenedor_cuadritos.contenedor_cuadritos.appendChild(renglon)
             }
-            if(!crear_nuevo) contenedor_grilla.appendChild(contenedor_cuadritos)
+            if (!nuevo_cuadro) {
+                contenedor_grilla.appendChild(contenedor_cuadritos.principal)
+                meses_elementos.push(contenedor_cuadritos.texto_mes)
+            }
 
-
-            return { grilla: contenedor_grilla, cuadritos_en_mes: dias_en_mes }
+            return { grilla: contenedor_grilla, cuadritos_en_mes: dias_en_mes, textos_mes: meses_elementos }
+        },
+        this.cuadro = function (nombre_mes) {
+            let elemento = this.crear_elemento(
+                {
+                    tipo: "div",
+                    clases: ["d-flex", "flex-column"],
+                    estilos: [{ estilo: "flex-grow", valor: "1" }],
+                    id: "cuadro"
+                }
+            )
+            let contenedor_cuadritos = this.crear_elemento(
+                {
+                    tipo: "div",
+                    clases: ["d-flex", "flex-row"],
+                    estilos: [{ estilo: "flex-grow", valor: "1" }],
+                    id: "cuadro"
+                }
+            )
+            let texto_mes = this.crear_elemento(
+                {
+                    tipo: "div",
+                    estilos: [{estilo: "color", valor: "var(--color-prioridad-baja-baja)"}]
+                }
+            )
+            texto_mes.innerText = nombre_mes
+            elemento.appendChild(texto_mes)
+            elemento.appendChild(contenedor_cuadritos)
+            return { contenedor_cuadritos: contenedor_cuadritos, principal: elemento, texto_mes: texto_mes }
         }
-    this.cuadro=function(){
-        let elemento=this.crear_elemento({tipo:"div",
-        clases: ["d-flex", "flex-row"]
-         })
-         return elemento
-    }
     this.crear_cuadrito = function ({ id, color, clase, dia, mes }) {
         let cuadrito = document.createElement("div")
         cuadrito.id = id
-        cuadrito.title=(mes??"")+" "+(dia?parseInt(dia)+1:"")
+        cuadrito.title = (mes ?? "") + " " + (dia ? parseInt(dia) + 1 : "")
         cuadrito.className = "cuadrito " + clase
         cuadrito.style.minHeight = "10px"
         // cuadrito.style.backgroundColor = color

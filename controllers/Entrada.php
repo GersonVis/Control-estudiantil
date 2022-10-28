@@ -35,6 +35,9 @@ class Entrada extends Controller
         $this->view->resultado = $this->modelo->conteo(array("fecha" => $fecha, "Id_lugar" => $Id_lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
         $this->view->renderizar();
     }
+    function dias_laboratorio(){
+        
+    }
     function registrarEntrada()
     {
         $json_respuesta = array();
