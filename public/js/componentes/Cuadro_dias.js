@@ -223,7 +223,7 @@ function Cuadro_dias(separacion, identificador) {
 
 
           
-            renglon = this.crear_row()
+         /*   renglon = this.crear_row()
             renglon.classList.add("justify-content-end")
             let dias_semana=["J", "V", "S", "D", "L", "M", "M"]
             for (dentro in [...Array(7).keys()]) {
@@ -240,13 +240,19 @@ function Cuadro_dias(separacion, identificador) {
                 renglon.appendChild(cuadrito)
             }
             contenedor_grilla.appendChild(renglon)
+*/
 
+            let contenedor_cuadritos=this.cuadro();
 
             let contenedor_cuadritos=this.cuadro();
 
             let recorrido = inicio_an_o.getUTCDay()
             renglon = this.crear_row()
+<<<<<<< HEAD
             renglon.classList.add("justify-content-end")
+=======
+          //  renglon.classList.add("justify-content-end")
+>>>>>>> cfd0cb8 (solo era un detalle)
 
             
            
@@ -299,9 +305,16 @@ function Cuadro_dias(separacion, identificador) {
                     let cuadrito = this.crear_cuadrito({mes:nombre_mes, id: id_cuadrito, color: color_mes, clase: identificador_corte, dia: dia_mes.toString().padStart(2, 0)})
                     // guardamos el elemento en el array
                     dias_en_mes[nombre_mes].push(cuadrito)
+<<<<<<< HEAD
 
                     contenedor_cuadritos.appendChild(renglon)
                 }
+=======
+                    renglon.appendChild(cuadrito)
+                    
+                }
+                contenedor_cuadritos.appendChild(renglon)
+>>>>>>> cfd0cb8 (solo era un detalle)
                 if(crear_nuevo){
                     crear_nuevo=false
                     contenedor_grilla.appendChild(contenedor_cuadritos)
@@ -332,7 +345,11 @@ function Cuadro_dias(separacion, identificador) {
         }
     this.cuadro=function(){
         let elemento=this.crear_elemento({tipo:"div",
+<<<<<<< HEAD
         clases: ["d-flex", "flex-column"]
+=======
+        clases: ["d-flex", "flex-row"]
+>>>>>>> cfd0cb8 (solo era un detalle)
          })
          return elemento
     }
