@@ -131,7 +131,25 @@ class Modelo_Entrada extends Model
       //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
-    
+    function conteoPorSemana($entradas=""){
+        /* $conexion = $this->db->conectar();
+         $entradas = $this->limpiar($conexion, array("no_control" =>$no_control));
+         $sql = "select count(*) as conteo, fecha from accesos_p inner join estudiantes_p using(id_persona) where no_control='$entradas[no_control]' group by fecha";
+         return $this->db->consulta_codigo($conexion, $sql);*/
+ 
+         $conexion = $this->db->conectar();
+        
+         $base_sql = "select dayofweek(fecha) as dia_semana, count(*) as conteo, fecha from accesos_p inner join estudiantes_p using(id_persona) ";
+     #   $base_sql = "select dayofweek(fecha) as dia_semana, count(*) as conteo, fecha from registro ";
+         if (is_string($entradas)) {
+             return $this->db->consulta_codigo($conexion, $base_sql);
+         }
+         $entradas = $this->limpiar($conexion, $entradas);
+         $base_sql=$this->formar_sql($base_sql, $entradas)." group by dia_semana;";
+        // echo $base_sql;
+         return $this->db->consulta_codigo($conexion, $base_sql);
+     }
+     
     // prueba
     function prueba($consulta){
         $conexion = $this->db->conectar();

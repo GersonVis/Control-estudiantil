@@ -38,7 +38,7 @@ function add_eventos_persona({ principal, datos, cuadro_dias }) {
                 })
             }
             )
-
+        grafica_persona_ds.solicitar_dias(datos.No_control)    
     })
 
 }
