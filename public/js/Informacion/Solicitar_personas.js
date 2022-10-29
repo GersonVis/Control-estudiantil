@@ -24,13 +24,18 @@ function add_eventos_persona({ principal, datos, cuadro_dias }) {
         //asistencias
         solicitar_dias(datos.No_control, { Fecha: fecha_inicio, Fecha_fin: hoy })
             .then(contenido => {
-                cuadro_dias.marcar_dias(contenido, "asistencia")
+                cuadro_dias.marcar_dias(contenido,"entradas_registradas", "asistencia", function(entradas, elemento){
+                    elemento.innerText=entradas!=1?entradas+" Entradas":"1 Entrada"
+                })
             }
             )
         // solicitar no asistencias
         solicitar_dias(datos.No_control, { Fecha: fecha_inicio, Fecha_fin: hoy, Hora_salida: "is null"})
             .then(contenido => {
-                cuadro_dias.marcar_dias(contenido, "no-asistencia")
+                cuadro_dias.marcar_dias(contenido,"entradas_sin_salida", "no-asistencia", function(entradas, elemento){
+                    
+                    elemento.innerText=entradas!=1?entradas+" Entradas sin registro":"1 Entrada sin registro"
+                })
             }
             )
 
