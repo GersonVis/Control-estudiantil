@@ -364,7 +364,7 @@ $tecla = "";
 <script src="public/js/Componentes/Lugar.js"></script>
 <script src="public/js/Componentes/Cuadro_dias.js"></script>
 <script src="public/js/Componentes/Grafica_dias.js"></script>
-<script src="public/js/Componentes/Grafica_horas.js"></script>
+<script src="public/js/Componentes/Grafica_minutos.js"></script>
 
 <script src="public/js/Informacion/Busqueda.js"></script>
 
@@ -388,7 +388,11 @@ $tecla = "";
     body_modal_persona.appendChild(grafica_persona_ds.get_elemento_principal())
 
 
-    var grafica_persona_h=new Grafica_horas({fecha_inicio: fecha_inicio, fecha_fin: hoy, url_datos: "Entrada/conteoPorSemana/"})
+    var grafica_persona_h=new Grafica_minutos({
+        fecha_inicio: fecha_inicio, 
+        fecha_fin: hoy,
+        titulo_grafica: "Horas por entrada",
+        url_datos: "Entrada/minutosPorEntrada/"})
     grafica_persona_h.crear_interfaz()
     body_modal_persona.appendChild(grafica_persona_h.get_elemento_principal())
 /*

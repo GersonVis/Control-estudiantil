@@ -1,11 +1,13 @@
-var gr_d
-function Grafica_horas({fecha_inicio, fecha_fin, url_datos, rango}) {
+
+function Grafica_minutos({fecha_inicio, fecha_fin, url_datos, rango, titulo_grafica}) {
     var global_canva
-    var grafica_dias
+    var grafica
     var elemento_principal
     var fecha_inicio=fecha_inicio, fecha_fin=fecha_fin
     var url_api=this.url_datos
     var rango=rango??100
+    var titulo_grafica=titulo_grafica
+    var datos
     this.crear_interfaz = function crear_interfaz() {
         global_canva = crear_elemento({
             id: "grafica", tipo: "canvas", estilos: [{ estilo: "display", valor: "block" },
@@ -27,7 +29,7 @@ function Grafica_horas({fecha_inicio, fecha_fin, url_datos, rango}) {
             tipo: "div", estilos: [{ estilo: "color", valor: "var(--color-prioridad-baja-media)" }
             ]
         })
-        texto_grafico.innerText="Conteo total de entradas por día de la semana"
+        texto_grafico.innerText=titulo_grafica
         elemento_principal.appendChild(texto_grafico)
         contenedor_grafica.appendChild(global_canva)
         elemento_principal.appendChild(contenedor_grafica)
@@ -35,50 +37,62 @@ function Grafica_horas({fecha_inicio, fecha_fin, url_datos, rango}) {
     this.get_elemento_principal = function get_elemento_principal() {
         return elemento_principal
     }
+    this.get_grafica = function get_grafica(){
+        return grafica
+    }
+    this.set_grafica = function set_grafica(nuevo_valor){
+        grafica=nuevo_valor
+    }
     this.set_fecha_inicio=function set_fecha_inicio(fecha){
         fecha_inicio=fecha
     }
     this.set_fecha_fin=function set_fecha_fin(fecha){
         fecha_fin=fecha
     }
-
-    this.solicitar_dias = function solicitar_dias(no_control) {
+    this.get_canva= function get_canva(){
+        return global_canva
+    }
+    this.get_datos=function get_datos(){
+        return datos
+    }
+    this.pintar_grafica=function pintar_grafica(datos_grafica){
+        if(grafica)grafica.destroy()
+        grafica = new Chart(global_canva, datos_grafica);
+    }
+    this.solicitar_minutos = function solicitar_minutos(no_control="") {
         //const grafica=document.getElementById("grafica")
-        if (grafica_dias) grafica_dias.destroy()
-        enviar_formulario("Entrada/horasDentro/" + no_control,{
-            Fecha: fecha_inicio, Fecha_fin: fecha_fin
+        if (grafica) grafica.destroy()
+    
+        enviar_formulario("Entrada/minutosPorEntrada/"+no_control, {
+            Fecha: fecha_inicio, Fecha_fin: fecha_fin,
+            Posicion_limite: 0, Numero_registros: 100,
+            Hora_salida: "is not null"
         })
             .then(
+                
                 json => {
+                    console.log(json)
+                    datos=json
                     if (json.respuesta) {
-                        data_dias = [0, 0, 0, 0, 0, 0, 0]
+                        data_entradas = {etiqueta:[], valor:[]}
                         json.contenido.forEach(data => {
-                            data_dias[data.dia_semana - 1] = data.conteo
+                            data_entradas.etiqueta.push(data.etiqueta)
+                            data_entradas.valor.push(data.valor)
                         })
                         let carga = {
                             type: 'line',
                             data: {
-                                labels: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                                labels: data_entradas.etiqueta,
                                 datasets: [{
-                                    label: "entradas",
-                                    data: data_dias,
+                                    label: "Horas",
+                                    data:  data_entradas.valor,
                                     backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)',
-                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(67, 153, 355, 1)'
+                                        
                                     ],
                                     borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)',
-                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(67, 153, 355, 1)'
+                                      
                                     ],
                                     borderWidth: 1
                                 },
@@ -99,7 +113,7 @@ function Grafica_horas({fecha_inicio, fecha_fin, url_datos, rango}) {
 
 
 
-                        grafica_dias = new Chart(global_canva, carga);
+                        grafica = new Chart(global_canva, carga);
                     }
                 }
             )

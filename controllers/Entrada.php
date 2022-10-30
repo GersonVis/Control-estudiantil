@@ -157,7 +157,31 @@ class Entrada extends Controller
         $hora_salida = $_POST["Hora_salida"]??"";
         $no_control_d = $no_control;
 
+
         $resultado=$this->modelo->conteoPorSemana(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $no_control_d, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
+    function minutosPorEntrada($no_control){//no_control por url
+
+        $fecha = $_POST["Fecha"] ?? "";
+        $lugar = $_POST["Id_lugar"] ?? "";
+        $fecha_fin = $_POST["Fecha_fin"] ?? "";
+        $hora_salida = $_POST["Hora_salida"]??"";
+        $posicion_limite=$_POST["Posicion_limite"]??0;
+        $numero_registros=$_POST["Numero_registros"]??"";
+        $no_control_d = $no_control;
+
+
+        $entradas_necesarias=array(
+        "fecha" => $fecha,
+        "Id_lugar" => $lugar,
+        "no_control" => $no_control_d,
+        "Posicion_limite" => $posicion_limite,
+        "Numero_registros" => $numero_registros,
+        "fecha_fin" => $fecha_fin,
+        "hora_salida"=>$hora_salida);
+        $resultado=$this->modelo->minutosPorEntrada($entradas_necesarias);
         $this->view->resultado=$resultado;
         $this->view->renderizar();
     }
