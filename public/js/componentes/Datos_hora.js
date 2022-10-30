@@ -1,5 +1,5 @@
 
-function Grafica_minutos({fecha_inicio, fecha_fin, url_datos, rango, titulo_grafica}) {
+function Datos_hora({fecha_inicio, fecha_fin, url_datos, rango, titulo_grafica}) {
     var global_canva
     var grafica
     var elemento_principal
@@ -8,6 +8,7 @@ function Grafica_minutos({fecha_inicio, fecha_fin, url_datos, rango, titulo_graf
     var rango=rango??100
     var titulo_grafica=titulo_grafica
     var datos
+    var valores
     this.crear_interfaz = function crear_interfaz() {
         global_canva = crear_elemento({
             id: "grafica", tipo: "canvas", estilos: [{ estilo: "display", valor: "block" },
@@ -59,61 +60,95 @@ function Grafica_minutos({fecha_inicio, fecha_fin, url_datos, rango, titulo_graf
         if(grafica)grafica.destroy()
         grafica = new Chart(global_canva, datos_grafica);
     }
-    this.solicitar_minutos = function solicitar_minutos(no_control="") {
+    this.solicitar_conteo = function solicitar_minutos(no_control="") {
         //const grafica=document.getElementById("grafica")
         if (grafica) grafica.destroy()
     
-        enviar_formulario("Entrada/minutosPorEntrada/"+no_control, {
+        enviar_formulario("Entrada/conteoHora/"+no_control, {
             Fecha: fecha_inicio, Fecha_fin: fecha_fin,
-            Posicion_limite: 0, Numero_registros: 100,
             Hora_salida: "is not null"
         })
             .then(
-                
                 json => {
-                    console.log(json)
+                 
                     datos=json
                     if (json.respuesta) {
-                        data_entradas = {etiqueta:[], valor:[]}
+                        var valores_entradas=[]
                         json.contenido.forEach(data => {
-                            data_entradas.etiqueta.push(data.etiqueta)
-                            data_entradas.valor.push(data.valor)
+                            let posicion={}
+                            posicion["r"]=3
+                            posicion["x"]=data.etiqueta
+                            posicion["y"]=data.valor
+                            valores_entradas.push(posicion)
                         })
-                        let carga = {
-                            type: 'line',
-                            data: {
-                                labels: data_entradas.etiqueta,
-                                datasets: [{
-                                    label: "Horas",
-                                    data:  data_entradas.valor,
-                                    backgroundColor: [
-                                        'rgba(67, 153, 355, 1)'
-                                        
-                                    ],
-                                    borderColor: [
-                                        'rgba(67, 153, 355, 1)'
-                                      
-                                    ],
-                                    borderWidth: 1
-                                },
-                                ]
-                            },
-                            options: {
-                                plugins: {
-                                    legend: {
-                                        display: false,
-                                        labels: {
-                                            color: 'rgb(255, 99, 132)'
-                                        }
+                        valores_entradas.push({
+                            r: 0,
+                            y: 0,
+                            x: 0
+                        })
+                        valores_entradas.push({
+                            r: 0,
+                            y: 0,
+                            x: 59
+                        })
+                        enviar_formulario("Entrada/conteoHora/"+no_control, {
+                            Fecha: fecha_inicio, Fecha_fin: fecha_fin,
+                            Hora_salida: "is null"
+                        })
+                            .then(
+                                json => {
+                                    if(json.respuesta){
+                                        let valores_salidas=[]
+                                        json.contenido.forEach(data => {
+                                            let posicion={}
+                                            posicion["r"]=3
+                                            posicion["x"]=data.etiqueta
+                                            posicion["y"]=data.valor
+                                            valores_salidas.push(posicion)
+                                        })
+                                        let carga = {
+                                            type: 'bubble',
+                                            data: {
+                                                labels: valores,
+                                                datasets: [{
+                                                    label: "# de entradas:",
+                                                    data:  valores_entradas,
+                                                    backgroundColor: 'rgb(67, 153, 255)'
+                                                  },
+                                                  {
+                                                    label: "# de salidas:",
+                                                    data:  valores_salidas,
+                                                    backgroundColor: 'rgb(255, 99, 132)'
+                                                  }
+                                                ]
+                                            },
+                                            options: {
+                                                datasets:{
+                                                    line:{
+                                                        showLine: false
+                                                    }
+                                                },
+                                                plugins: {
+                                                    legend: {
+                                                        display: false,
+                                                        
+                                                        labels: {
+                                                            color: 'rgb(255, 99, 132)'
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        };
+                                        grafica = new Chart(global_canva, carga);
                                     }
-                                }
-                            }
-                        };
+                                    
+                                })
+
+                      
 
 
 
-
-                        grafica = new Chart(global_canva, carga);
+                        
                     }
                 }
             )

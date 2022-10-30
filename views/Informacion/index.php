@@ -111,24 +111,26 @@ $tecla = "";
         .asistencia {
             background-color: rgb(97, 232, 0) !important;
         }
+
         .no-asistencia {
             background-color: red !important;
         }
 
         .cuadrito.seleccionado {
             background-color: #4399FF;
-          /*  border: 1px solid black;*/
+            /*  border: 1px solid black;*/
             position: relative;
             animation-name: desplazar;
             animation-duration: 1s;
             animation-fill-mode: forwards;
             z-index: 100;
         }
+
         .cuadrito.seleccionado::after {
-          position: absolute;
-          content: "";
-          height: 10%;
-          width: 100%;
+            position: absolute;
+            content: "";
+            height: 10%;
+            width: 100%;
             background-color: black;
             top: 45%;
             border-radius: 50% 50%;
@@ -326,8 +328,8 @@ $tecla = "";
     //urls de solicitudes
     const url_personas = "Alumno"
     const url_lugares = "Lugar"
-    const hoy=obtener_fecha()
-    const fecha_inicio=hoy.split("-")[0]+"-01-01"//para la obtención de rangos de datos
+    const hoy = obtener_fecha()
+    const fecha_inicio = hoy.split("-")[0] + "-01-01" //para la obtención de rangos de datos
     //referencias a elementos
     const input_busqueda = document.querySelector("#input_busqueda")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
@@ -365,6 +367,7 @@ $tecla = "";
 <script src="public/js/Componentes/Cuadro_dias.js"></script>
 <script src="public/js/Componentes/Grafica_dias.js"></script>
 <script src="public/js/Componentes/Grafica_minutos.js"></script>
+<script src="public/js/Componentes/Datos_hora.js"></script>
 
 <script src="public/js/Informacion/Busqueda.js"></script>
 
@@ -377,30 +380,44 @@ $tecla = "";
     //funciones de carga de componentes
     var cuadro_dias_lugar = new Cuadro_dias(7, "lugar")
     var cuadro_dias_persona = new Cuadro_dias(7, "persona")
-   
 
- //   datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
+
+    //   datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
     body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
     body_modal_persona.appendChild(cuadro_dias_persona.crear_interfaz())
 
-    var grafica_persona_ds=new Grafica_dias({fecha_inicio: fecha_inicio, fecha_fin: hoy, url_datos: "Entrada/conteoPorSemana/"})
+    var grafica_persona_ds = new Grafica_dias({
+        fecha_inicio: fecha_inicio,
+        fecha_fin: hoy,
+        url_datos: "Entrada/conteoPorSemana/"
+    })
     grafica_persona_ds.crear_interfaz()
     body_modal_persona.appendChild(grafica_persona_ds.get_elemento_principal())
 
 
-    var grafica_persona_h=new Grafica_minutos({
-        fecha_inicio: fecha_inicio, 
+    var grafica_persona_h = new Grafica_minutos({
+        fecha_inicio: fecha_inicio,
         fecha_fin: hoy,
         titulo_grafica: "Horas por entrada",
-        url_datos: "Entrada/minutosPorEntrada/"})
+        url_datos: "Entrada/minutosPorEntrada/"
+    })
     grafica_persona_h.crear_interfaz()
     body_modal_persona.appendChild(grafica_persona_h.get_elemento_principal())
-/*
-    const dias_lugar=datos_dias_lugar.refencias_cuadritos
-    const dias_persona=datos_dias_persona.refencias_cuadritos*/
 
-  //  solicitar_dias("20670109", {grilla_dias: dias_persona, label_dias_dentro: dias_lugar.etiqueta_dias_dentro})
+    var grafica_persona_dh = new Datos_hora({
+        fecha_inicio: fecha_inicio,
+        fecha_fin: hoy,
+        titulo_grafica: "Entradas y salidas resumidas en una hora",
+        url_datos: "Entrada/conteoHora/"
+    })
+    grafica_persona_dh.crear_interfaz()
+    body_modal_persona.appendChild(grafica_persona_dh.get_elemento_principal())
+    /*
+        const dias_lugar=datos_dias_lugar.refencias_cuadritos
+        const dias_persona=datos_dias_persona.refencias_cuadritos*/
+
+    //  solicitar_dias("20670109", {grilla_dias: dias_persona, label_dias_dentro: dias_lugar.etiqueta_dias_dentro})
 </script>
 
- 
+
 </html>
