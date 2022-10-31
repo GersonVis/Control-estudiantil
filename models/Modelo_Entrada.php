@@ -188,6 +188,19 @@ class Modelo_Entrada extends Model
         //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
+    function entradasPorLugar($entradas=""){
+        $conexion = $this->db->conectar();
+
+        $base_sql = "select count(*) as valor, Id_lugar as etiqueta from accesos_p inner join estudiantes_p using(id_persona) ";
+        
+        if (is_string($entradas)) {
+            return $this->db->consulta_codigo($conexion, $base_sql);
+        }
+        $entradas = $this->limpiar($conexion, $entradas);
+        $base_sql = $this->formar_sql($base_sql, $entradas) . " group by id_lugar;";
+        //echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
+    }
     // prueba
     function prueba($consulta)
     {

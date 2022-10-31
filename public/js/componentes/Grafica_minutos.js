@@ -69,7 +69,6 @@ function Grafica_minutos({fecha_inicio, fecha_fin, url_datos, rango, titulo_graf
             Hora_salida: "is not null"
         })
             .then(
-                
                 json => {
                     console.log(json)
                     datos=json

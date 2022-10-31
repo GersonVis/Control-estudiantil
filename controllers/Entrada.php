@@ -204,4 +204,18 @@ class Entrada extends Controller
         $this->view->resultado=$resultado;
         $this->view->renderizar();
     }
+    function entradasPorLugar($no_control=""){
+        $fecha = $_POST["Fecha"] ?? "";
+        $lugar = $_POST["Id_lugar"] ?? "";
+        $fecha_fin = $_POST["Fecha_fin"] ?? "";
+        $no_control_d = $no_control;
+        $entradas_necesarias=array(
+        "fecha" => $fecha,
+        "Id_lugar" => $lugar,
+        "no_control" => $no_control_d,
+        "fecha_fin" => $fecha_fin);
+        $resultado=$this->modelo->entradasPorLugar($entradas_necesarias);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
 }

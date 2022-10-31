@@ -56,7 +56,7 @@ $tecla = "";
     <?php
     $this->renderizar_menu($this->opcion);
     ?>
-    <div class="d-flex container-fluid w-100 h-100" style="padding-top: 110px;overflow: hidden;padding-left: 0px;padding-right: 0px;">
+     <div class="d-flex justify-content-center" style=" height: var(--alto-global)">
         <div class="w-100 m-0 d-flex flex-column">
             <div class="w-100 d-flex flex-column" style="width: 20%; padding: 0px 24px 0px 24px; min-height: 125px;">
                 <p class="font-weight-bold  text-left w-100" style="margin: 0px">Información de lugares</p>
@@ -65,13 +65,13 @@ $tecla = "";
 
                 </div>
             </div>
-            <div class="w-100 h-100 color-principal d-flex flex-row" style="box-shadow: 0px 0px 40px 0px rgb(203 201 201);">
-                <div class="h-100 w-25">
-                    <div class="w-100 m-3">
+            <div class="w-100  color-principal d-flex flex-row" style="overflow: hidden; box-shadow: 0px 0px 40px 0px rgb(203 201 201); flex-grow: 1;">
+                <div class="h-100 w-25" style="min-height: 25px; min-height: 100%">
+                    <div class="w-100 ml-4 d-flex align-items-center" style="height: 10%;">
                         <p class="m-0 p-0 font-weight-bold">Lugares</p>
                     </div>
-                    <div class="w-100 h-100" style="padding: 0px 16px 0px 16px;">
-                        <div class="list-group" id="list-lugares" role="tablist">
+                    <div class="w-100 pl-4" style="overflow: auto;height: 90%;max-height: 90%;overflow: auto;">
+                        <div class="list-group" id="list-lugares" role="tablist" >
                             <a class="list-group-item list-group-item-action active" lugar="Todos" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" style="">Todos</a>
                             <?php
                             foreach ($this->lugares as $registro => $contenido) {
@@ -202,9 +202,9 @@ $tecla = "";
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 h-100" style="overflow: auto;">
+                    <div class="w-100 h-75" style="overflow: auto;">
                         <div style="
-    height: 370px;
+    flex-grow: 1;
     overflow-x: auto;
 ">
                             <table class="table table-hover">

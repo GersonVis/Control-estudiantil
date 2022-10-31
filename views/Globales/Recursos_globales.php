@@ -11,6 +11,7 @@
         --sub-prioridad-alta: #ECF5FF;
         --color-prioridad-baja-baja: #A9A9A9;
         --color-prioridad-baja-media: #737373;
+        --alto-global: 90%;
     }
 
     .color-principal {
@@ -63,8 +64,8 @@
 
     /* Works on Chrome, Edge, and Safari */
     *::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
+        width: 7px;
+        height: 7px;
     }
 
     *::-webkit-scrollbar-track {
@@ -74,7 +75,7 @@
     *::-webkit-scrollbar-thumb {
         background-color: var(--color-decorativo);
         border-radius: 20px;
-        height: 5px;
+        height: 7px;
     }
     .text-decorative{
         color: var(--color-decorativo);

@@ -217,7 +217,7 @@ $tecla = "";
     <?php
     $this->renderizar_menu($this->opcion);
     ?>
-    <div class="d-flex container-fluid w-100 h-100 justify-content-center" style="padding-top: 110px; overflow: hidden;">
+     <div class="d-flex justify-content-center" style="overflow: auto; height: var(--alto-global)">
         <div class="w-50 h-100">
             <div class="w-100 d-flex justify-content-center align-items-center" style="height: 10%">
                 <div class="d-flex justify-content-center align-items-center w-75 position-relative" style="height: 50%; min-height: 40px">
@@ -249,7 +249,7 @@ $tecla = "";
                     <div class="w-100" style="height: 20%;">
                         <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
                     </div>
-                    <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; overflow: auto; padding-bottom: 14px; gap: 14px">
+                    <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; padding-bottom: 14px; gap: 14px">
 
 
 
@@ -368,6 +368,7 @@ $tecla = "";
 <script src="public/js/Componentes/Grafica_dias.js"></script>
 <script src="public/js/Componentes/Grafica_minutos.js"></script>
 <script src="public/js/Componentes/Datos_hora.js"></script>
+<script src="public/js/Componentes/Grafica_elemento.js"></script>
 
 <script src="public/js/Informacion/Busqueda.js"></script>
 
@@ -412,9 +413,85 @@ $tecla = "";
     })
     grafica_persona_dh.crear_interfaz()
     body_modal_persona.appendChild(grafica_persona_dh.get_elemento_principal())
+
+    /*Grafica circular mostrando el lugar con mayores entradas */
+    var grafica_persona_CoL = new Grafica_elemento({
+        datos_formulario:{
+        fecha_inicio: fecha_inicio,
+        fecha_fin: hoy
+        },
+        titulo_grafica: "Entradas por lugar",
+        url_datos: "Entrada/conteoHora/",
+        funcion_solicitar_datos: function(padre, identificador, datos_formulario) {
+            enviar_formulario("Entrada/entradasPorLugar/" + identificador, {
+                    Fecha: datos_formulario.fecha_inicio,
+                    Fecha_fin: datos_formulario.fecha_fin,
+                })
+                .then(
+                    json => {
+                        console.log(json)
+                        datos = json
+                        if (json.respuesta) {
+                            data_entradas = {
+                                etiqueta: [],
+                                valor: [],
+                                color: ["rgb(230,55,207)","rgb(114,58,240)", "rgb(38, 235,43)", "rgb(63,130,217)"]
+                            }
+                            json.contenido.forEach(data => {
+                                data_entradas.etiqueta.push(data.etiqueta)
+                                data_entradas.valor.push(data.valor)
+                                data_entradas.color.push(`rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`)
+                            })
+
+                            let carga = {
+                                type: 'doughnut',
+                                data: {
+                                    labels: data_entradas.etiqueta,
+                                  
+                                    datasets: [{
+                                        label: "# de entradas",
+                                        data: data_entradas.valor,
+                                        backgroundColor: data_entradas.color,
+                                        borderColor: data_entradas.color,
+                                        borderWidth: 1
+                                    }, ]
+                                },
+                                options: {
+                                    plugins: {
+                                        legend: {
+                                            labels: {
+                                                color: "black",
+                                                font: 8
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+
+                            padre.pintar_grafica(carga)
+
+
+                          
+                        }
+                    }
+                )
+        }
+    })
+    grafica_persona_CoL.crear_interfaz()
+    body_modal_persona.appendChild(grafica_persona_CoL.get_elemento_principal())
+
     /*
-        const dias_lugar=datos_dias_lugar.refencias_cuadritos
-        const dias_persona=datos_dias_persona.refencias_cuadritos*/
+        var grafica_persona_cl = new Datos_hora({
+            fecha_inicio: fecha_inicio,
+            fecha_fin: hoy,
+            titulo_grafica: "Entradas y salidas resumidas en una hora",
+            url_datos: "Entrada/conteoHora/"
+        })
+        grafica_persona_dh.crear_interfaz()
+        body_modal_persona.appendChild(grafica_persona_dh.get_elemento_principal())
+        /*
+            const dias_lugar=datos_dias_lugar.refencias_cuadritos
+            const dias_persona=datos_dias_persona.refencias_cuadritos*/
 
     //  solicitar_dias("20670109", {grilla_dias: dias_persona, label_dias_dentro: dias_lugar.etiqueta_dias_dentro})
 </script>
