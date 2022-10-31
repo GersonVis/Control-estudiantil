@@ -22,6 +22,7 @@ window.addEventListener("load", function(ev){
 function add_eventos_lugar({principal,  datos }){
     principal.addEventListener("click", function(){
         modal_lugares({principal: principal, datos: datos})
+        grafica_lugar_CoL.solicitar_datos(datos.Id_lugar)
     })
-
+ 
 }

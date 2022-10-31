@@ -217,7 +217,7 @@ $tecla = "";
     <?php
     $this->renderizar_menu($this->opcion);
     ?>
-     <div class="d-flex justify-content-center" style="overflow: auto; height: var(--alto-global)">
+    <div class="d-flex justify-content-center" style="overflow: auto; height: var(--alto-global)">
         <div class="w-50 h-100">
             <div class="w-100 d-flex justify-content-center align-items-center" style="height: 10%">
                 <div class="d-flex justify-content-center align-items-center w-75 position-relative" style="height: 50%; min-height: 40px">
@@ -382,9 +382,63 @@ $tecla = "";
     var cuadro_dias_lugar = new Cuadro_dias(7, "lugar")
     var cuadro_dias_persona = new Cuadro_dias(7, "persona")
 
+    body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
+
+
+    var grafica_lugar_CoL = new Grafica_elemento({
+        datos_formulario: {
+            fecha_inicio: fecha_inicio,
+            fecha_fin: hoy
+        },
+        configuracion_grafica: {
+            tipo: "bar",
+         
+            etiqueta: "# de entradas"
+        },
+        titulo_grafica: "Entradas por día de la semana",
+        url_datos: "Entrada/conteoPorSemana/",
+        funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
+            datasets = {
+                etiquetas: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+                datos: []
+            }
+            let carreras = await enviar_formulario("Carrera")
+            if (carreras.respuesta) {
+                let contenido = carreras.contenido
+                console.log(contenido)
+                for (const {Id_carrera, Color} of contenido) {
+                    let json = await enviar_formulario("Entrada/conteoPorSemana/", {
+                        Fecha: datos_formulario.fecha_inicio,
+                        Fecha_fin: datos_formulario.fecha_fin,
+                        Id_carrera: Id_carrera,
+                        Id_lugar: identificador,
+                    })
+                    data_entradas = {
+                        valor: [0, 0, 0, 0, 0, 0, 0],
+                        color: Color
+                    }
+                    if (json.respuesta) {
+                        json.contenido.forEach(data => {
+                            data_entradas.valor[data.etiqueta] = data.valor
+                        })
+                    }
+                    datasets.datos.push({
+                        label: Id_carrera,
+                        data: data_entradas.valor,
+                        backgroundColor: data_entradas.color,
+                        borderColor: data_entradas.color,
+                        borderWidth: 1
+                    })
+                }
+            }
+            return datasets
+        }
+    })
+    grafica_lugar_CoL.crear_interfaz()
+    body_modal_lugar.appendChild(grafica_lugar_CoL.get_elemento_principal())
 
     //   datos_dias_persona = crear_cuadro_dias(7, "persona", modal_persona_cerrar)
-    body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
+
     body_modal_persona.appendChild(cuadro_dias_persona.crear_interfaz())
 
     var grafica_persona_ds = new Grafica_dias({
@@ -416,69 +470,42 @@ $tecla = "";
 
     /*Grafica circular mostrando el lugar con mayores entradas */
     var grafica_persona_CoL = new Grafica_elemento({
-        datos_formulario:{
-        fecha_inicio: fecha_inicio,
-        fecha_fin: hoy
+        datos_formulario: {
+            fecha_inicio: fecha_inicio,
+            fecha_fin: hoy
+        },
+        configuracion_grafica: {
+            tipo: "doughnut",
+            alto: "250px"
         },
         titulo_grafica: "Entradas por lugar",
         url_datos: "Entrada/conteoHora/",
-        funcion_solicitar_datos: function(padre, identificador, datos_formulario) {
-            enviar_formulario("Entrada/entradasPorLugar/" + identificador, {
-                    Fecha: datos_formulario.fecha_inicio,
-                    Fecha_fin: datos_formulario.fecha_fin,
+        funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
+            let json = await enviar_formulario("Entrada/entradasPorLugar/" + identificador, {
+                Fecha: datos_formulario.fecha_inicio,
+                Fecha_fin: datos_formulario.fecha_fin,
+            })
+            data_entradas = {
+                etiqueta: [],
+                valor: [],
+                color: ["rgb(230,55,207)", "rgb(114,58,240)", "rgb(38, 235,43)", "rgb(63,130,217)"]
+            }
+            if (json.respuesta) {
+                json.contenido.forEach(data => {
+                    data_entradas.etiqueta.push(data.etiqueta)
+                    data_entradas.valor.push(data.valor)
+                    data_entradas.color.push(`rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`)
                 })
-                .then(
-                    json => {
-                        console.log(json)
-                        datos = json
-                        if (json.respuesta) {
-                            data_entradas = {
-                                etiqueta: [],
-                                valor: [],
-                                color: ["rgb(230,55,207)","rgb(114,58,240)", "rgb(38, 235,43)", "rgb(63,130,217)"]
-                            }
-                            json.contenido.forEach(data => {
-                                data_entradas.etiqueta.push(data.etiqueta)
-                                data_entradas.valor.push(data.valor)
-                                data_entradas.color.push(`rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`)
-                            })
-
-                            let carga = {
-                                type: 'doughnut',
-                                data: {
-                                    labels: data_entradas.etiqueta,
-                                  
-                                    datasets: [{
-                                        label: "# de entradas",
-                                        data: data_entradas.valor,
-                                        backgroundColor: data_entradas.color,
-                                        borderColor: data_entradas.color,
-                                        borderWidth: 1
-                                    }, ]
-                                },
-                                options: {
-                                    plugins: {
-                                        legend: {
-                                            labels: {
-                                                color: "black",
-                                                font: 8
-                                            }
-                                        }
-                                    }
-                                }
-                            };
-
-                            padre.pintar_grafica(carga)
-
-
-                          
-                        }
-                    }
-                )
+            }
+            return data_entradas
         }
     })
     grafica_persona_CoL.crear_interfaz()
     body_modal_persona.appendChild(grafica_persona_CoL.get_elemento_principal())
+
+
+
+
 
     /*
         var grafica_persona_cl = new Datos_hora({

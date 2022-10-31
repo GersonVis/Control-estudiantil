@@ -1,9 +1,11 @@
 
 function Grafica_elemento({datos_formulario,
     titulo_grafica,
-    funcion_solicitar_datos
+    funcion_solicitar_datos,
+    configuracion_grafica
     }) 
     {
+    var configuracion_grafica=configuracion_grafica??{}
     var datos_formulario=datos_formulario
     var global_canva
     var grafica
@@ -21,7 +23,7 @@ function Grafica_elemento({datos_formulario,
             id: "grafica", tipo: "canvas", estilos: [{ estilo: "display", valor: "block" },
             {
                 estilo: "box-sizing:", valor: "border-box",
-                estilo: "max-height", valor: "180px"
+                estilo: "max-height", valor: configuracion_grafica["alto"]??"180px"
             }]
         })//funcion de funciones publicas
         contenedor_grafica = crear_elemento({
@@ -67,11 +69,33 @@ function Grafica_elemento({datos_formulario,
         if(grafica)grafica.destroy()
         grafica = new Chart(global_canva, datos_grafica);
     }
-    this.solicitar_datos = function solicitar_datos(no_control="") {
+    this.solicitar_datos = async function solicitar_datos(no_control="") {
         //const grafica=document.getElementById("grafica")
-        function_datos(this, no_control, datos_formulario)
         
+        data_entradas = await function_datos(this, no_control, datos_formulario)
         
+        let carga = {
+            type: configuracion_grafica["tipo"]??"bar",
+            data: {
+                labels: data_entradas.etiquetas,
+                datasets: data_entradas.datos
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        display: configuracion_grafica["ver_etiquetas"]??true,
+                        labels: {
+                            color: "rgb(169,169,169)",
+                            
+                            font: 8
+                        }
+                    }
+                }
+            }
+        };
+
+        this.pintar_grafica(carga)
      
     }
 }

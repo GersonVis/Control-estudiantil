@@ -142,21 +142,21 @@ class Modelo_Entrada extends Model
 
         $conexion = $this->db->conectar();
 
-        $base_sql = "select dayofweek(fecha) as dia_semana, count(*) as conteo, fecha from accesos_p inner join estudiantes_p using(id_persona) ";
+        $base_sql = "select dayofweek(fecha) as etiqueta, count(*) as valor, fecha from accesos_p inner join estudiantes_p using(id_persona) ";
         #   $base_sql = "select dayofweek(fecha) as dia_semana, count(*) as conteo, fecha from registro ";
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
         $entradas = $this->limpiar($conexion, $entradas);
-        $base_sql = $this->formar_sql($base_sql, $entradas) . " group by dia_semana;";
-        // echo $base_sql;
+        $base_sql = $this->formar_sql($base_sql, $entradas) . " group by etiqueta;";
+        //echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function minutosPorEntrada($entradas = "")
     {
 
         $conexion = $this->db->conectar();
-        $base_sql = "select Fecha as etiqueta, timestampdiff(minute, hora_entrada, hora_salida)/60 as valor from accesos_p inner join estudiantes_p using(id_persona) ";
+        $base_sql = "select date_format(Fecha, '%d/%m') as etiqueta, timestampdiff(minute, hora_entrada, hora_salida)/60 as valor from accesos_p inner join estudiantes_p using(id_persona) ";
 
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
