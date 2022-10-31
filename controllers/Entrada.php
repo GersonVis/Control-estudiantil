@@ -153,13 +153,14 @@ class Entrada extends Controller
     function conteoPorSemana($no_control=""){
         $fecha = $_POST["Fecha"] ?? "";
         $lugar = $_POST["Id_lugar"] ?? "";
+        $carrera = $_POST["Id_carrera"] ?? "";
         $noControl = $_POST["No_control"] ?? "";
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
         $hora_salida = $_POST["Hora_salida"]??"";
         $no_control_d = $no_control;
 
 
-        $resultado=$this->modelo->conteoPorSemana(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $no_control_d, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+        $resultado=$this->modelo->conteoPorSemana(array("fecha" => $fecha, "Id_carrera" => $carrera, "Id_lugar" => $lugar, "no_control" => $no_control_d, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
         $this->view->resultado=$resultado;
         $this->view->renderizar();
     }

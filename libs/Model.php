@@ -58,6 +58,7 @@ class Model
             unset($entradas["fecha"]);
             unset($entradas["fecha_fin"]);
         }
+        
         $sql_creado=$this->crear_sql($entradas);
         if($sql!=""){
             $sql.=$sql_creado!=""?" and ".$sql_creado:"";
