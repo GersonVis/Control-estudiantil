@@ -117,7 +117,7 @@ $tecla = "";
     <?php
     $this->renderizar_menu($this->opcion);
     ?>
-    <div class="d-flex container-fluid w-100 h-100" style="padding-top: 110px; overflow: hidden;">
+    <div class="d-flex w-100 " style="overflow: hidden; height: var(--alto-global)">
         <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
             <p class="font-weight-bold  text-left w-100" style="margin: 0px">Registros recientes</p>
             <hr class="my-2 bg-secondary" style="width: 200px">

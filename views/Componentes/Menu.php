@@ -6,7 +6,8 @@ $nombre_opcion = "";
 
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white position-fixed w-100" style="height: 100px;">
+<div style="height: 10%;">
+<nav class="navbar navbar-expand-lg navbar-light bg-white position-fixed w-100" style="z-index: 100; height: 75px;">
     <div class="container-fluid">
         <a class="navbar-brand border" style="
     overflow: hidden;
@@ -89,4 +90,5 @@ $nombre_opcion = "";
             </div>
         </div>
     </div>
+</div>
 </div>
