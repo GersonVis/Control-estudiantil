@@ -2,6 +2,7 @@
 solicitar_personas = (url, contenedor_respuesta) => {
     enviar_formulario(url)
         .then(respuesta => {
+            console.log("personas, ", respuesta)
             if (respuesta) {
                 personas = respuesta.contenido.map(datos => {
                     let interfaz_persona = alumno_lista(datos)
