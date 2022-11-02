@@ -219,8 +219,6 @@ class Entrada extends Controller
         $posicion_limite=$_POST["Posicion_limite"]??0;
         $numero_registros=$_POST["Numero_registros"]??"";
         $no_control_d = $no_control;
-
-
         $entradas_necesarias=array(
         "fecha" => $fecha,
         "Id_lugar" => $lugar,

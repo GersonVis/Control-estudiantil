@@ -1,3 +1,3 @@
 <?php
-echo json_encode($this->informacion, JSON_UNESCAPED_UNICODE);
+echo json_encode($this->resultado??"", JSON_UNESCAPED_UNICODE);
 ?>

@@ -4,7 +4,7 @@ solicitar_lugares=(url, contenedor_respuesta)=>{
     .then(respuesta=>{
        if(respuesta){
             let lugares=respuesta.contenido.map(datos => {
-                //console.log(datos)
+              
                 let interfaz_lugar=lugar({nombre_lugar: datos.Id_lugar})
                 add_eventos_lugar({principal: interfaz_lugar.principal, datos: datos})
                 contenedor_respuesta.appendChild(interfaz_lugar.principal)
@@ -23,6 +23,7 @@ function add_eventos_lugar({principal,  datos }){
     principal.addEventListener("click", function(){
         modal_lugares({principal: principal, datos: datos})
         grafica_lugar_CoL.solicitar_datos(datos.Id_lugar)
+        grafica_lugar_CoC.solicitar_datos(datos.Id_lugar)
     })
  
 }

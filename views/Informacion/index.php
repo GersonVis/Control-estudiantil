@@ -316,7 +316,19 @@ $tecla = "";
                     </button>
                 </div>
                 <div class="modal-body" id="body_modal_lugar">
-
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" id="carruselDiasLugar">
+                            
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -380,10 +392,60 @@ $tecla = "";
     input_busqueda.focus();
     //funciones de carga de componentes
     var cuadro_dias_lugar = new Cuadro_dias(7, "lugar")
+    var cuadro_dias_lugarb = new Cuadro_dias(7, "lugar")
+
     var cuadro_dias_persona = new Cuadro_dias(7, "persona")
 
+    contenedor_carrusel=crear_elemento({tipo: "div", clases: ["carousel-item" ,"active"]})
+    contenedor_carrusel.appendChild(cuadro_dias_lugar.crear_interfaz())
+   // carruselDiasLugar.appendChild(contenedor_carrusel)
+
+    
+    contenedor_carrusel=crear_elemento({tipo: "div", clases: ["carousel-item" ,"active"]})
+    /*contenedor_carrusel.appendChild(cuadro_dias_lugarb.crear_interfaz())
+    carruselDiasLugar.appendChild(contenedor_carrusel)*/
     body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
 
+    var grafica_lugar_CoC = new Grafica_elemento({
+        datos_formulario: {
+            fecha_inicio: fecha_inicio,
+            fecha_fin: hoy
+        },
+        configuracion_grafica: {
+            tipo: "doughnut",
+            alto: "250px",
+            posicion_etiquetas: "left"
+        },
+        titulo_grafica: "Entradas por carrera",
+        funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
+            let json = await enviar_formulario("Lugar/entradasPorCarrera/", {
+                Fecha: datos_formulario.fecha_inicio,
+                Fecha_fin: datos_formulario.fecha_fin,
+                Id_lugar: identificador
+            })
+
+            data_entradas = {
+                etiquetas: [],
+                datos: [{
+                    backgroundColor: [],
+                    data: [],
+                }],
+                color: ["rgb(230,55,207)", "rgb(114,58,240)", "rgb(38, 235,43)", "rgb(63,130,217)"]
+            }
+            if (json.respuesta) {
+                json.contenido.forEach(data => {
+                    data_entradas.etiquetas.push(data.etiqueta)
+                    data_entradas.datos[0].data.push(data.valor)
+                    data_entradas.datos[0].backgroundColor.push(data.color??`rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`)
+                })
+            }
+            return data_entradas
+        }
+    })
+    grafica_lugar_CoC.crear_interfaz()
+    body_modal_lugar.appendChild(grafica_lugar_CoC.get_elemento_principal())
+
+    
 
     var grafica_lugar_CoL = new Grafica_elemento({
         datos_formulario: {
@@ -392,7 +454,8 @@ $tecla = "";
         },
         configuracion_grafica: {
             tipo: "bar",
-
+            alto: "250px",
+            posicion_etiquetas: "bottom",
             etiqueta: "# de entradas"
         },
         titulo_grafica: "Entradas por día de la semana",
@@ -471,31 +534,31 @@ $tecla = "";
         funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
             let json_consulta
             let data_entradas
-            json_consulta=await enviar_formulario("Entrada/conteoPorSemana/" + identificador, {
+            json_consulta = await enviar_formulario("Entrada/conteoPorSemana/" + identificador, {
                 Fecha: datos_formulario.fecha_inicio,
                 Fecha_fin: datos_formulario.fecha_fin,
             })
-            data_entradas={
-                etiquetas:[],
-                datos:[]
+            data_entradas = {
+                etiquetas: [],
+                datos: []
             }
 
             if (json_consulta.respuesta) {
                 contenedor_data = {
                     label: "entradas",
                     backgroundColor: ["rgb(63, 157, 255)"],
-                    data: [0,0,0,0,0,0,0],
+                    data: [0, 0, 0, 0, 0, 0, 0],
                 }
                 json_consulta.contenido.forEach(registro => {
-                    contenedor_data.data[registro.etiqueta-1]=registro.valor
+                    contenedor_data.data[registro.etiqueta - 1] = registro.valor
                 })
                 data_entradas.datos.push(contenedor_data)
             }
-            
-            data_entradas.etiquetas=['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
+
+            data_entradas.etiquetas = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
             console.log("entradas", data_entradas, json_consulta)
 
-            
+
             return data_entradas
         }
     })
@@ -540,7 +603,7 @@ $tecla = "";
                 Fecha: datos_formulario.fecha_inicio,
                 Fecha_fin: datos_formulario.fecha_fin,
             }))
-           // console.log(json_consultas)
+            // console.log(json_consultas)
             data_entradas = {
                 etiquetas: [],
                 datos: [],
@@ -589,7 +652,6 @@ $tecla = "";
             posicion_etiquetas: "left"
         },
         titulo_grafica: "Entradas por lugar",
-        url_datos: "Entrada/conteoHora/",
         funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
             let json = await enviar_formulario("Entrada/entradasPorLugar/" + identificador, {
                 Fecha: datos_formulario.fecha_inicio,
