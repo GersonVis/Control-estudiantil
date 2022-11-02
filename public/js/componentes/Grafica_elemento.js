@@ -83,7 +83,7 @@ function Grafica_elemento({datos_formulario,
             options: {
                 plugins: {
                     legend: {
-                        position: "bottom",
+                        position: configuracion_grafica.posicion_etiquetas??"top",
                         display: configuracion_grafica["ver_etiquetas"]??true,
                         labels: {
                             color: "rgb(169,169,169)",

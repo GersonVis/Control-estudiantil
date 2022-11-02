@@ -21,5 +21,25 @@ class Carrera extends Controller
        
         $this->view->renderizar();
     }
+    function entradasPorCarrera(){
+        $fecha = $_POST["Fecha"] ?? "";
+        $lugar = $_POST["Id_lugar"] ?? "";
+        $fecha_fin = $_POST["Fecha_fin"] ?? "";
+        $hora_salida = $_POST["Hora_salida"]??"";
+        $posicion_limite=$_POST["Posicion_limite"]??0;
+        $numero_registros=$_POST["Numero_registros"]??"";
+       
+        $entradas_necesarias=array(
+        "fecha" => $fecha,
+        "Id_lugar" => $lugar,
+     
+        "Posicion_limite" => $posicion_limite,
+        "Numero_registros" => $numero_registros,
+        "fecha_fin" => $fecha_fin,
+        "hora_salida"=>$hora_salida);
+        $resultado=$this->modelo->entradasPorCarrera($entradas_necesarias);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
    
 }

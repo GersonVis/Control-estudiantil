@@ -174,12 +174,62 @@ class Modelo_Entrada extends Model
         // echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
-    function conteoHora($entradas="")
+
+    function conteoEntradas($entradas = "")
+    {
+
+        $conexion = $this->db->conectar();
+        $base_sql = "select minute(hora_entrada) as etiqueta, count(*) as valor from accesos_p inner join estudiantes_p using(id_persona) ";
+
+        if (is_string($entradas)) {
+            return $this->db->consulta_codigo($conexion, $base_sql);
+        }
+        $entradas = $this->limpiar($conexion, $entradas);
+        $limite_inicio = $entradas["Posicion_limite"];
+        $numero_registros = $entradas["Numero_registros"];
+
+        unset($entradas["Posicion_limite"]);
+        unset($entradas["Numero_registros"]);
+
+        $sentencia_limite = $numero_registros != "" ? " limit $limite_inicio, $numero_registros" : "";
+
+        $base_sql = $this->formar_sql($base_sql, $entradas) . " group by etiqueta";
+        $base_sql.=$sentencia_limite;
+       //  echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
+    }
+
+    function conteoSalidas($entradas = "")
+    {
+
+        $conexion = $this->db->conectar();
+        $base_sql = "select minute(hora_salida) as etiqueta, count(*) as valor from accesos_p inner join estudiantes_p using(id_persona) ";
+
+        if (is_string($entradas)) {
+            return $this->db->consulta_codigo($conexion, $base_sql);
+        }
+        $entradas = $this->limpiar($conexion, $entradas);
+        $limite_inicio = $entradas["Posicion_limite"];
+        $numero_registros = $entradas["Numero_registros"];
+
+        unset($entradas["Posicion_limite"]);
+        unset($entradas["Numero_registros"]);
+
+        $sentencia_limite = $numero_registros != "" ? " limit $limite_inicio, $numero_registros" : "";
+
+        $base_sql = $this->formar_sql($base_sql, $entradas) . " group by etiqueta";
+        $base_sql.=$sentencia_limite;
+       //  echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
+    }
+
+
+    function conteoHora($entradas = "")
     {
         $conexion = $this->db->conectar();
 
         $base_sql = "select count(*) as valor, minute(hora_entrada) as etiqueta from accesos_p inner join estudiantes_p using(id_persona)  ";
-        
+
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
@@ -188,11 +238,12 @@ class Modelo_Entrada extends Model
         //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
-    function entradasPorLugar($entradas=""){
+    function entradasPorLugar($entradas = "")
+    {
         $conexion = $this->db->conectar();
 
         $base_sql = "select count(*) as valor, Id_lugar as etiqueta from accesos_p inner join estudiantes_p using(id_persona) ";
-        
+
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
