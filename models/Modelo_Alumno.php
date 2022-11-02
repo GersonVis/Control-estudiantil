@@ -10,35 +10,42 @@ class Modelo_Alumno extends Model
     function todos($entradas = "", $nulos = 0)
     {
         $conexion = $this->db->conectar();
-        $base_sql = "select * from estudiantes_p inner join personas_p using(Id_persona)";
+        //  $base_sql = "select * from estudiantes_p inner join personas_p using(Id_persona)";
+        $base_sql = 'select estudiantes_p.Id_persona,estudiantes_p.Id_carrera, estudiantes_p.No_control, personas_p.Nombre,personas_p.Apellido_paterno, ( if((select count(*) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona) >0, 
+                                                                                                                                        
+        if((select if(Hora_entrada is not null and Hora_salida is null, true, false) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona and fecha=curdate() order by hora_entrada DESC limit 1), "Dentro",
+
+
+(select concat("Última vez: ", fecha," ", if(hora_salida=null, date_format(hora_entrada, "%r"), date_format(hora_salida, "%r"))) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona ORDER by fecha desc, hora_entrada desc LIMIT 1)) , "sin entradas") ) as Valor from estudiantes_p inner JOIN personas_p USING(Id_persona) ';
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }
         $entradas = $this->limpiar($conexion, $entradas);
-        $base_sql=$this->formar_sql($base_sql, $entradas);
-       
+        $base_sql = $this->formar_sql($base_sql, $entradas);
+
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function conteo($entradas = "")
     {
         $conexion = $this->db->conectar();
         $base_sql = "select count(*) as conteo, case when hora_salida is null then 'vacio' else 'no vacio' end as Estado from accesos_p ";
+
         if (is_string($entradas)) {
-            return $this->db->consulta_codigo($conexion, $base_sql." group by Estado");
+            return $this->db->consulta_codigo($conexion, $base_sql . " group by Estado");
         }
         $entradas = $this->limpiar($conexion, $entradas);
-        
-        $sql_armada=$this->formar_sql($base_sql, $entradas);
-        $base_sql=$sql_armada." group by Estado";
-     //   echo $base_sql;
+
+        $sql_armada = $this->formar_sql($base_sql, $entradas);
+        $base_sql = $sql_armada . " group by Estado";
+        //   echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
-    function registrarEntrada($lugar, $no_control, $nombre, $carrera, $apellido_paterno="", $apellido_materno="")
+    function registrarEntrada($lugar, $no_control, $nombre, $carrera, $apellido_paterno = "", $apellido_materno = "")
     {
         //nueva linea
         $conexion = $this->db->conectar();
-        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno"=> $apellido_materno));
+        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno" => $apellido_materno));
         $sql = "call registrar_entrada('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
@@ -101,16 +108,17 @@ class Modelo_Alumno extends Model
         $sql = "call sin_salida();";
         return $this->db->consulta_codigo($conexion, $sql);
     }
-    function resumenLugares(){
+    function resumenLugares()
+    {
         $conexion = $this->db->conectar();
-        $sql="select Id_lugar, count(*) as conteo, case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from accesos_p where fecha=curdate() group by esnulo, Id_lugar;";
+        $sql = "select Id_lugar, count(*) as conteo, case when hora_salida is null then 'no nulo' else 'nulo' end as esnulo from accesos_p where fecha=curdate() group by esnulo, Id_lugar;";
         return $this->db->consulta_codigo($conexion, $sql);
     }
-    function entradaAumatica($lugar, $no_control, $nombre, $carrera, $apellido_paterno="", $apellido_materno="")
+    function entradaAumatica($lugar, $no_control, $nombre, $carrera, $apellido_paterno = "", $apellido_materno = "")
     {
         //nueva linea
         $conexion = $this->db->conectar();
-        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno"=> $apellido_materno));
+        $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno" => $apellido_materno));
         $sql = "call registro_accion_automatica('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
         return $this->db->consulta_codigo($conexion, $sql);
     }
