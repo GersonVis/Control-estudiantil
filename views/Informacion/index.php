@@ -318,7 +318,7 @@ $tecla = "";
                 <div class="modal-body" id="body_modal_lugar">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner" id="carruselDiasLugar">
-                            
+
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -391,17 +391,66 @@ $tecla = "";
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
     //funciones de carga de componentes
-    var cuadro_dias_lugar = new Cuadro_dias(7, "lugar")
-    var cuadro_dias_lugarb = new Cuadro_dias(7, "lugar")
+    var cuadro_dias_lugar = new Cuadro_dias({
+        separacion: 7,
+        identificador: "lugar",
+        datos_formulario: {
+            fecha_inicio: fecha_inicio,
+            fecha_fin: hoy
+        },
+        peticion_personalizada: async function(padre, identificador, datos_formulario) {
+            let datos_dias_entradas = await enviar_formulario("Entrada/diasAlumno",{
+                Fecha: datos_formulario.fecha_inicio,
+                Fecha_fin: datos_formulario.fecha_fin,
+                Id_lugar: identificador,
+                Hora_salida: "is not null"
+            })
+           
+            let datos_dias_salidas = await enviar_formulario("Entrada/diasAlumno",{
+                Fecha: datos_formulario.fecha_inicio,
+                Fecha_fin: datos_formulario.fecha_fin,
+                Id_lugar: identificador,
+                Hora_salida: "is null"
+            })
+            return [datos_dias_entradas.contenido, datos_dias_salidas.contenido]
+        }
+    })
+    //var cuadro_dias_lugarb = new Cuadro_dias(7, "lugar")
 
-    var cuadro_dias_persona = new Cuadro_dias(7, "persona")
+    var cuadro_dias_persona = new Cuadro_dias({
+        separacion: 7,
+        identificador: "persona",
+        datos_formulario: {
+            fecha_inicio: fecha_inicio,
+            fecha_fin: hoy
+        },
+        peticion_personalizada: async function(padre, identificador, datos_formulario) {
+            let datos_dias_entradas = await enviar_formulario("Entrada/diasAlumno/"+identificador,{
+                Fecha: datos_formulario.fecha_inicio,
+                Fecha_fin: datos_formulario.fecha_fin,
+                Hora_salida: "is not null"
+            })
+            let datos_dias_salidas = await enviar_formulario("Entrada/diasAlumno"+identificador,{
+                Fecha: datos_formulario.fecha_inicio,
+                Fecha_fin: datos_formulario.fecha_fin,
+                Hora_salida: "is null"
+            })
+            return [datos_dias_entradas.contenido, datos_dias_salidas.contenido]
+        }
+    })
 
-    contenedor_carrusel=crear_elemento({tipo: "div", clases: ["carousel-item" ,"active"]})
+    contenedor_carrusel = crear_elemento({
+        tipo: "div",
+        clases: ["carousel-item", "active"]
+    })
     contenedor_carrusel.appendChild(cuadro_dias_lugar.crear_interfaz())
-   // carruselDiasLugar.appendChild(contenedor_carrusel)
+    // carruselDiasLugar.appendChild(contenedor_carrusel)
 
-    
-    contenedor_carrusel=crear_elemento({tipo: "div", clases: ["carousel-item" ,"active"]})
+
+    contenedor_carrusel = crear_elemento({
+        tipo: "div",
+        clases: ["carousel-item", "active"]
+    })
     /*contenedor_carrusel.appendChild(cuadro_dias_lugarb.crear_interfaz())
     carruselDiasLugar.appendChild(contenedor_carrusel)*/
     body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
@@ -436,7 +485,7 @@ $tecla = "";
                 json.contenido.forEach(data => {
                     data_entradas.etiquetas.push(data.etiqueta)
                     data_entradas.datos[0].data.push(data.valor)
-                    data_entradas.datos[0].backgroundColor.push(data.color??`rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`)
+                    data_entradas.datos[0].backgroundColor.push(data.color ?? `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`)
                 })
             }
             return data_entradas
@@ -445,7 +494,7 @@ $tecla = "";
     grafica_lugar_CoC.crear_interfaz()
     body_modal_lugar.appendChild(grafica_lugar_CoC.get_elemento_principal())
 
-    
+
 
     var grafica_lugar_CoL = new Grafica_elemento({
         datos_formulario: {
@@ -556,7 +605,7 @@ $tecla = "";
             }
 
             data_entradas.etiquetas = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
-            console.log("entradas", data_entradas, json_consulta)
+          //  console.log("entradas", data_entradas, json_consulta)
 
 
             return data_entradas
