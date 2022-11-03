@@ -11,12 +11,12 @@ class Modelo_Alumno extends Model
     {
         $conexion = $this->db->conectar();
         //  $base_sql = "select * from estudiantes_p inner join personas_p using(Id_persona)";
-        $base_sql = 'select estudiantes_p.Id_persona,estudiantes_p.Id_carrera, estudiantes_p.No_control, personas_p.Nombre,personas_p.Apellido_paterno, ( if((select count(*) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona) >0, 
+        $base_sql = 'select estudiantes_p.Id_persona,(select count(*) from accesos_p where accesos_p.Id_persona=estudiantes_p.id_persona) as Entradas, estudiantes_p.Id_carrera, estudiantes_p.No_control, personas_p.Nombre,personas_p.Apellido_paterno, ( if((select count(*) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona) >0, 
                                                                                                                                         
-        if((select if(Hora_entrada is not null and Hora_salida is null, true, false) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona and fecha=curdate() order by hora_entrada DESC limit 1), "Dentro",
+        if((select if(Hora_entrada is not null and Hora_salida is null, true, false) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona and fecha=curdate() order by hora_entrada DESC limit 1), "Activo",
 
 
-(select concat("Última vez: ", fecha," ", if(hora_salida=null, date_format(hora_entrada, "%r"), date_format(hora_salida, "%r"))) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona ORDER by fecha desc, hora_entrada desc LIMIT 1)) , "sin entradas") ) as Valor from estudiantes_p inner JOIN personas_p USING(Id_persona) ';
+(select concat("Última vez: ", fecha," ", if(hora_salida=null, date_format(hora_entrada, "%r"), date_format(hora_salida, "%r"))) from accesos_p WHERE accesos_p.Id_persona=estudiantes_p.Id_persona ORDER by fecha desc, hora_entrada desc LIMIT 1)) , "Sin entradas") ) as Valor from estudiantes_p inner JOIN personas_p USING(Id_persona) ';
         if (is_string($entradas)) {
             return $this->db->consulta_codigo($conexion, $base_sql);
         }

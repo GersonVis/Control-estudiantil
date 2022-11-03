@@ -1,31 +1,34 @@
-const alumno_lista = ({ No_control, Nombre, Id_carrera,  Valor}) => {
+const alumno_lista = ({ No_control, Nombre, Id_carrera, Valor, Entradas }) => {
     let elemento_padre = document.createElement("div")
-    elemento_padre.innerHTML = `
-
-    <div class="w-100 d-flex flex-row" style="height: 90px">
-    <div class="h-100 d-flex justify-content-center align-items-center" style="width: 50px; margin: 0 14px 0 14px;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path fill="#DADADA" d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-            <path fill="#DADADA" fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A 8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-        </svg>
-    </div>
-    <div class="h-100 d-flex flex-column" style="flex-grow: 1">
-        <div class="h-50 d-flex align-items-end">
-            <b class="p-0 m-0 text-medio">${Nombre} </b>
-            <em class="p-0 m-0 text-bajo" style="font-size: 10pt; flex-grow: 1;display: flex;justify-content: flex-end;">${Valor}</em>
-            ${Valor=="Dentro"?"<div style='border-radius: 50% 50%; width: 7px; height: 7px; background-color: red;'></div>":""}
+    let parte_animada = Valor == "Activo" ? `<div style="width: 60px; overflow: hidden">
+         <img class="animacion_dentro" width="120px" src="public/icons/dentro_animacion.svg">
+     </div>`: `<div style="width: 60px; overflow: hidden">
+     <img class="" width="60px" src="public/icons/vacio.svg">
+ </div>`
+    elemento_padre.innerHTML = ` <div class="d-flex w-100 flex-column" style="">
+    <div class="d-flex flex-row" style="height: 80%; gap: 14px">
+        <div class="d-flex flex-row" style="width: 80%;border: 1px solid var(--color-decorativo);border-radius: 12px;">
+            <div class="d-flex h-100 justify-content-center align-items-center" style="width: 20%;">
+                ${parte_animada}
+            </div>
+            <div class="d-flex h-100 flex-column" style="width: 80%; ">
+                <div class="d-flex h-50  align-items-center p-0 m-0 text-medio" style="min-height: 40px">
+                    <b>${Nombre}</b>
+                </div>
+                <div class="d-flex h-50  flex-column" style="min-height: 50px">
+                    <p class="text-bajo p-0 m-0" style="font-size: 10pt;">${No_control}</p>
+                    <p class="text-bajo p-0 m-0" style="font-size: 10pt;">${Id_carrera}</p>
+                </div>
+            </div>
         </div>
-        <div class="h-50">
-            <p class="text-bajo p-0 m-0">${No_control} </p>
-            <p class="text-bajo p-0 m-0"> ${Id_carrera}</p>
-            
+        <div class="d-flex flex-column justify-content-center align-items-center" style="width: 20%; border: 1px solid var(--color-decorativo);border-radius: 12px;">
+            <p class="text-bajo p-0 m-0" style="font-size: 10pt;">Número de entradas</p>
+            <p class="p-0 m-0 text-bajo" style="font-size: 22pt">${Entradas}</p>
         </div>
     </div>
-    <div class="h-100">
-     <!--   <div class="d-flex justify-content-center align-items-center m-2" style="top: 14px;background: white;border-radius: 50% 50%;right: 14px;width: 24px;height: 24px;">
-            <i class="bi-arrow-up-right-circle"></i>
-        </div>-->
+    <div class="d-flex" style="margin-left: 14px;">
+        <p class="text-bajo" style="padding: 4px 14px 4px 14px;margin: 0px 14px 0px 14px;font-size: 10pt;max-height: 45px;border-radius: 0px 0px 12px 12px; background-color: ${Valor == 'Activo' ? '#CAFFE6' : (Valor == 'Sin entradas') ? 'red' : 'var(--color-decorativo)'}">${Valor}</p>
     </div>
-   </div>`
-    return {principal: elemento_padre}
+</div>`
+    return { principal: elemento_padre }
 }

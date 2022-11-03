@@ -144,6 +144,21 @@ $tecla = "";
             z-index: 0;
         }
 
+        .animacion_dentro {
+            animation: 1s infinite steps(2, end) animacion-dentro;
+        }
+
+        @keyframes animacion-dentro {
+            from {
+                transform: translateX(0px);
+            }
+
+            to {
+                transform: translateX(-120px);
+            }
+
+        }
+
         @keyframes desplazar {
             from {
                 transform: translateY(0px);
@@ -250,29 +265,7 @@ $tecla = "";
                         <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
                     </div>
                     <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; padding-bottom: 14px; gap: 14px">
-                        <div class="d-flex w-100 flex-column" style="height: 100px">
-                            <div class="d-flex flex-row" style="height: 80%; gap: 14px">
-                                <div class="d-flex flex-row" style="width: 80%;border: 1px solid var(--color-decorativo);border-radius: 12px;">
-                                    <div class="d-flex h-100" style="width: 20%;"></div>
-                                    <div class="d-flex h-100 flex-column" style="width: 80%;">
-                                        <div class="d-flex w-50  align-items-center p-0 m-0 text-medio">
-                                            <b>Gerson Visoso Ocampo</b>
-                                        </div>
-                                        <div class="d-flex w-50  flex-column">
-                                            <p class="text-bajo p-0 m-0" style="font-size: 10pt;">17670174</p>
-                                            <p class="text-bajo p-0 m-0" style="font-size: 10pt;">Ingeníeria en sistemas</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center align-items-center" style="width: 20%; border: 1px solid var(--color-decorativo);border-radius: 12px;">
-                                    <p class="text-bajo p-0 m-0" style="font-size: 10pt;">Número de entradas</p>
-                                    <p class="p-0 m-0 text-bajo" style="font-size: 22pt">30</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center" style="width: 20%;border-radius: 0px 0px 12px 12px;background-color: #CAFFE6;padding: 0px 10px 0px 10px;margin-left: 14px;">
-                                <p class="p-0 m-0">Dentró</p>
-                            </div>
-                        </div>
+                       
 
 
                     </div>
