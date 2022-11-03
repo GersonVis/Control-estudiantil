@@ -13,10 +13,12 @@ const alumno_lista = ({ No_control, Nombre, Id_carrera,  Valor}) => {
         <div class="h-50 d-flex align-items-end">
             <b class="p-0 m-0 text-medio">${Nombre} </b>
             <em class="p-0 m-0 text-bajo" style="font-size: 10pt; flex-grow: 1;display: flex;justify-content: flex-end;">${Valor}</em>
+            ${Valor=="Dentro"?"<div style='border-radius: 50% 50%; width: 7px; height: 7px; background-color: red;'></div>":""}
         </div>
         <div class="h-50">
             <p class="text-bajo p-0 m-0">${No_control} </p>
             <p class="text-bajo p-0 m-0"> ${Id_carrera}</p>
+            
         </div>
     </div>
     <div class="h-100">
