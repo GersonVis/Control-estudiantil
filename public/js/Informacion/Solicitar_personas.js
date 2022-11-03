@@ -4,12 +4,12 @@ solicitar_personas = (url, contenedor_respuesta) => {
         .then(respuesta => {
             console.log("personas, ", respuesta)
             if (respuesta) {
-                personas = respuesta.contenido.map(datos => {
+              /*  personas = respuesta.contenido.map(datos => {
                     let interfaz_persona = alumno_lista(datos)
                     add_eventos_persona({ principal: interfaz_persona.principal, datos: datos, cuadro_dias: cuadro_dias_persona })
                     contenedor_respuesta.appendChild(interfaz_persona.principal)
                     return interfaz_persona
-                });
+                });*/
             }
         })
 }
