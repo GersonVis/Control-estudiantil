@@ -25,6 +25,18 @@ class Alumno extends Controller
         $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
         $this->view->renderizar();
     }
+    function buscar(){
+       
+        $requerido = $this->parametros_necesarios(array("Palabras_clave"), $_POST);
+        if ($requerido) {
+            $this->view->resultado = $requerido;
+            $this->view->renderizar();
+            exit;
+        }
+        $busqueda=$_POST["Palabras_clave"];
+        $this->view->resultado = $this->modelo->buscar(array("Palabras_clave" => $busqueda));
+        $this->view->renderizar();
+    }
     function conteo(){
         $fecha = $_POST["fecha"] ?? "";
         $Id_lugar = $_POST["Id_lugar"] ?? "";

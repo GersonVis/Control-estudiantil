@@ -5,7 +5,7 @@ const alumno_lista = ({ No_control, Nombre, Id_carrera, Valor, Entradas }) => {
      </div>`: `<div style="width: 60px; overflow: hidden">
      <img class="" width="60px" src="public/icons/vacio.svg">
  </div>`
-    elemento_padre.innerHTML = ` <div class="d-flex w-100 flex-column" style="">
+    elemento_padre.innerHTML = ` <div class="alumno-lista d-flex w-100 flex-column" style="">
     <div class="d-flex flex-row" style="height: 80%; gap: 14px">
         <div class="d-flex flex-row" style="width: 80%;border: 1px solid var(--color-decorativo);border-radius: 12px;">
             <div class="d-flex h-100 justify-content-center align-items-center" style="width: 20%;">
@@ -30,5 +30,6 @@ const alumno_lista = ({ No_control, Nombre, Id_carrera, Valor, Entradas }) => {
         <p class="text-bajo" style="padding: 4px 14px 4px 14px;margin: 0px 14px 0px 14px;font-size: 10pt;max-height: 45px;border-radius: 0px 0px 12px 12px; background-color: ${Valor == 'Activo' ? '#CAFFE6' : (Valor == 'Sin entradas') ? 'red' : 'var(--color-decorativo)'}">${Valor}</p>
     </div>
 </div>`
+    elemento_padre = elemento_padre.children[0]
     return { principal: elemento_padre }
 }

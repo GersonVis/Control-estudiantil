@@ -3,13 +3,13 @@ solicitar_lugares=(url, contenedor_respuesta)=>{
     enviar_formulario(url)
     .then(respuesta=>{
        if(respuesta){
-            let lugares=respuesta.contenido.map(datos => {
+           /* let lugares=respuesta.contenido.map(datos => {
               
                 let interfaz_lugar=lugar({nombre_lugar: datos.Id_lugar})
                 add_eventos_lugar({principal: interfaz_lugar.principal, datos: datos, cuadro_dias: cuadro_dias_lugar})
                 contenedor_respuesta.appendChild(interfaz_lugar.principal)
                 return interfaz_lugar
-            });
+            });*/
        }
     })
 }

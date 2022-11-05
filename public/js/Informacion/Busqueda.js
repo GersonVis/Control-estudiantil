@@ -1,59 +1,82 @@
 /*Mostrar cuadro de información cuando hay texto en el cuadro de busqueda*/
 
-input_busqueda.addEventListener("input", function(evt){
+input_busqueda.addEventListener("input", function (evt) {
     let contenido
-    let visible="hidden" 
-    contenido=evt.target.value
-    visible=cuadro_informacion.attributes.activo.value
-    if(contenido!=""){
-        if(visible=="hidden"){
-           // cuadro_informacion.style.visibility="visible"
-           mostrar_cuadro_informacion()
-           activar_enter()
+    let visible = "hidden"
+    contenido = evt.target.value
+    visible = cuadro_informacion.attributes.activo.value
+    if (contenido != "") {
+        if (visible == "hidden") {
+            // cuadro_informacion.style.visibility="visible"
+            mostrar_cuadro_informacion()
+            activar_enter()
         }
         return
     }
     ocultar_cuadro_informacion()
 })
 
-const mostrar_cuadro_informacion=()=>{
-    cuadro_informacion.attributes.activo.value="visible"
+const mostrar_cuadro_informacion = () => {
+    cuadro_informacion.attributes.activo.value = "visible"
     cuadro_informacion.classList.remove("entrada-creciente-r")
     cuadro_informacion.classList.add("entrada-creciente")
 }
-const ocultar_cuadro_informacion=()=>{
-    cuadro_informacion.attributes.activo.value="hidden"
+const ocultar_cuadro_informacion = () => {
+    cuadro_informacion.attributes.activo.value = "hidden"
     cuadro_informacion.classList.remove("entrada-creciente")
     cuadro_informacion.classList.add("entrada-creciente-r")
 }
-input_busqueda.addEventListener("focus", function(){
-   console.log("focus")
+input_busqueda.addEventListener("focus", function () {
+    console.log("focus")
 })
 
+/*Boton buscar enviar formulario*/
+btn_buscar.addEventListener("click", function () {
+    enviar_formulario(
+        "Alumno/buscar", {
+        Palabras_clave: input_busqueda.value
+    }
+    ).then(json => {
+        
+        if (json.respuesta && json.contenido.length!=0){
+            lista_contenedor_personas.innerHTML = ""
+            personas = json.contenido.map(datos => {
+                return crear_persona_eventos(datos, lista_contenedor_personas)
+            });
+            btn_mostrar_todos.style.visibility="visible"
+        }
+    })
+})
 
+btn_mostrar_todos.addEventListener("click", function(){
+    lista_contenedor_personas.innerHTML = ""
+    solicitar_personas(url_personas, lista_contenedor_personas)
+    btn_mostrar_todos.style.visibility="hidden"
+    input_busqueda.value=""
+})
 
-const activar_enter=()=>{
-    input_busqueda.addEventListener("keypress", function(e){
+const activar_enter = () => {
+    input_busqueda.addEventListener("keypress", function (e) {
         enter_pulsado(e)
     })
 }
-const enter_pulsado=(e)=>{
+const enter_pulsado = (e) => {
     let tecla = e.keyCode
-    if(tecla==13) alert("has pulsado enter")
+    if (tecla == 13) alert("has pulsado enter")
 }
 //comentario para git
-window.addEventListener("mousedown", function(e){
-    let elemento=e.target
+window.addEventListener("mousedown", function (e) {
+    let elemento = e.target
     let visible
-    if(input_busqueda.contains(elemento) || cuadro_informacion.contains(elemento)){
-       if(input_busqueda.value!=""){
-        mostrar_cuadro_informacion()
-       }
-    }else{
-        visible=cuadro_informacion.attributes.activo.value
-        if(visible=="visible"){
+    if (input_busqueda.contains(elemento) || cuadro_informacion.contains(elemento)) {
+        if (input_busqueda.value != "") {
+            mostrar_cuadro_informacion()
+        }
+    } else {
+        visible = cuadro_informacion.attributes.activo.value
+        if (visible == "visible") {
             ocultar_cuadro_informacion()
         }
-       
+
     }
 })

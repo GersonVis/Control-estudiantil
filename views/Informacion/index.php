@@ -225,6 +225,8 @@ $tecla = "";
                 width: 0%;
             }
         }
+
+        .alumno-lista:last-child {}
     </style>
 </head>
 
@@ -233,45 +235,54 @@ $tecla = "";
     $this->renderizar_menu($this->opcion);
     ?>
     <div class="d-flex justify-content-center" style="overflow: auto; height: var(--alto-global)">
-        <div class="w-50 h-100">
-            <div class="w-100 d-flex justify-content-center align-items-center" style="height: 10%">
+        <div class="w-50 h-100 ">
+            <div class="w-100 d-flex justify-content-center align-items-center" style="height: 10%;position: sticky;top: 0px;background: white;z-index: 100;">
                 <div class="d-flex justify-content-center align-items-center w-75 position-relative" style="height: 50%; min-height: 40px">
-                    <input type="text" id="input_busqueda" placeholder="Buscar" class="p-2 w-100 h-100" style=" border-radius: 12px; background-color: var(--prioridad-alta); border: 0">
-                    </input>
+                    <div class=" w-100 h-100" style="position: relative; border-radius: 12px; background-color: var(--prioridad-alta); border: 0">
+                        <input type="text" id="input_busqueda" placeholder="Buscar" class="p-2 w-100 h-100" style=" border-radius: 12px; background-color: var(--prioridad-alta); border: 0">
+                        </input>
+                        <button type="button" id="btn_mostrar_todos" class="position-absolute btn btn-danger btn-sm font-weight-bold" style="visibility: hidden;height: 31px;right: 10px;top: 0px;bottom: 0px;margin: auto;border-radius: 13px;">BÚSQUEDA<i class="bi-x-lg"></i></button>
+                    </div>
+
+
                     <div id="cuadro_busqueda" class="position-absolute d-flex bg-sub-prioridad-alta w-100  mt-1 redondear-secundario" style="z-index: 99; height: 0px; top: 100%; overflow: hidden;" activo="hidden">
                         <img src="public/ilustraciones/busqueda.png" style="height: 180px;margin-top: 24px;" />
                         <div class="d-flex flex-column" style="margin-top: 24px">
                             <b style="font-size: 120%; margin-bottom: 14px;">¡Iniciar búsqueda!</b>
                             <p style="margin-bottom: 14px; font-size: 70%;">Iniciaras la búsqueda de personas y de lugares, la búsqueda es en base al nombre.
                             </p>
-                            <button type="button" class="btn btn-primary btn-block font-weight-bold w-75 m-0 p-0" style="border-radius: 12px; height: 30px;"><i class="bi-search"></i> BUSCAR</button>
+                            <button type="button" id="btn_buscar" class="btn btn-primary btn-block font-weight-bold w-75 m-0 p-0" style="border-radius: 12px; height: 30px;"><i class="bi-search"></i> BUSCAR</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="w-100" style="height: 90%;">
+            <div class="w-100" style="">
                 <div class="w-100 d-flex flex-column" style="height: 45%">
                     <b>Lugares</b>
 
-                    <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares" style="height: 200px; overflow-x: auto; overflow-y: hidden; gap: 14px">
+                    <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares_pr" style="height: 260px; overflow-x: auto; overflow-y: hidden; gap: 14px">
 
-
-
-
-                    </div>
-                </div>
-                <div class="w-100" style="height: 55%">
-                    <div class="w-100" style="height: 20%;">
-                        <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
-                    </div>
-                    <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; padding-bottom: 14px; gap: 14px">
                        
-
-
+                        <div class="d-flex w-100" style="height: 80px">
+                        </div>
                     </div>
+
+
+                </div>
+            </div>
+            <div class="w-100" style="height: 55%">
+                <div class="w-100 d-flex flex-justify-evenly" style="height: 20%;">
+                    <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
+
+                </div>
+                <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; padding-bottom: 14px; gap: 14px">
+
+
+
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- modales-->
@@ -279,7 +290,7 @@ $tecla = "";
     <div class="modal fade bd-example-modal-lg" id="modal_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="position: sticky;top: 0px;background: white;z-index: 100;">
                     <div id="identificador_persona">
                         <div class="w-100 d-flex flex-row" style="height: 70px">
                             <div class="h-100 d-flex justify-content-center align-items-center" style="width: 50px; margin: 0 14px 0 14px;">
@@ -316,7 +327,7 @@ $tecla = "";
     <div class="modal fade bd-example-modal-lg" id="modal_datos_lugar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="position: sticky;top: 0px;background: white;z-index: 100;">
                     <div id="identificador_persona">
                         <div class="position-relative w-100 d-flex justify-content-center align-items-center" style="height: 75%; background-image: linear-gradient(#f3f8fbd9, #f3f8fbd9), url('public/ilustraciones/136.jpg'); background-size: cover;">
                             <p class="text-secondary" style="font-size: 18pt;" id="inicial_lugar_modal"></p>
@@ -359,10 +370,13 @@ $tecla = "";
     const fecha_inicio = hoy.split("-")[0] + "-01-01" //para la obtención de rangos de datos
     //referencias a elementos
     const input_busqueda = document.querySelector("#input_busqueda")
+    const btn_buscar = document.querySelector("#btn_buscar")
+    const btn_mostrar_todos = document.querySelector("#btn_mostrar_todos")
     const cuadro_informacion = document.querySelector("#cuadro_busqueda")
     const lista_contenedor_personas = document.querySelector("#contenedor_personas")
     const lista_contenedor_lugares = document.querySelector("#contenedor_lugares")
     const identificador_persona = document.querySelector("#identificador_persona")
+
 
     const modal_persona = document.querySelector("#modal_persona")
     const body_modal_persona = document.querySelector("#body_modal_persona")
@@ -397,11 +411,14 @@ $tecla = "";
 <script src="public/js/Componentes/Datos_hora.js"></script>
 <script src="public/js/Componentes/Grafica_elemento.js"></script>
 
-<script src="public/js/Informacion/Busqueda.js"></script>
+
 
 <script src="public/js/Informacion/Solicitar_personas.js"></script>
 <script src="public/js/Informacion/Solicitar_lugares.js"></script>
 <script src="public/js/Informacion/Solicitar_dias.js"></script>
+
+<script src="public/js/Informacion/Busqueda.js"></script>
+
 <script>
     //fovus al cuadro de búsqueda
     input_busqueda.focus();
@@ -470,6 +487,12 @@ $tecla = "";
     carruselDiasLugar.appendChild(contenedor_carrusel)*/
     body_modal_lugar.appendChild(cuadro_dias_lugar.crear_interfaz())
 
+
+    /* body_modal_lugar.appendChild(grafica_lugar_CoC2.get_elemento_principal())
+     grafica_lugar_CoC2.solicitar_datos("")*/
+
+
+
     var grafica_lugar_CoC = new Grafica_elemento({
         datos_formulario: {
             fecha_inicio: fecha_inicio,
@@ -511,6 +534,9 @@ $tecla = "";
 
 
 
+
+
+
     var grafica_lugar_CoL = new Grafica_elemento({
         datos_formulario: {
             fecha_inicio: fecha_inicio,
@@ -532,7 +558,7 @@ $tecla = "";
             let carreras = await enviar_formulario("Carrera")
             if (carreras.respuesta) {
                 let contenido = carreras.contenido
-                console.log(contenido)
+
                 for (const {
                         Id_carrera,
                         Color
