@@ -190,7 +190,7 @@ function Cuadro_dias({ separacion, identificador, datos_formulario, peticion_per
             //   console.log(registro.fecha)
 
         })
-        console.log(dias)
+       
         hacer(dias.length, this.interfaz[nombre_interfaz])
         /*  if(entradas==1){
               this.interfaz[nombre_interfaz].innerText = entradas + complemento

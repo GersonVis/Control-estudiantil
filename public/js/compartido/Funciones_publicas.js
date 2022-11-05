@@ -3,7 +3,7 @@ const obtener_fecha=()=>{
     const fecha_hoy = hoy.getFullYear() + "-" + String(hoy.getMonth() + 1).padStart(2, "0") + "-" + String(hoy.getDate()).padStart(2, "0")
     return fecha_hoy
 }
-this.crear_elemento = function ({ tipo, clases, estilos, id }) {
+const crear_elemento = function ({ tipo, clases, estilos, id }) {
     let elemento = document.createElement(tipo)
     elemento.id = id ?? ""
     estilos = estilos ?? []

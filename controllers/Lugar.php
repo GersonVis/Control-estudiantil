@@ -20,7 +20,29 @@ class Lugar extends Controller{
         $this->view->renderizar();
     }
     function entradasPorCarrera($entrada){
-        echo $entrada;
+      
+        $fecha = $_POST["Fecha"] ?? "";
+        $fecha_fin = $_POST["Fecha_fin"] ?? "";
+        $hora_salida = $_POST["Hora_salida"]??"";
+        $posicion_limite=$_POST["Posicion_limite"]??0;
+        $numero_registros=$_POST["Numero_registros"]??"";
+        $no_control_d =  $_POST["No_control"]??"";
+        $id_Lugar=$_POST["Id_lugar"]??"";
+
+        $entradas_necesarias=array(
+        "fecha" => $fecha,
+        "Id_lugar" => $id_Lugar,
+        "No_control" => $no_control_d,
+        "Posicion_limite" => $posicion_limite,
+        "Numero_registros" => $numero_registros,
+        "fecha_fin" => $fecha_fin,
+        "Hora_salida"=>$hora_salida);
+        $resultado=$this->modelo->entradasPorCarrera($entradas_necesarias);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
+    function conte_hora($entrada){
+       
         $fecha = $_POST["Fecha"] ?? "";
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
         $hora_salida = $_POST["Hora_salida"]??"";

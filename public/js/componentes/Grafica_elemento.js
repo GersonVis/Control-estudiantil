@@ -28,7 +28,7 @@ function Grafica_elemento({datos_formulario,
         })//funcion de funciones publicas
         contenedor_grafica = crear_elemento({
             tipo: "div", clases: ["rounded", "d-flex", "flex-column"],
-            estilos: [{ estilo: "border", valor: "1px solid var(--color-decorativo)" },
+            estilos: [{ estilo: "border", valor: configuracion_grafica.borde??"1px solid var(--color-decorativo)"},
             { estilo: "padding", valor: "10px 10px 10px 10px" }
             ]
         })
@@ -81,13 +81,26 @@ function Grafica_elemento({datos_formulario,
                 datasets: data_entradas.datos
             },
             options: {
+                events: configuracion_grafica.eventos??["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+                scales:{
+                    y:{
+                        display: configuracion_grafica.ver_eje_y??true
+                    },
+                    x:{
+                        display: configuracion_grafica.ver_eje_x??true
+                    }
+                },
+                elements:{
+                   point:{
+                    radius: 0
+                   }
+                },
                 plugins: {
                     legend: {
                         position: configuracion_grafica.posicion_etiquetas??"top",
                         display: configuracion_grafica["ver_etiquetas"]??true,
                         labels: {
                             color: "rgb(169,169,169)",
-                            
                             font: 8
                         }
                     }
