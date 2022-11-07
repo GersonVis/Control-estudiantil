@@ -16,7 +16,7 @@ class Modelo_Carrera extends Model
         }
         $entradas = $this->limpiar($conexion, $entradas);
         $base_sql = $this->formar_sql($base_sql, $entradas);
-
+        
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function entradasPorCarrera($entradas = "")

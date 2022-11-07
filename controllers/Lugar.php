@@ -41,7 +41,7 @@ class Lugar extends Controller{
         $this->view->resultado=$resultado;
         $this->view->renderizar();
     }
-    function conte_hora($entrada){
+    function conteoHora(){
        
         $fecha = $_POST["Fecha"] ?? "";
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
@@ -50,6 +50,7 @@ class Lugar extends Controller{
         $numero_registros=$_POST["Numero_registros"]??"";
         $no_control_d =  $_POST["No_control"]??"";
         $id_Lugar=$_POST["Id_lugar"]??"";
+        $id_carrera=$_POST["Id_carrera"]??"";
 
         $entradas_necesarias=array(
         "fecha" => $fecha,
@@ -58,8 +59,10 @@ class Lugar extends Controller{
         "Posicion_limite" => $posicion_limite,
         "Numero_registros" => $numero_registros,
         "fecha_fin" => $fecha_fin,
-        "Hora_salida"=>$hora_salida);
-        $resultado=$this->modelo->entradasPorCarrera($entradas_necesarias);
+        "Hora_salida"=>$hora_salida,
+        "Id_carrera"=>$id_carrera
+         );
+        $resultado=$this->modelo->conteoHora($entradas_necesarias);
         $this->view->resultado=$resultado;
         $this->view->renderizar();
     }

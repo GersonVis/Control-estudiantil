@@ -147,7 +147,9 @@ $tecla = "";
         .animacion_dentro {
             animation: 1s infinite steps(2, end) animacion-dentro;
         }
-
+        .luna{
+            background-color: var(--color-decorativo);
+        }
         @keyframes animacion-dentro {
             from {
                 transform: translateX(0px);
@@ -234,16 +236,15 @@ $tecla = "";
     <?php
     $this->renderizar_menu($this->opcion);
     ?>
-    <div class="d-flex justify-content-center" style="overflow: auto; height: var(--alto-global)">
+    <div class="d-flex justify-content-center" id="scroll_global" style="overflow: auto; height: var(--alto-global)">
         <div class="w-50 h-100 ">
-            <div class="w-100 d-flex justify-content-center align-items-center" style="height: 10%;position: sticky;top: 0px;background: white;z-index: 100;">
+            <div class="w-50 d-flex justify-content-center align-items-center" style="height: 80px;width: 50%;position: absolute;top: 10%;background: white;z-index: 100;">
                 <div class="d-flex justify-content-center align-items-center w-75 position-relative" style="height: 50%; min-height: 40px">
                     <div class=" w-100 h-100" style="position: relative; border-radius: 12px; background-color: var(--prioridad-alta); border: 0">
                         <input type="text" id="input_busqueda" placeholder="Buscar" class="p-2 w-100 h-100" style=" border-radius: 12px; background-color: var(--prioridad-alta); border: 0">
                         </input>
                         <button type="button" id="btn_mostrar_todos" class="position-absolute btn btn-danger btn-sm font-weight-bold" style="visibility: hidden;height: 31px;right: 10px;top: 0px;bottom: 0px;margin: auto;border-radius: 13px;">BÚSQUEDA<i class="bi-x-lg"></i></button>
                     </div>
-
 
                     <div id="cuadro_busqueda" class="position-absolute d-flex bg-sub-prioridad-alta w-100  mt-1 redondear-secundario" style="z-index: 99; height: 0px; top: 100%; overflow: hidden;" activo="hidden">
                         <img src="public/ilustraciones/busqueda.png" style="height: 180px;margin-top: 24px;" />
@@ -256,13 +257,16 @@ $tecla = "";
                     </div>
                 </div>
             </div>
+            <div style="height: 80px;">
+
+            </div>
             <div class="w-100" style="">
-                <div class="w-100 d-flex flex-column" style="height: 45%">
+                <div class="w-100 d-flex flex-column" style="">
                     <b>Lugares</b>
 
-                    <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares_pr" style="height: 260px; overflow-x: auto; overflow-y: hidden; gap: 14px">
+                    <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares" style="height: 270px; overflow-x: auto; overflow-y: hidden; gap: 14px">
 
-                       
+
                         <div class="d-flex w-100" style="height: 80px">
                         </div>
                     </div>
@@ -270,9 +274,9 @@ $tecla = "";
 
                 </div>
             </div>
-            <div class="w-100" style="height: 55%">
-                <div class="w-100 d-flex flex-justify-evenly" style="height: 20%;">
-                    <b class="w-100" style="height: 20%; padding-bottom: 14px">Personas</b>
+            <div class="w-100" style="margin-bottom: 55px;padding-bottom: 40px;">
+                <div class="w-100 d-flex flex-justify-evenly" style="">
+                    <b class="w-100" style=" padding-bottom: 14px">Personas</b>
 
                 </div>
                 <div class="w-100 d-flex flex-column" id="contenedor_personas" style="height: 80%; padding-bottom: 14px; gap: 14px">
@@ -383,6 +387,7 @@ $tecla = "";
     const modal_persona_cerrar = document.querySelector("#modal_persona_cerrar")
     const no_control_persona_modal = document.querySelector("#no_control_persona_modal")
     const nombre_persona_modal = document.querySelector("#nombre_persona_modal")
+    const scroll_global=document.querySelector("#scroll_global")
 
 
 
@@ -619,7 +624,7 @@ $tecla = "";
             posicion_etiquetas: "bottom",
             ver_etiquetas: false
         },
-        titulo_grafica: "Entradas y salidas en una hora",
+        titulo_grafica: "Entradas por día de la semana",
         url_datos: "Entrada/conteoPorSemana/",
         funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
             let json_consulta
@@ -739,7 +744,9 @@ $tecla = "";
         configuracion_grafica: {
             tipo: "doughnut",
             alto: "250px",
-            posicion_etiquetas: "left"
+            posicion_etiquetas: "left",
+            ver_eje_y: false,
+            ver_eje_x: false
         },
         titulo_grafica: "Entradas por lugar",
         funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {

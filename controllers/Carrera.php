@@ -13,11 +13,10 @@ class Carrera extends Controller
     function todos()
     {
         $fecha = $_POST["Fecha"] ?? "";
-        $lugar = $_POST["Id_lugar"] ?? "";
         $noControl = $_POST["No_control"] ?? "";
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
         $hora_salida = $_POST["Hora_salida"]??"";
-        $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+        $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
        
         $this->view->renderizar();
     }
