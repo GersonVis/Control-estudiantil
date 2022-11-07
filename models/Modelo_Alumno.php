@@ -9,7 +9,7 @@ class Modelo_Alumno extends Model
 
     function todos($entradas = "", $nulos = 0)
     {
-        $conexion = $this->db->conectar();
+       /* $conexion = $this->db->conectar();
         //  $base_sql = "select * from estudiantes_p inner join personas_p using(Id_persona)";
         $base_sql = 'select * from personas_view ';
         if (is_string($entradas)) {
@@ -18,6 +18,30 @@ class Modelo_Alumno extends Model
         $entradas = $this->limpiar($conexion, $entradas);
         $base_sql = $this->formar_sql($base_sql, $entradas);
 
+        return $this->db->consulta_codigo($conexion, $base_sql);*/
+
+
+
+        $conexion = $this->db->conectar();
+        $base_sql = 'select * from personas_view ';
+
+        if (is_string($entradas)) {
+            return $this->db->consulta_codigo($conexion, $base_sql);
+        }
+        $entradas = $this->limpiar($conexion, $entradas);
+        $limite_inicio = $entradas["Posicion_limite"];
+        $numero_registros = $entradas["Numero_registros"];
+       
+        
+        unset($entradas["Posicion_limite"]);
+        unset($entradas["Numero_registros"]);
+
+       
+
+        $sentencia_limite = $numero_registros != "" ? " limit $limite_inicio, $numero_registros" : "";
+
+        $base_sql = $this->formar_sql($base_sql, $entradas) . $sentencia_limite;
+       //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function buscar($entradas){
