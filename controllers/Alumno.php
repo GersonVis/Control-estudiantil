@@ -15,14 +15,47 @@ class Alumno extends Controller
         echo "desde otro";
         echo var_dump($this->modelo->status());
     }
-    function todos()
+    function todos($no_control="")
     {
-        $fecha = $_POST["Fecha"] ?? "";
+       /* $fecha = $_POST["Fecha"] ?? "";
         $lugar = $_POST["Id_lugar"] ?? "";
         $noControl = $_POST["No_control"] ?? "";
         $fecha_fin = $_POST["Fecha_fin"] ?? "";
         $hora_salida = $_POST["Hora_salida"]??"";
         $this->view->resultado = $this->modelo->todos(array("fecha" => $fecha, "Id_lugar" => $lugar, "no_control" => $noControl, "fecha_fin" => $fecha_fin, "hora_salida"=>$hora_salida));
+        $this->view->renderizar();*/
+        $fecha = $_POST["Fecha"] ?? "";
+        $lugar = $_POST["Id_lugar"] ?? "";
+        $fecha_fin = $_POST["Fecha_fin"] ?? "";
+        $hora_salida = $_POST["Hora_salida"]??"";
+        $posicion_limite=$_POST["Posicion_limite"]??"0";
+        $numero_registros=$_POST["Numero_registros"]??"";
+        $noControl = $no_control!=""? $no_control: $_POST["No_control"] ?? "";
+
+
+      //  echo var_dump($_POST);
+        $entradas_necesarias=array(
+        "fecha" => $fecha,
+        "Id_lugar" => $lugar,
+        "no_control" => $noControl,
+        "Posicion_limite" => $posicion_limite,
+        "Numero_registros" => $numero_registros,
+        "fecha_fin" => $fecha_fin,
+        "hora_salida"=>$hora_salida);
+        $resultado=$this->modelo->todos($entradas_necesarias);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
+    function buscar(){
+       
+        $requerido = $this->parametros_necesarios(array("Palabras_clave"), $_POST);
+        if ($requerido) {
+            $this->view->resultado = $requerido;
+            $this->view->renderizar();
+            exit;
+        }
+        $busqueda=$_POST["Palabras_clave"];
+        $this->view->resultado = $this->modelo->buscar(array("Palabras_clave" => $busqueda));
         $this->view->renderizar();
     }
     function conteo(){

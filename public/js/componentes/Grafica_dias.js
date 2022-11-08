@@ -85,9 +85,6 @@ function Grafica_dias({fecha_inicio, fecha_fin, url_datos}) {
                             }
                         };
 
-
-
-
                         grafica_dias = new Chart(global_canva, carga);
                     }
                 }

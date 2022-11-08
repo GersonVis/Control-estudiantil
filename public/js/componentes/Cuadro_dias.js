@@ -1,10 +1,12 @@
-function Cuadro_dias(separacion, identificador) {
-    this.separacion = separacion
-    this.identificador = identificador
+function Cuadro_dias({ separacion, identificador, datos_formulario, peticion_personalizada }) {
+    this.separacion = separacion??7
+    this.identificador = identificador??"dias"
     this.cuadros_dias
     this.interfaz = {}
     this.cuadritos_seleccionados
     var cuadritos_seleccionados = []
+    var datos_formulario = datos_formulario ?? {}
+    var peticion_personalizada = peticion_personalizada ?? {}
     this.crear_interfaz = function () {
 
         let principal, contenedor_grilla
@@ -16,7 +18,7 @@ function Cuadro_dias(separacion, identificador) {
         contenedor_dias_dentro = this.crear_elemento({ tipo: "div", clases: ["d-flex", "flex-column"] })
         contenedor_dias_dentro.appendChild(p_numero_entradas)
         contenedor_dias_dentro.appendChild(p_numero_no_entradas)
-        
+
 
         principal = document.createElement("div")
         principal.classList.add("d-flex")
@@ -129,7 +131,7 @@ function Cuadro_dias(separacion, identificador) {
 
         this.cuadros_dias = cuadritos_en_mes
         this.interfaz["entradas_sin_salida"] = p_numero_no_entradas
-        this.interfaz["entradas_registradas"] = p_numero_entradas 
+        this.interfaz["entradas_registradas"] = p_numero_entradas
         return principal
     }
     this.obtener_meses_nombres = function () {
@@ -160,12 +162,22 @@ function Cuadro_dias(separacion, identificador) {
     this.reiniciar_dias = function (identificador) {
         datos_mes
     }
+    this.solicitar_datos = async function solicitar_datos(identificador) {
+        let datos_respuesta = await peticion_personalizada(this, identificador, datos_formulario);
+        this.marcar_dias(datos_respuesta[0], "entradas_registradas", "asistencia", function (entradas, elemento) {
+            elemento.innerText = parseInt(entradas) != 1 ? entradas + " Entradas" : "1 Entrada"
+        })
+        this.marcar_dias(datos_respuesta[1], "entradas_sin_salida", "no-asistencia", function (entradas, elemento) {
+            elemento.innerText = parseInt(entradas) != 1 ? entradas + " Entradas sin registro" : "1 Entrada sin registro"
+        })
+       
+    }
     this.marcar_dias = function (dias, nombre_interfaz, clase_nombre, hacer) {
         let entradas = 0
         dias.forEach(registro => {
             let fecha, datos_fecha
             let mes, dia
-            entradas += +registro.conteo
+            entradas+=parseInt(registro.conteo)
             fecha = registro.fecha
             datos_fecha = fecha.split("-")
             mes = datos_fecha[1]
@@ -178,11 +190,12 @@ function Cuadro_dias(separacion, identificador) {
             //   console.log(registro.fecha)
 
         })
+       
         hacer(entradas, this.interfaz[nombre_interfaz])
-      /*  if(entradas==1){
-            this.interfaz[nombre_interfaz].innerText = entradas + complemento
-        }*/
-        
+        /*  if(entradas==1){
+              this.interfaz[nombre_interfaz].innerText = entradas + complemento
+          }*/
+
     }
 
     this.crear_elemento = function ({ tipo, clases, estilos, id }) {
@@ -252,7 +265,7 @@ function Cuadro_dias(separacion, identificador) {
             contenedor_grilla.appendChild(renglon)
 
 
-            let recorrido = inicio_an_o.getUTCDay()+1
+            let recorrido = inicio_an_o.getUTCDay() + 1
             renglon = this.crear_row()
             renglon.classList.add("justify-content-end")
 
@@ -362,7 +375,7 @@ function Cuadro_dias(separacion, identificador) {
             let texto_mes = this.crear_elemento(
                 {
                     tipo: "div",
-                    estilos: [{estilo: "color", valor: "var(--color-prioridad-baja-baja)"}]
+                    estilos: [{ estilo: "color", valor: "var(--color-prioridad-baja-baja)" }]
                 }
             )
             texto_mes.innerText = nombre_mes

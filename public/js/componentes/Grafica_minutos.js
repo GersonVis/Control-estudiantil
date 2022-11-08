@@ -70,7 +70,7 @@ function Grafica_minutos({fecha_inicio, fecha_fin, url_datos, rango, titulo_graf
         })
             .then(
                 json => {
-                    console.log(json)
+                  //  console.log(json)
                     datos=json
                     if (json.respuesta) {
                         data_entradas = {etiqueta:[], valor:[]}
