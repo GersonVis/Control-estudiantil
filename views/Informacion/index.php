@@ -514,11 +514,14 @@ $tecla = "";
         },
         titulo_grafica: "Entradas por carrera",
         funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
-            let json = await enviar_formulario("Lugar/entradasPorCarrera/", {
+            let json_data = {
                 Fecha: datos_formulario.fecha_inicio,
                 Fecha_fin: datos_formulario.fecha_fin,
-                Id_lugar: identificador
-            })
+            }
+            if (identificador != "General") {
+                json_data["Id_lugar"] = identificador
+            }
+            let json = await enviar_formulario("Lugar/entradasPorCarrera/", json_data)
 
             data_entradas = {
                 etiquetas: [],
@@ -572,12 +575,15 @@ $tecla = "";
                         Id_carrera,
                         Color
                     } of contenido) {
-                    let json = await enviar_formulario("Entrada/conteoPorSemana/", {
+                    let json_data = {
                         Fecha: datos_formulario.fecha_inicio,
                         Fecha_fin: datos_formulario.fecha_fin,
                         Id_carrera: Id_carrera,
-                        Id_lugar: identificador,
-                    })
+                    }
+                    if (identificador != "General") {
+                        json_data["Id_lugar"] = identificador
+                    }
+                    let json = await enviar_formulario("Entrada/conteoPorSemana/", json_data)
                     data_entradas = {
                         valor: [0, 0, 0, 0, 0, 0, 0],
                         color: Color
@@ -714,7 +720,7 @@ $tecla = "";
                     contenedor_data = {
                         label: "",
                         backgroundColor: [],
-                        data: []//[...Array(60).keys()].map(a=>0),
+                        data: [] //[...Array(60).keys()].map(a=>0),
 
                     }
                     data.contenido.forEach(registro => {
@@ -735,17 +741,17 @@ $tecla = "";
             data_entradas.datos[1].label = "Salidas"
             data_entradas.datos[0].backgroundColor.push("rgb(63, 137, 255)")
             data_entradas.datos[1].backgroundColor.push("rgb(6255, 0, 0)")
-          /*  data_entradas.datos.push({
-                
-                backgroundColor: [],
-                data: [{x:60, y:0}, {x:0, y:10}],
-                backgroundColor: "rgb(255,255,255)",
-                radius: 0,
-                labels:{
-                    display: false
-                }
-               
-            })*/
+            /*  data_entradas.datos.push({
+                  
+                  backgroundColor: [],
+                  data: [{x:60, y:0}, {x:0, y:10}],
+                  backgroundColor: "rgb(255,255,255)",
+                  radius: 0,
+                  labels:{
+                      display: false
+                  }
+                 
+              })*/
 
             //  data_entradas.datos[0].data=[2,3,22,2]
             return data_entradas

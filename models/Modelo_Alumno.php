@@ -45,10 +45,36 @@ class Modelo_Alumno extends Model
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function buscar($entradas){
-        $conexion = $this->db->conectar();
+       /* $conexion = $this->db->conectar();
         $entradas = $this->limpiar($conexion, $entradas);
         $base_sql = "select (MATCH(No_control, Id_carrera) against('$entradas[Palabras_clave]') + MATCH(Nombre, Apellido_paterno, Apellido_materno) against('$entradas[Palabras_clave]')) as mt, nombre, No_control, Id_carrera,Valor, Entradas from personas_view having mt<>0 order by mt DESC; ";
       //  echo "base: ".$base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);*/
+
+
+
+
+
+        $conexion = $this->db->conectar();
+        $base_sql = "select (MATCH(No_control, Id_carrera) against('$entradas[Palabras_clave]') + MATCH(Nombre, Apellido_paterno, Apellido_materno) against('$entradas[Palabras_clave]')) as mt, nombre, No_control, Id_carrera,Valor, Entradas from personas_view having mt<>0 order by mt DESC ";
+
+        if (is_string($entradas)) {
+            return $this->db->consulta_codigo($conexion, $base_sql);
+        }
+        $entradas = $this->limpiar($conexion, $entradas);
+        $limite_inicio = $entradas["Posicion_limite"];
+        $numero_registros = $entradas["Numero_registros"];
+       
+        
+        unset($entradas["Posicion_limite"]);
+        unset($entradas["Numero_registros"]);
+
+       
+
+        $sentencia_limite = $numero_registros != "" ? " limit $limite_inicio, $numero_registros" : "";
+
+        $base_sql = $base_sql. $sentencia_limite;
+       //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
       
     }

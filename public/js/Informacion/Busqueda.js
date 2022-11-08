@@ -32,7 +32,16 @@ input_busqueda.addEventListener("focus", function () {
 
 /*Boton buscar enviar formulario*/
 btn_buscar.addEventListener("click", function () {
-    enviar_formulario(
+    lista_contenedor_personas.innerHTML = ""
+    btn_mostrar_todos.style.visibility="visible"
+    
+
+    datos_personas.set_desde_donde(0)
+    datos_personas.set_registros_completos(false)
+    datos_personas.solicitar_datos("busqueda", input_busqueda.value)
+
+
+  /*  enviar_formulario(
         "Alumno/buscar", {
         Palabras_clave: input_busqueda.value
     }
@@ -45,12 +54,14 @@ btn_buscar.addEventListener("click", function () {
             });
             btn_mostrar_todos.style.visibility="visible"
         }
-    })
+    })*/
 })
 
 btn_mostrar_todos.addEventListener("click", function(){
     lista_contenedor_personas.innerHTML = ""
-    solicitar_personas(url_personas, lista_contenedor_personas)
+    datos_personas.set_desde_donde(0)
+    datos_personas.set_registros_completos(false)
+    datos_personas.solicitar_datos("solicitud_personas", "")
     btn_mostrar_todos.style.visibility="hidden"
     input_busqueda.value=""
 })
