@@ -147,9 +147,11 @@ $tecla = "";
         .animacion_dentro {
             animation: 1s infinite steps(2, end) animacion-dentro;
         }
-        .luna{
+
+        .luna {
             background-color: var(--color-decorativo);
         }
+
         @keyframes animacion-dentro {
             from {
                 transform: translateX(0px);
@@ -294,7 +296,7 @@ $tecla = "";
     <div class="modal fade bd-example-modal-lg" id="modal_persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header" style="position: sticky;top: 0px;background: white;z-index: 100;">
+                <div class="modal-header" style="position: sticky;top: 0px;background: white;z-index: 200;">
                     <div id="identificador_persona">
                         <div class="w-100 d-flex flex-row" style="height: 70px">
                             <div class="h-100 d-flex justify-content-center align-items-center" style="width: 50px; margin: 0 14px 0 14px;">
@@ -331,7 +333,7 @@ $tecla = "";
     <div class="modal fade bd-example-modal-lg" id="modal_datos_lugar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header" style="position: sticky;top: 0px;background: white;z-index: 100;">
+                <div class="modal-header" style="position: sticky;top: 0px;background: white;z-index: 200;">
                     <div id="identificador_persona">
                         <div class="position-relative w-100 d-flex justify-content-center align-items-center" style="height: 75%; background-image: linear-gradient(#f3f8fbd9, #f3f8fbd9), url('public/ilustraciones/136.jpg'); background-size: cover;">
                             <p class="text-secondary" style="font-size: 18pt;" id="inicial_lugar_modal"></p>
@@ -387,7 +389,7 @@ $tecla = "";
     const modal_persona_cerrar = document.querySelector("#modal_persona_cerrar")
     const no_control_persona_modal = document.querySelector("#no_control_persona_modal")
     const nombre_persona_modal = document.querySelector("#nombre_persona_modal")
-    const scroll_global=document.querySelector("#scroll_global")
+    const scroll_global = document.querySelector("#scroll_global")
 
 
 
@@ -506,7 +508,9 @@ $tecla = "";
         configuracion_grafica: {
             tipo: "doughnut",
             alto: "250px",
-            posicion_etiquetas: "left"
+            posicion_etiquetas: "left",
+            ver_eje_x: false,
+            ver_eje_y: false
         },
         titulo_grafica: "Entradas por carrera",
         funcion_solicitar_datos: async function(padre, identificador, datos_formulario) {
@@ -680,7 +684,8 @@ $tecla = "";
         configuracion_grafica: {
             tipo: "scatter",
             alto: "250px",
-            posicion_etiquetas: "bottom"
+            posicion_etiquetas: "bottom",
+            max_x: 60
         },
         titulo_grafica: "Entradas y salidas en una hora",
         url_datos: "Entrada/conteoHora/",
@@ -697,8 +702,9 @@ $tecla = "";
             json_consultas.push(await enviar_formulario("Entrada/conteoSalidas/" + identificador, {
                 Fecha: datos_formulario.fecha_inicio,
                 Fecha_fin: datos_formulario.fecha_fin,
+                Hora_salida: "is not null"
             }))
-            // console.log(json_consultas)
+            //console.log("json_consultas", json_consultas)
             data_entradas = {
                 etiquetas: [],
                 datos: [],
@@ -708,7 +714,8 @@ $tecla = "";
                     contenedor_data = {
                         label: "",
                         backgroundColor: [],
-                        data: [],
+                        data: []//[...Array(60).keys()].map(a=>0),
+
                     }
                     data.contenido.forEach(registro => {
                         data_entradas.etiquetas.push(registro.etiqueta)
@@ -728,6 +735,19 @@ $tecla = "";
             data_entradas.datos[1].label = "Salidas"
             data_entradas.datos[0].backgroundColor.push("rgb(63, 137, 255)")
             data_entradas.datos[1].backgroundColor.push("rgb(6255, 0, 0)")
+          /*  data_entradas.datos.push({
+                
+                backgroundColor: [],
+                data: [{x:60, y:0}, {x:0, y:10}],
+                backgroundColor: "rgb(255,255,255)",
+                radius: 0,
+                labels:{
+                    display: false
+                }
+               
+            })*/
+
+            //  data_entradas.datos[0].data=[2,3,22,2]
             return data_entradas
         }
     })

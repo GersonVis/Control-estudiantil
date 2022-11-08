@@ -177,7 +177,7 @@ function Cuadro_dias({ separacion, identificador, datos_formulario, peticion_per
         dias.forEach(registro => {
             let fecha, datos_fecha
             let mes, dia
-           
+            entradas+=parseInt(registro.conteo)
             fecha = registro.fecha
             datos_fecha = fecha.split("-")
             mes = datos_fecha[1]
@@ -191,7 +191,7 @@ function Cuadro_dias({ separacion, identificador, datos_formulario, peticion_per
 
         })
        
-        hacer(dias.length, this.interfaz[nombre_interfaz])
+        hacer(entradas, this.interfaz[nombre_interfaz])
         /*  if(entradas==1){
               this.interfaz[nombre_interfaz].innerText = entradas + complemento
           }*/

@@ -84,15 +84,18 @@ function Grafica_elemento({datos_formulario,
                 events: configuracion_grafica.eventos??["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
                 scales:{
                     y:{
+                        max: configuracion_grafica.max_y,
                         display: configuracion_grafica.ver_eje_y??true
                     },
                     x:{
+                        max: configuracion_grafica.max_x,
                         display: configuracion_grafica.ver_eje_x??true
-                    }
+                    },
+                    
                 },
                 elements:{
                    point:{
-                    radius: 0
+                    radius: configuracion_grafica.radius??3
                    }
                 },
                 plugins: {

@@ -130,7 +130,7 @@ class Modelo_Entrada extends Model
         }
         $entradas = $this->limpiar($conexion, $entradas);
         $base_sql = $this->formar_sql($base_sql, $entradas) . " group by fecha";
-        //  echo $base_sql;
+        // echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function conteoPorSemana($entradas = "")
@@ -153,6 +153,7 @@ class Modelo_Entrada extends Model
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function minutosPorEntrada($entradas = "")
+    
     {
 
         $conexion = $this->db->conectar();
