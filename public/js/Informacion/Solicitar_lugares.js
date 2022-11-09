@@ -9,6 +9,7 @@ solicitar_lugares = (url, contenedor_respuesta) => {
                         datos_formulario: {
                             fecha_inicio: fecha_inicio,
                             fecha_fin: hoy,
+                           
                         },
                         configuracion_grafica: {
                             tipo: "line",
@@ -116,10 +117,9 @@ window.addEventListener("load", function (ev) {
                         borderColor: carrera.Color,
                         tension: 0
                     }
-                    console.log("general")
                     let carrera_conteo = await enviar_formulario("Lugar/conteoHora", {
                         Fecha: obtener_fecha(),
-                        Id_carrera: carrera.Id_carrera
+                       
                     })
                     if(carrera_conteo.respuesta){
                         carrera_conteo.contenido.forEach(({etiqueta, valor})=>{
@@ -145,7 +145,6 @@ window.addEventListener("load", function (ev) {
             }
             data_entradas.hora=hora
             data_entradas.datos_por_luna=array_ceros
-            console.log("data entradas", data_entradas)
             return data_entradas
         }
     })
@@ -153,9 +152,7 @@ window.addEventListener("load", function (ev) {
     interfaz_lugar.solicitar_datos("General")
     interfaz_lugar.evento_por_hora()
 
-    add_eventos_lugar({principal: interfaz_lugar.get_elemento_principal(), datos: {
-        Id_lugar: "General"
-    }, cuadro_dias: cuadro_dias_lugar})
+    add_eventos_lugar({principal: interfaz_lugar.get_elemento_principal(), datos: datos, cuadro_dias: cuadro_dias_lugar})
     
     lista_contenedor_lugares.appendChild(interfaz_lugar.get_elemento_principal())
     
@@ -168,10 +165,10 @@ window.addEventListener("load", function (ev) {
 function add_eventos_lugar({ principal, datos, cuadro_dias }) {
     principal.addEventListener("click", function () {
         modal_lugares({ principal: principal, datos: datos })
-        grafica_lugar_CoL.solicitar_datos(datos.Id_lugar=="General"?"":datos.Id_lugar)
-        grafica_lugar_CoC.solicitar_datos(datos.Id_lugar=="General"?"":datos.Id_lugar)
+        grafica_lugar_CoL.solicitar_datos(datos.Id_lugar??"")
+        grafica_lugar_CoC.solicitar_datos(datos.Id_lugar??"")
         cuadro_dias.reiniciar_estilos_cuadro()
-        cuadro_dias.solicitar_datos(datos.Id_lugar=="General"?"":datos.Id_lugar)
+        cuadro_dias.solicitar_datos(datos.Id_lugar??"")
 
 
 
