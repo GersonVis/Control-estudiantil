@@ -43,7 +43,7 @@ function Lugar({ nombre_lugar, datos_formulario,
     this.crear_interfaz = function crear_interfaz() {
         elemento_principal = crear_elemento({ tipo: "div" })
         elemento_principal.innerHTML = `
-                       <div class="d-flex position-relative flex-column" style="border-radius: 13px;min-width: 260px;min-height: 240px;border: 1px solid var(--color-decorativo);">
+                       <div class="d-flex position-relative flex-column" style="border-radius: 13px;min-width: 480px;min-height: 240px;border: 1px solid var(--color-decorativo);width: 500px;">
                            <div class="carga d-flex justify-content-center align-items-center position-absolute h-100 w-100" style="border-radius: 13px; background: white">
                              <div class="spinner-border" role="status">
                               <span class="sr-only">Loading...</span>
@@ -59,22 +59,33 @@ function Lugar({ nombre_lugar, datos_formulario,
                                         <p class="m-0 p-0" align="center" style="height: 20px; font-size: 7pt">Entradas</p>
                                     </div>
                                 </div>
-                                <div class="contenedor-lunas d-flex flex-row justify-content-center align-items-center w-100" style="height: 30px">
+                            <div class="contenedor-lunas d-flex flex-row justify-content-center align-items-center w-100" style="height: 30px">
                                 
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                        
-                                </div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>                        
+                            </div>
 
                             </div>
                             <div class="contenedor-grafico p-1 d-flex w-100 flex-column" style="height: 70px">
@@ -100,17 +111,18 @@ function Lugar({ nombre_lugar, datos_formulario,
 
     }
     this.mover_lunas = function mover_lunas(avance) {
+        console.log("avance", avance)
         if (lunas_control.luna_anterior) {
             lunas_control.luna_anterior.innerHTML = ""
         }
 
         luna_seleccionada = lunas_control.contenedores_lunas[avance]
         lunas_control.contenedor_texto.style.marginLeft = avance * 20 + "px"
-        luna_seleccionada.innerHTML = lunas_control.imagenes_condicionales[avance < 4 || avance > 8 ? "luna" : "sol"]
+        luna_seleccionada.innerHTML = lunas_control.imagenes_condicionales[avance < 7 || avance > 19 ? "luna" : "sol"]
         lunas_control.luna_anterior = luna_seleccionada
 
-        let recomponer = avance * 2
-        lunas_control.texto_lunas.innerText = +lunas_control.datos_por_luna[recomponer] + +lunas_control.datos_por_luna[recomponer + 1]
+        let recomponer = avance
+        lunas_control.texto_lunas.innerText = lunas_control.datos_por_luna[avance]
 
     }
     this.evento_por_hora = function evento_por_hora() {
@@ -128,12 +140,13 @@ function Lugar({ nombre_lugar, datos_formulario,
         hoy = new Date()
         minutos = hoy.getMinutes()
         horas = hoy.getHours()
+        console.log("horas", horas, hoy)
         //milisegundos=hoy.milisegundos()
         faltan = alcanzar - minutos
         if (evt_anterior) {
             clearTimeout(evt_anterior)
         }
-        instancia.mover_lunas(parseInt(horas / 2))
+        instancia.mover_lunas(parseInt(horas))
         faltan = faltan > 0 ? faltan : (59 - (Math.abs(faltan) + alcanzar)) + alcanzar
         //console.log(faltan)
         setTimeout(function () {
@@ -186,7 +199,7 @@ function Lugar({ nombre_lugar, datos_formulario,
       //  console.log(nombre_lugar, data_entradas.datos)
         lunas_control.datos_por_luna = data_entradas.datos_por_luna
 
-        instancia.mover_lunas(parseInt(data_entradas.hora / 2))
+        instancia.mover_lunas(parseInt(data_entradas.hora))
 
         if(instancias_graficas.carga){
             
