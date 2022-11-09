@@ -13,6 +13,7 @@ input_busqueda.addEventListener("input", function (evt) {
         }
         return
     }
+
     ocultar_cuadro_informacion()
 })
 
@@ -32,14 +33,19 @@ input_busqueda.addEventListener("focus", function () {
 
 /*Boton buscar enviar formulario*/
 btn_buscar.addEventListener("click", function () {
+    ocultar_cuadro_informacion()
     lista_contenedor_personas.innerHTML = ""
     btn_mostrar_todos.style.visibility="visible"
     
 
     datos_personas.set_desde_donde(0)
     datos_personas.set_registros_completos(false)
+    
     datos_personas.solicitar_datos("busqueda", input_busqueda.value)
 
+    /*ocultar cuadro de lugares*/
+    parte_lugares.style.visibility="hidden"
+    parte_lugares.style.height= "0px"
 
   /*  enviar_formulario(
         "Alumno/buscar", {
@@ -59,21 +65,32 @@ btn_buscar.addEventListener("click", function () {
 
 btn_mostrar_todos.addEventListener("click", function(){
     lista_contenedor_personas.innerHTML = ""
+    btn_buscar.disabled=true
+
     datos_personas.set_desde_donde(0)
     datos_personas.set_registros_completos(false)
     datos_personas.solicitar_datos("solicitud_personas", "")
+
+
     btn_mostrar_todos.style.visibility="hidden"
     input_busqueda.value=""
+
+    parte_lugares.style.visibility="visible"
+    parte_lugares.style.height= ""
 })
 
 const activar_enter = () => {
-    input_busqueda.addEventListener("keypress", function (e) {
+    input_busqueda.addEventListener("keyup", function (e) {
         enter_pulsado(e)
     })
 }
 const enter_pulsado = (e) => {
     let tecla = e.keyCode
-    if (tecla == 13) alert("has pulsado enter")
+    if (tecla == 13) {
+        btn_buscar.click()
+        console.log("clickeado")
+        btn_buscar.disabled=true
+    }
 }
 //comentario para git
 window.addEventListener("mousedown", function (e) {
