@@ -263,14 +263,11 @@ $tecla = "";
 
             </div>
             <div class="w-100" style="">
-                <div class="w-100 d-flex flex-column" style="">
+                <div class="w-100 d-flex flex-column" id="parte_lugares" style="">
                     <b>Lugares</b>
 
                     <div class="w-100 d-flex flex-row p-1" id="contenedor_lugares" style="height: 270px; overflow-x: auto; overflow-y: hidden; gap: 14px">
 
-
-                        <div class="d-flex w-100" style="height: 80px">
-                        </div>
                     </div>
 
 
@@ -398,6 +395,8 @@ $tecla = "";
     const modal_lugar_cerrar = document.querySelector("#modal_lugar_cerrar")
     const inicial_lugar_modal = document.querySelector("#inicial_lugar_modal")
     const nombre_lugar_modal = document.querySelector("#nombre_lugar_modal")
+
+    const parte_lugares=document.querySelector("#parte_lugares")
 
 
     //variable ocupada para deseleccionar

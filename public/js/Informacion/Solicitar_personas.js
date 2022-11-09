@@ -15,7 +15,7 @@ solicitar_personas = function (url, contenedor_respuesta, cuantos = 5, desde_don
     var accion_anterior = "solicitud_personas"
     var complemento_anterior = ""
     var function_solicitud = {
-        solicitud_personas: async function (desde_donde, cuantos) {
+        solicitud_personas: async function (desde_donde, cuantos, complemento) {
             return enviar_formulario(url,
                 {
                     Posicion_limite: desde_donde,
@@ -33,12 +33,14 @@ solicitar_personas = function (url, contenedor_respuesta, cuantos = 5, desde_don
     }
     this.retraso_mostrar = function (datos) {
         setTimeout(function () {
-            instancia.remover_carga()
+
 
             datos.map(datos => {
                 return crear_persona_eventos(datos, contenedor_respuesta)
             });
-            instancia.set_en_uso(false)
+            en_uso = false
+            instancia.remover_carga()
+            btn_buscar.disabled=false
         }, 1000)
     }
     this.set_function_solicitud = function set_function_solicitud(valor) {
@@ -48,26 +50,42 @@ solicitar_personas = function (url, contenedor_respuesta, cuantos = 5, desde_don
         accion_seleccionada = valor
     }
     this.remover_carga = function remover_carga() {
-        contenedor_respuesta.removeChild(graficos.carga.elemento)
+      //  if(contenedor_respuesta.contains(graficos.carga.elemento)){
+            contenedor_respuesta.removeChild(graficos.carga.elemento)
+      //  }
+       
+       // console.log("carga removida")
+
     }
     this.agregar_carga = function agregar_carga() {
+      //  console.log("carga agregada")
         contenedor_respuesta.appendChild(graficos.carga.elemento)
+       // console.log("contien elemento carga", contenedor_respuesta.contains(graficos.carga.elemento))
     }
-    this.solicitar_datos = async function solicitar_datos(tipo = "", complemento = undefined) {
-    //    console.log("tipo", tipo)
+    this.solicitar_datos = function solicitar_datos(tipo = "", complemento = undefined) {
+        //    console.log("tipo", tipo)
         tipo = tipo == "" ? accion_anterior : tipo;
         if (accion_anterior != tipo) {
             accion_anterior = tipo
         }
         complemento = complemento ?? complemento_anterior
         complemento_anterior = complemento
-
-        if (en_uso || registros_completos) return;
-        this.agregar_carga()
-        var instancias_creadas
+   
+        if (en_uso || registros_completos ) return;
         en_uso = true
+        console.log("agregar carga", complemento, "EN USO", en_uso)
+        this.agregar_carga()
+
+     //   if(contenedor_respuesta.contains(graficos.carga.elemento)){
+            this.peticion(tipo, complemento)
+      //  }
+      
+        
+    }
+    this.peticion = async function peticion(tipo, complemento){
         var personas = await function_solicitud[tipo](desde_donde, cuantos, complemento)
-    //    console.log("tipo: ",tipo, "personas", personas)
+        //    console.log("tipo: ",tipo, "personas", personas)
+      //  console.log(personas)
         if (personas.respuesta) {
             let registros_obtenidos = personas.contenido.length
             desde_donde += parseInt(registros_obtenidos)
@@ -78,12 +96,13 @@ solicitar_personas = function (url, contenedor_respuesta, cuantos = 5, desde_don
     this.set_desde_donde = function set_desde_donde(valor) {
         desde_donde = valor
     }
-    this.set_registros_completos=function set_registros_completos(valor){
-        registros_completos=valor
+    this.set_registros_completos = function set_registros_completos(valor) {
+        registros_completos = valor
     }
-    this.set_en_uso = function set_en_uso(valor) {
+    this.set_d_en_uso = function set_d_en_uso(valor) {
         en_uso = valor
     }
+
 }
 window.addEventListener("load", function (ev) {
     datos_personas = new solicitar_personas(url_personas, lista_contenedor_personas)//url_alumnos se encuentra en el index
