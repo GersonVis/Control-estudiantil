@@ -50,7 +50,7 @@ function Lugar({ nombre_lugar, datos_formulario,
                              </div>
                            </div>
                            <div class="p-1 d-flex w-75" style="height: 80px">
-                                <b align="center" class="m-0 p-0 text-secondary" style="max-width: 100%; max-height: 100%; text-overflow: ellipsis; overflow: hidden">${nombre_lugar}</b>
+                                <b align="center" class="m-3 p-0 text-secondary" style="max-width: 100%; max-height: 100%; text-overflow: ellipsis; overflow: hidden">${nombre_lugar}</b>
                             </div>
                             <div class="d-flex w-100 flex-column" style="height: 80px">
                                 <div style="height: 50px">
@@ -61,30 +61,30 @@ function Lugar({ nombre_lugar, datos_formulario,
                                 </div>
                             <div class="contenedor-lunas d-flex flex-row justify-content-center align-items-center w-100" style="height: 30px">
                                 
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
-                                <div class="luna d-flex-justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>                        
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900""></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px; background-color: #ffd900""></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>
+                                <div class="luna d-flex justify-content-center align-items-center" style="border-radius: 50% 50%; width: 20px; height: 20px"></div>                        
                             </div>
 
                             </div>
