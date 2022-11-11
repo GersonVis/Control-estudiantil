@@ -19,17 +19,17 @@ function Steeps(cuantos_pasos) {
         
         if(posicion < circulos.length ) {
             for (let pos = 0; pos <= posicion; pos++) {
-                circulos[pos].style.backgroundColor="green"
+                circulos[pos].style.backgroundColor="#1DCA94"
             }
             for (let pos = 0; pos <= posicion-1; pos++) {
-                barras[pos].style.backgroundColor="green"
+                barras[pos].style.backgroundColor="#1DCA94"
             }
 
             for (let pos = posicion+1; pos < circulos.length; pos++) {
-                circulos[pos].style.backgroundColor="red"
+                circulos[pos].style.backgroundColor="#dadada"
             }
             for (let pos = posicion; pos < barras.length; pos++) {
-                barras[pos].style.backgroundColor="red"
+                barras[pos].style.backgroundColor="#dadada"
             }
         }
     }
