@@ -168,7 +168,7 @@ function Cuadro_dias({ separacion, identificador, datos_formulario, peticion_per
             elemento.innerText = parseInt(entradas) != 1 ? entradas + " Entradas" : "1 Entrada"
         })
         this.marcar_dias(datos_respuesta[1], "entradas_sin_salida", "no-asistencia", function (entradas, elemento) {
-            elemento.innerText = parseInt(entradas) != 1 ? entradas + " Entradas sin registro" : "1 Entrada sin registro"
+            elemento.innerText = parseInt(entradas) != 1 ? entradas + " Entradas sin registro de salida" : "1 Entrada sin registro de salida"
         })
        
     }

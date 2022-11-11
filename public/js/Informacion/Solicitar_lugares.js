@@ -3,13 +3,14 @@ solicitar_lugares = (url, contenedor_respuesta) => {
     enviar_formulario(url)
         .then(respuesta => {
             if (respuesta) {
+                let pos=1
                 con_lugares = respuesta.contenido.map(datos => {
                     let interfaz_lugar = new Lugar({
                         nombre_lugar: datos.Id_lugar,
                         datos_formulario: {
                             fecha_inicio: fecha_inicio,
                             fecha_fin: hoy,
-                           
+
                         },
                         configuracion_grafica: {
                             tipo: "line",
@@ -23,16 +24,16 @@ solicitar_lugares = (url, contenedor_respuesta) => {
                         },
                         titulo_grafica: "",
                         funcion_solicitar_datos: async function (padre, identificador, datos_formulario) {
-                            let hoy=new Date()
-                            let hora=hoy.getHours()
-                            let array_ceros=[...Array(24).keys()].map(a=>0)
-                            let carreras_json= await enviar_formulario("Carrera")
-                            let data_completa=[]
-                            if(carreras_json.respuesta){
-                                let carreras=carreras_json.contenido
-                                for(carrera of carreras){
-                                    let data_carrera=[...Array(parseInt(hora)+2).keys()].map(a=>0)
-                                    let dataset_carrera={
+                            let hoy = new Date()
+                            let hora = hoy.getHours()
+                            let array_ceros = [...Array(24).keys()].map(a => 0)
+                            let carreras_json = await enviar_formulario("Carrera")
+                            let data_completa = []
+                            if (carreras_json.respuesta) {
+                                let carreras = carreras_json.contenido
+                                for (carrera of carreras) {
+                                    let data_carrera = [...Array(parseInt(hora) + 2).keys()].map(a => 0)
+                                    let dataset_carrera = {
                                         label: carrera.Id_carrera,
                                         data: data_carrera,
                                         fill: false,
@@ -44,11 +45,11 @@ solicitar_lugares = (url, contenedor_respuesta) => {
                                         Id_lugar: identificador,
                                         Id_carrera: carrera.Id_carrera
                                     })
-                                    if(carrera_conteo.respuesta){
-                                        carrera_conteo.contenido.forEach(({etiqueta, valor})=>{
+                                    if (carrera_conteo.respuesta) {
+                                        carrera_conteo.contenido.forEach(({ etiqueta, valor }) => {
 
-                                            data_carrera[parseInt(etiqueta)+1]=valor
-                                            array_ceros[etiqueta]+=parseInt(valor)
+                                            data_carrera[parseInt(etiqueta) + 1] = valor
+                                            array_ceros[etiqueta] += parseInt(valor)
                                         })
                                     }
                                     data_completa.push(dataset_carrera)
@@ -56,7 +57,7 @@ solicitar_lugares = (url, contenedor_respuesta) => {
                             }
                             data_completa.push({
                                 label: "",
-                                data: [0,10],
+                                data: [0, 10],
                                 fill: false,
                                 borderColor: "rgb(255,255,255)",
                                 tension: 0
@@ -66,17 +67,19 @@ solicitar_lugares = (url, contenedor_respuesta) => {
                                 datos: data_completa,
                                 color: ["rgb(230,55,207)", "rgb(114,58,240)", "rgb(38, 235,43)", "rgb(63,130,217)"]
                             }
-                            data_entradas.hora=hora
-                            data_entradas.datos_por_luna=array_ceros
+                            data_entradas.hora = hora
+                            data_entradas.datos_por_luna = array_ceros
                             return data_entradas
                         }
                     })
                     interfaz_lugar.crear_interfaz()
                     interfaz_lugar.solicitar_datos(datos.Id_lugar)
                     interfaz_lugar.evento_por_hora()
-                    contenedor_respuesta.appendChild(interfaz_lugar.get_elemento_principal())
 
-                    add_eventos_lugar({principal: interfaz_lugar.get_elemento_principal(), datos: datos, cuadro_dias: cuadro_dias_lugar})
+                    agregar_al_carrusel(datos.Id_lugar.replaceAll(" ", ""), pos++, botones_lugares, carrusel_lugares, interfaz_lugar.get_elemento_principal())
+                    //   contenedor_respuesta.appendChild(interfaz_lugar.get_elemento_principal())
+
+                    add_eventos_lugar({ principal: interfaz_lugar.get_elemento_principal(), datos: datos, cuadro_dias: cuadro_dias_lugar })
                     return interfaz_lugar
                 });
             }
@@ -101,16 +104,16 @@ window.addEventListener("load", function (ev) {
         },
         titulo_grafica: "",
         funcion_solicitar_datos: async function (padre, identificador, datos_formulario) {
-            let hoy=new Date()
-            let hora=hoy.getHours()
-            let array_ceros=[...Array(24).keys()].map(a=>0)
-            let carreras_json= await enviar_formulario("Carrera")
-            let data_completa=[]
-            if(carreras_json.respuesta){
-                let carreras=carreras_json.contenido
-                for(carrera of carreras){
-                    let data_carrera=[...Array(parseInt(hora)+2).keys()].map(a=>0)
-                    let dataset_carrera={
+            let hoy = new Date()
+            let hora = hoy.getHours()
+            let array_ceros = [...Array(24).keys()].map(a => 0)
+            let carreras_json = await enviar_formulario("Carrera")
+            let data_completa = []
+            if (carreras_json.respuesta) {
+                let carreras = carreras_json.contenido
+                for (carrera of carreras) {
+                    let data_carrera = [...Array(parseInt(hora) + 2).keys()].map(a => 0)
+                    let dataset_carrera = {
                         label: carrera.Id_carrera,
                         data: data_carrera,
                         fill: false,
@@ -119,13 +122,13 @@ window.addEventListener("load", function (ev) {
                     }
                     let carrera_conteo = await enviar_formulario("Lugar/conteoHora", {
                         Fecha: obtener_fecha(),
-                       
+                        Id_carrera: carrera.Id_carrera
                     })
-                    if(carrera_conteo.respuesta){
-                        carrera_conteo.contenido.forEach(({etiqueta, valor})=>{
+                    if (carrera_conteo.respuesta) {
+                        carrera_conteo.contenido.forEach(({ etiqueta, valor }) => {
 
-                            data_carrera[parseInt(etiqueta)+1]=valor
-                            array_ceros[etiqueta]+=parseInt(valor)
+                            data_carrera[parseInt(etiqueta) + 1] = valor
+                            array_ceros[etiqueta] += parseInt(valor)
                         })
                     }
                     data_completa.push(dataset_carrera)
@@ -133,7 +136,7 @@ window.addEventListener("load", function (ev) {
             }
             data_completa.push({
                 label: "",
-                data: [0,10],
+                data: [0, 10],
                 fill: false,
                 borderColor: "rgb(255,255,255)",
                 tension: 0
@@ -143,8 +146,8 @@ window.addEventListener("load", function (ev) {
                 datos: data_completa,
                 color: ["rgb(230,55,207)", "rgb(114,58,240)", "rgb(38, 235,43)", "rgb(63,130,217)"]
             }
-            data_entradas.hora=hora
-            data_entradas.datos_por_luna=array_ceros
+            data_entradas.hora = hora
+            data_entradas.datos_por_luna = array_ceros
             return data_entradas
         }
     })
@@ -152,43 +155,64 @@ window.addEventListener("load", function (ev) {
     interfaz_lugar.solicitar_datos("General")
     interfaz_lugar.evento_por_hora()
 
-    add_eventos_lugar({principal: interfaz_lugar.get_elemento_principal(), datos: datos, cuadro_dias: cuadro_dias_lugar})
-    
-    lista_contenedor_lugares.appendChild(interfaz_lugar.get_elemento_principal())
-    
+    add_eventos_lugar({ principal: interfaz_lugar.get_elemento_principal(), datos: {Id_lugar: "General"}, cuadro_dias: cuadro_dias_lugar })
+
+    //  lista_contenedor_lugares.appendChild(interfaz_lugar.get_elemento_principal())
+
+    agregar_al_carrusel("general", 0, botones_lugares, carrusel_lugares, interfaz_lugar.get_elemento_principal(), "active")
+
     solicitar_lugares(url_lugares, lista_contenedor_lugares)//url_alumnos se encuentra en el index
-    
-    
+
+
 
 })
+function agregar_al_carrusel(nombre, pos, botones_carrusel, carrusel, elemento, activo="") {
+    let boton = crear_elemento({ tipo: "div" })
+    boton.innerHTML = `<div data-target="#lugares" data-slide-to="${pos}" style="margin-top: 7px;" class="boton-lugar ${activo}"></div>`
+    boton = boton.childNodes[0]
 
+    let parte_carrusel = crear_elemento({ tipo: "div" })
+    parte_carrusel.innerHTML = `<div class="carousel-item ${activo}">
+                                
+                              </div>`
+    parte_carrusel = parte_carrusel.childNodes[0]
+    let contenedor_elemento=crear_elemento({tipo: "div", clases: ["w-100", "d-flex", "justify-content-center"]})
+
+
+    contenedor_elemento.appendChild(elemento)
+    parte_carrusel.appendChild(contenedor_elemento)
+
+    botones_carrusel.appendChild(boton)
+    carrusel.appendChild(parte_carrusel)
+
+}
 function add_eventos_lugar({ principal, datos, cuadro_dias }) {
     principal.addEventListener("click", function () {
         modal_lugares({ principal: principal, datos: datos })
-        grafica_lugar_CoL.solicitar_datos(datos.Id_lugar??"")
-        grafica_lugar_CoC.solicitar_datos(datos.Id_lugar??"")
+        grafica_lugar_CoL.solicitar_datos(datos.Id_lugar ?? "")
+        grafica_lugar_CoC.solicitar_datos(datos.Id_lugar ?? "")
         cuadro_dias.reiniciar_estilos_cuadro()
-        cuadro_dias.solicitar_datos(datos.Id_lugar??"")
+        cuadro_dias.solicitar_datos(datos.Id_lugar ?? "")
 
 
 
         //asistencias
-        solicitar_dias(datos.No_control, { Fecha: fecha_inicio, Fecha_fin: hoy })
+      /*  solicitar_dias(datos.No_control, { Fecha: fecha_inicio, Fecha_fin: hoy })
             .then(contenido => {
-                cuadro_dias.marcar_dias(contenido,"entradas_registradas", "asistencia", function(entradas, elemento){
-                    elemento.innerText=entradas!=1?entradas+" Entradas":"1 Entrada"
+                cuadro_dias.marcar_dias(contenido, "entradas_registradas", "asistencia", function (entradas, elemento) {
+                    elemento.innerText = entradas != 1 ? entradas + " Entradas" : "1 Entrada"
                 })
             }
             )
         // solicitar no asistencias
-        solicitar_dias(datos.No_control, { Fecha: fecha_inicio, Fecha_fin: hoy, Hora_salida: "is null"})
+        solicitar_dias(datos.No_control, { Fecha: fecha_inicio, Fecha_fin: hoy, Hora_salida: "is null" })
             .then(contenido => {
-                cuadro_dias.marcar_dias(contenido,"entradas_sin_salida", "no-asistencia", function(entradas, elemento){
-                    
-                    elemento.innerText=entradas!=1?entradas+" Entradas sin registro":"1 Entrada sin registro"
+                cuadro_dias.marcar_dias(contenido, "entradas_sin_salida", "no-asistencia", function (entradas, elemento) {
+
+                    elemento.innerText = entradas != 1 ? entradas + " Entradas sin registro" : "1 Entrada sin registro"
                 })
             }
-            )
+            )*/
     })
 
 }
