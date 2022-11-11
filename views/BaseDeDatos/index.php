@@ -53,12 +53,8 @@ $tecla = "";
                 </div>
                 <div class="d-flex flex-column w-50 h-100">
                     <div class="d-flex w-100 flex-column" style="">
-                        <div class="d-flex flex-row justify-content-center align-items-center" style="padding-top: 14px;">
-                            <div style="height: 15px; width: 15px; border-radius: 50% 50%; background-color: var(--color-decorativo)"></div>
-                            <div style="height: 5px; width: 25px; background-color: var(--color-decorativo)"></div>
-                            <div style="height: 15px; width: 15px; border-radius: 50% 50%; background-color: var(--color-decorativo)"></div>
-                            <div style="height: 5px; width: 25px; background-color: var(--color-decorativo)"></div>
-                            <div style="height: 15px; width: 15px; border-radius: 50% 50%; background-color: var(--color-decorativo)"></div>
+                        <div id="contenedor-steeps" class="d-flex flex-row justify-content-center align-items-center" style="padding-top: 14px;">
+
                         </div>
 
                         <div style="margin-top: 14px;">
@@ -72,7 +68,8 @@ $tecla = "";
                         <div id="opciones-disponibles-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
 
                     </div>
-                    <div class="d-flex w-100" style="height: 10%"></div>
+                    <div class="d-flex w-100 justify-content-end" style="height: 10%">
+                                          </div>
                 </div>
             </div>
             <div class="d-flex" style="margin-left: 24px; height: 20%;">
@@ -92,6 +89,7 @@ $tecla = "";
 <script src="public/js/Compartido/Funciones_publicas.js"></script>
 <script src="public/js/BaseDeDatos/Variables.js"></script>
 <script src="public/js/BaseDeDatos/Opcion.js"></script>
+<script src="public/js/BaseDeDatos/Steeps.js"></script>
 <script>
     valores_opciones = {
         Nombre: {
@@ -120,12 +118,27 @@ $tecla = "";
         }
     }
     Object.entries(valores_opciones).forEach(valor => {
-        let opcion = new Opcion(valor[1].titulo, disponibles_entradas, agregadas_entradas)
+        let opcion = new Opcion(valor[1].titulo, disponibles_entradas, agregadas_entradas,
+            function(datos) {
+                let hijos = datos.agregado.childNodes.length
+                let estado = datos.boton.attributes["estado"].value
+                if (estado == "agregado") {
+                    if (hijos == 1) {
+                        alert("No puedes remover todos")
+                        return true
+                    }
+                }
+
+            }
+        )
         opcion.crear_interfaz()
         opcion.agregar_agregado()
-        valor[1].elemento=opcion
+        valor[1].elemento = opcion
     })
-   
+
+    let steeps_contener = new Steeps(3)
+    steeps_contener.crear_interfaz()
+    contenedor_steeps.appendChild(steeps_contener.get_interfaz())
 </script>
 
 </html>
