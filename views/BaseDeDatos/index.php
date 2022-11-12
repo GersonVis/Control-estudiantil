@@ -58,18 +58,30 @@ $tecla = "";
                         </div>
 
                         <div style="margin-top: 14px;">
-                            <b class="m-0 p-0" style="color: var(--color-baja-baja)">Cada registro debe contener: </b>
+                            <b id="subtitulo-entradas" class="m-0 p-0" style="color: var(--color-baja-baja)">Cada registro debe contener: </b>
                         </div>
                     </div>
-                    <div class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
-                        <div id="opciones-agregadas-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
-                        <hr>
-                        </hr>
-                        <div id="opciones-disponibles-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
+                    <div id="padre-opciones-entradas" style="height: 80%; flex-grow: 1; overflow:auto">
+                        <div id="columnas-consultar" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
+                            <div id="opciones-agregadas-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
+                            <hr>
+                            </hr>
+                            <div id="opciones-disponibles-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
+                        </div>
+                        <div id="condicionales-entradas" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
+                            <div id="condicionales-agregadas-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
+                            <hr>
+                            </hr>
+                            <div id="condicionales-disponibles-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
 
+                        </div>
+                        <div id="numero-entradas" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
+                            <h1>Numero entradas</h1>
+                        </div>
                     </div>
-                    <div class="d-flex w-100 justify-content-end" style="height: 10%">
-                                          </div>
+
+                    <div id="avance-contener" class="pr-2 d-flex w-100 justify-content-center" style="height: 20%">
+                    </div>
                 </div>
             </div>
             <div class="d-flex" style="margin-left: 24px; height: 20%;">
@@ -90,6 +102,7 @@ $tecla = "";
 <script src="public/js/BaseDeDatos/Variables.js"></script>
 <script src="public/js/BaseDeDatos/Opcion.js"></script>
 <script src="public/js/BaseDeDatos/Steeps.js"></script>
+<script src="public/js/BaseDeDatos/Avance.js"></script>
 <script>
     valores_opciones = {
         Nombre: {
@@ -117,6 +130,16 @@ $tecla = "";
             elemento: undefined
         }
     }
+    valores_condicionales = {
+        Nombre: {
+            titulo: "Nombre",
+            elemento: undefined
+        },
+        Fechas: {
+            titulo: "Fecha",
+            elemento: undefined
+        }
+    }
     Object.entries(valores_opciones).forEach(valor => {
         let opcion = new Opcion(valor[1].titulo, disponibles_entradas, agregadas_entradas,
             function(datos) {
@@ -136,9 +159,45 @@ $tecla = "";
         valor[1].elemento = opcion
     })
 
+
+    Object.entries(valores_condicionales).forEach(valor => {
+        let opcion = new Opcion(valor[1].titulo, dis_entradas_condi, agr_entradas_condi,
+            function(datos) {
+                let hijos = datos.agregado.childNodes.length
+                let estado = datos.boton.attributes["estado"].value
+                if (estado == "agregado") {
+                    if (hijos == 1) {
+                        alert("No puedes remover todos")
+                        return true
+                    }
+                }
+
+            }
+        )
+        opcion.crear_interfaz()
+        opcion.agregar_disponible()
+        valor[1].elemento = opcion
+    })
+
+    
+
     let steeps_contener = new Steeps(3)
     steeps_contener.crear_interfaz()
+    steeps_contener.marcar_steep(0)
     contenedor_steeps.appendChild(steeps_contener.get_interfaz())
+
+    let acciones_contener = new Avance(function(pos, elementos) {
+        steeps_contener.marcar_steep(pos)
+        subtitulo_entradas.innerText = elementos.subtitulos[pos]
+        elementos.padre.innerHTML = ""
+        elementos.padre.appendChild(elementos.lista_principales[pos])
+    }, {
+        padre: padre_opciones_entradas,
+        lista_principales: [columnas_consultar, condicionales_entradas, numero_entradas],
+        subtitulos: ["Cada registro debe contener:", "Selecciona el rango de fechas", "Establece el limite de registros: "]
+    })
+    acciones_contener.crear_interfaz()
+    contener_avance.appendChild(acciones_contener.get_interfaz())
 </script>
 
 </html>
