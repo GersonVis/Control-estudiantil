@@ -62,22 +62,7 @@ $tecla = "";
                         </div>
                     </div>
                     <div id="padre-opciones-entradas" style="height: 80%; flex-grow: 1; overflow:auto">
-                        <div id="columnas-consultar" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
-                            <div id="opciones-agregadas-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
-                            <hr>
-                            </hr>
-                            <div id="opciones-disponibles-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
-                        </div>
-                        <div id="condicionales-entradas" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
-                            <div id="condicionales-agregadas-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
-                            <hr>
-                            </hr>
-                            <div id="condicionales-disponibles-entradas" class="d-flex flex-column" style="gap: 10px;"></div>
 
-                        </div>
-                        <div id="numero-entradas" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
-                            <h1>Numero entradas</h1>
-                        </div>
                     </div>
 
                     <div id="avance-contener" class="pr-2 d-flex w-100 justify-content-center" style="height: 20%">
@@ -98,13 +83,15 @@ $tecla = "";
 </body>
 
 
+<script src="public/js/Compartido/Enviar_formulario.js"></script>
 <script src="public/js/Compartido/Funciones_publicas.js"></script>
 <script src="public/js/BaseDeDatos/Variables.js"></script>
 <script src="public/js/BaseDeDatos/Opcion.js"></script>
 <script src="public/js/BaseDeDatos/Steeps.js"></script>
 <script src="public/js/BaseDeDatos/Avance.js"></script>
+<script src="public/js/BaseDeDatos/ContenedorPartes.js"></script>
 <script>
-    valores_opciones = {
+    columnas_datos = {
         Nombre: {
             titulo: "Nombre",
             elemento: undefined
@@ -130,61 +117,189 @@ $tecla = "";
             elemento: undefined
         }
     }
-    valores_condicionales = {
+    condicionales_datos = {
         Nombre: {
-            titulo: "Nombre",
-            elemento: undefined
+            titulo: "Nombre:",
+            elemento: undefined,
+            complemento: `
+            <input name="Nombre" class="formulario form-control form-control-sm" type="text" placeholder="Introduce un nombre">
+            `
         },
         Fechas: {
             titulo: "Fecha",
-            elemento: undefined
-        }
+            elemento: undefined,
+            complemento: `
+            <p class="" style="margin: 0px 5px 0px 0px;">De:</p>
+            <input name="Fecha_inicio" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
+            <p class="" style="margin: 0px 5px 0px 5px;">al</p>
+            <input name="Fecha_fin" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
+            `
+        },
+        No_control: {
+            titulo: "Numero de control:",
+            elemento: undefined,
+            complemento: `
+            <input name="No_control" class="formulario form-control form-control-sm" type="number" placeholder="Introduce un número de control">
+            `
+        },
     }
-    Object.entries(valores_opciones).forEach(valor => {
-        let opcion = new Opcion(valor[1].titulo, disponibles_entradas, agregadas_entradas,
-            function(datos) {
-                let hijos = datos.agregado.childNodes.length
-                let estado = datos.boton.attributes["estado"].value
-                if (estado == "agregado") {
-                    if (hijos == 1) {
-                        alert("No puedes remover todos")
-                        return true
+    var steep_columnas = new ContenedorPartes("columnas", "Cada registro debe contener: ")
+    steep_columnas.crear_interfaz()
+    columnas_partes = steep_columnas.get_partes_interfaz()
+    Object.entries(columnas_datos).forEach(valor => {
+        let opcion = new Opcion(valor[1].titulo, columnas_partes.disponibles, columnas_partes.agregadas,
+            funciones = {
+                funcion_click(datos) {
+                    let hijos = datos.agregado.childNodes.length
+                    let estado = datos.boton.attributes["estado"].value
+                    if (estado == "agregado") {
+                        if (hijos == 1) {
+                            alert("No puedes remover todos")
+                            return true
+                        }
                     }
-                }
-
+                },
+                funcion_despues(datos) {}
             }
+
         )
+        valor[1].elemento = opcion
         opcion.crear_interfaz()
         opcion.agregar_agregado()
-        valor[1].elemento = opcion
+
     })
+    //agregamos el elemento creado para el inicio de la interfaz
+    padre_opciones_entradas.appendChild(steep_columnas.get_interfaz())
 
-
-    Object.entries(valores_condicionales).forEach(valor => {
-        let opcion = new Opcion(valor[1].titulo, dis_entradas_condi, agr_entradas_condi,
-            function(datos) {
-                let hijos = datos.agregado.childNodes.length
-                let estado = datos.boton.attributes["estado"].value
-                if (estado == "agregado") {
-                    if (hijos == 1) {
-                        alert("No puedes remover todos")
-                        return true
+    var steep_condiciones = new ContenedorPartes("condiciones", "Agrega condiciones: ")
+    steep_condiciones.crear_interfaz()
+    condiciones_partes = steep_condiciones.get_partes_interfaz()
+    var msg = undefined
+    Object.entries(condicionales_datos).forEach(valor => {
+        let opcion = new Opcion(valor[1].titulo, condiciones_partes.disponibles, condiciones_partes.agregadas,
+            funciones = {
+                funcion_click(datos) {
+                    let hijos = datos.agregado.childNodes.length
+                    let estado = datos.boton.attributes["estado"].value
+                    if (hijos == 1 && datos.evt && msg) {
+                        datos.agregado.innerHTML = ""
+                        msg = false
+                    }
+                },
+                funcion_despues(datos) {
+                    let hijos = datos.agregado.childNodes.length
+                    if (hijos == 0) {
+                        datos.agregado.innerHTM = ""
+                        datos.agregado.innerHTML = "No hay condiciones seleccionadas"
+                        msg = true
                     }
                 }
-
-            }
+            },
+            valor[1].complemento
         )
         opcion.crear_interfaz()
-        opcion.agregar_disponible()
+        //opcion.agregar_disponible()
+        opcion.btn_click("agregado")
         valor[1].elemento = opcion
     })
 
-    
 
-    let steeps_contener = new Steeps(3)
+
+
+    /* elementos de steeps carrera */
+    var steep_carrera = new ContenedorPartes("carreras", "Selecciona las carreras:")
+    steep_carrera.crear_interfaz()
+    carrera_partes = steep_carrera.get_partes_interfaz()
+    var carreras_datos = {}
+    enviar_formulario("carrera")
+        .then(respuesta => {
+            if (respuesta.respuesta) {
+                respuesta.contenido.forEach(({
+                    Id_carrera
+                }) => {
+                    carreras_datos[Id_carrera] = {
+                        titulo: Id_carrera,
+                        elemento: undefined
+                    }
+                })
+                Object.entries(carreras_datos).forEach(valor => {
+                    let opcion = new Opcion(valor[1].titulo, carrera_partes.disponibles, carrera_partes.agregadas,
+                        funciones = {
+                            funcion_click(datos) {
+                                let hijos = datos.agregado.childNodes.length
+                                let estado = datos.boton.attributes["estado"].value
+                                if (estado == "agregado") {
+                                    if (hijos == 1) {
+                                        mensaje_informatico({
+                                            msg: "Para búsqueda completa, selecciona todas las opciones"
+                                        })
+                                        return true
+                                    }
+                                }
+                            },
+                            funcion_despues(datos) {}
+                        }
+
+                    )
+                    opcion.crear_interfaz()
+                    opcion.agregar_agregado()
+
+                })
+            }
+        })
+    /*fin steep carrera*/
+
+    /* elementos de steeps lugar */
+    var steep_lugar = new ContenedorPartes("lugares", "Selecciona los lugares:")
+    steep_lugar.crear_interfaz()
+    lugares_partes = steep_lugar.get_partes_interfaz()
+    var lugares_datos = {}
+    enviar_formulario("lugar")
+        .then(respuesta => {
+            if (respuesta.respuesta) {
+                respuesta.contenido.forEach(({
+                    Id_lugar
+                }) => {
+                    lugares_datos[Id_lugar] = {
+                        titulo: Id_lugar,
+                        elemento: undefined
+                    }
+                })
+                Object.entries(lugares_datos).forEach(valor => {
+                    let opcion = new Opcion(valor[1].titulo, lugares_partes.disponibles, lugares_partes.agregadas,
+                        funciones = {
+                            funcion_click(datos) {
+                                let hijos = datos.agregado.childNodes.length
+                                let estado = datos.boton.attributes["estado"].value
+                                if (estado == "agregado") {
+                                    if (hijos == 1) {
+                                        mensaje_informatico({
+                                            msg: "Para búsqueda completa, selecciona todas las opciones"
+                                        })
+                                        return true
+                                    }
+                                }
+                            },
+                            funcion_despues(datos) {}
+                        }
+
+                    )
+                    opcion.crear_interfaz()
+                    opcion.agregar_agregado()
+
+                })
+            }
+        })
+    /*fin steep lugar*/
+
+    let lista_principales = [steep_columnas.get_interfaz(), steep_condiciones.get_interfaz(), steep_carrera.get_interfaz(), steep_lugar.get_interfaz()]
+    let lista_titulos = [steep_columnas.get_titulo(), steep_condiciones.get_titulo(), steep_carrera.get_titulo(), steep_lugar.get_titulo()]
+
+    let steeps_contener = new Steeps(lista_titulos.length)
     steeps_contener.crear_interfaz()
     steeps_contener.marcar_steep(0)
     contenedor_steeps.appendChild(steeps_contener.get_interfaz())
+
 
     let acciones_contener = new Avance(function(pos, elementos) {
         steeps_contener.marcar_steep(pos)
@@ -193,11 +308,47 @@ $tecla = "";
         elementos.padre.appendChild(elementos.lista_principales[pos])
     }, {
         padre: padre_opciones_entradas,
-        lista_principales: [columnas_consultar, condicionales_entradas, numero_entradas],
-        subtitulos: ["Cada registro debe contener:", "Selecciona el rango de fechas", "Establece el limite de registros: "]
+        lista_principales: lista_principales,
+        subtitulos: lista_titulos
     })
+
     acciones_contener.crear_interfaz()
+    acciones_contener.avanzar(0)
     contener_avance.appendChild(acciones_contener.get_interfaz())
+
+    var inpp
+    function examinar_selecciones(contenedores) {
+        let seleccionados = []
+        Object.entries(contenedores).forEach(([key, contenedor]) => {
+            let elementos_interfaz = contenedor.elemento.get_interfaz_elementos()
+            let complemento = elementos_interfaz.complemento
+            if (!complemento) {
+                if (elementos_interfaz.boton.attributes["estado"].value == "agregado") {
+                    seleccionados.push({
+                        valor: [{
+                            columna: contenedor.titulo
+                        }],
+                        key: key
+                    })
+                }
+                return
+            }
+            console.log(complemento)
+            let inputs = complemento.querySelectorAll("input")
+            inpp=complemento
+            let valores={}
+            inputs.map(input => {
+                let valor = {}
+                valor[input.name] = input.value
+            })
+            seleccionados.push({
+                valor: valores,
+                key: key
+            })
+        })
+        console.log(seleccionados)
+    }
+    examinar_selecciones(condicionales_datos)
 </script>
 
 </html>

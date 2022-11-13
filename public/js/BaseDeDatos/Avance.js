@@ -12,7 +12,6 @@ function Avance(function_pasar, datos_pasar) {
         `
         interfaz_elementos.btn_atras=interfaz.querySelectorAll(".btn-atras")[0]
         interfaz_elementos.btn_adelante=interfaz.querySelectorAll(".btn-adelante")[0]
-        console.log(interfaz.querySelectorAll(".btn-adelante")[0])
 
         this.ocultar(interfaz_elementos.btn_atras)
         this.eventos()
@@ -22,7 +21,7 @@ function Avance(function_pasar, datos_pasar) {
     }
     this.mostrar=function mostrar(ele){
         ele.style.visibility="visible"
-        console.log(ele)
+       // console.log(ele)
     }
     this.eventos = function eventos(){
         interfaz_elementos.btn_atras.addEventListener("click", function(){
@@ -52,7 +51,7 @@ function Avance(function_pasar, datos_pasar) {
         }
     }
     this.retroceder = function retroceder(posicion){
-        console.log("lanzado", posicion)
+      //  console.log("lanzado", posicion)
         if(posicion==0){
             instancia.ocultar(interfaz_elementos.btn_atras)
         }

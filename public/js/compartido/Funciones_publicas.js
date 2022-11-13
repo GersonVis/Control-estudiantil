@@ -17,3 +17,6 @@ const crear_elemento = function ({ tipo, clases, estilos, id }) {
     })
     return elemento
 }
+const mensaje_informatico = function({msg}){
+    alert(msg)
+}
