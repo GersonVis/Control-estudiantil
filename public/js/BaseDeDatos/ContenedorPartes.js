@@ -1,4 +1,4 @@
-function ContenedorPartes(titulo) {
+function ContenedorPartes(nombre, titulo) {
     var interfaz
     var partes_interfaz={
         agregadas: undefined,
@@ -9,11 +9,11 @@ function ContenedorPartes(titulo) {
     }
     this.crear_interfaz = function () {
          interfaz=crear_elemento({tipo: "div"})
-         interfaz.innerHTML=`<div id="condicionales-entradas" class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
-         <div  class="agregadas d-flex flex-column" style="gap: 10px;"></div>
+         interfaz.innerHTML=`<div class="d-flex w-100 p-3 flex-column" style="flex-grow: 1; overflow:auto">
+         <div padre="${nombre}" class="agregadas d-flex flex-column" style="gap: 10px;"></div>
          <hr>
          </hr>
-         <div  class="disponibles d-flex flex-column" style="gap: 10px;"></div>
+         <div padre="${nombre}" class="disponibles d-flex flex-column" style="gap: 10px;"></div>
          </div>`
          interfaz=interfaz.childNodes[0]
          partes_interfaz.agregadas=interfaz.querySelectorAll(".agregadas")[0]

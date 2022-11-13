@@ -91,7 +91,7 @@ $tecla = "";
 <script src="public/js/BaseDeDatos/Avance.js"></script>
 <script src="public/js/BaseDeDatos/ContenedorPartes.js"></script>
 <script>
-    valores_opciones = {
+    columnas_datos = {
         Nombre: {
             titulo: "Nombre",
             elemento: undefined
@@ -117,12 +117,12 @@ $tecla = "";
             elemento: undefined
         }
     }
-    valores_condicionales = {
+    condicionales_datos = {
         Nombre: {
             titulo: "Nombre:",
             elemento: undefined,
             complemento: `
-            <input class="formulario form-control form-control-sm" type="text" placeholder="Introduce un nombre">
+            <input name="Nombre" class="formulario form-control form-control-sm" type="text" placeholder="Introduce un nombre">
             `
         },
         Fechas: {
@@ -130,23 +130,23 @@ $tecla = "";
             elemento: undefined,
             complemento: `
             <p class="" style="margin: 0px 5px 0px 0px;">De:</p>
-            <input class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
+            <input name="Fecha_inicio" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
             <p class="" style="margin: 0px 5px 0px 5px;">al</p>
-            <input class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
+            <input name="Fecha_fin" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
             `
         },
         No_control: {
             titulo: "Numero de control:",
             elemento: undefined,
             complemento: `
-            <input class="formulario form-control form-control-sm" type="number" placeholder="Introduce un número de control">
+            <input name="No_control" class="formulario form-control form-control-sm" type="number" placeholder="Introduce un número de control">
             `
         },
     }
-    var steep_columnas = new ContenedorPartes("Cada registro debe contener: ")
+    var steep_columnas = new ContenedorPartes("columnas", "Cada registro debe contener: ")
     steep_columnas.crear_interfaz()
     columnas_partes = steep_columnas.get_partes_interfaz()
-    Object.entries(valores_opciones).forEach(valor => {
+    Object.entries(columnas_datos).forEach(valor => {
         let opcion = new Opcion(valor[1].titulo, columnas_partes.disponibles, columnas_partes.agregadas,
             funciones = {
                 funcion_click(datos) {
@@ -163,6 +163,7 @@ $tecla = "";
             }
 
         )
+        valor[1].elemento = opcion
         opcion.crear_interfaz()
         opcion.agregar_agregado()
 
@@ -170,11 +171,11 @@ $tecla = "";
     //agregamos el elemento creado para el inicio de la interfaz
     padre_opciones_entradas.appendChild(steep_columnas.get_interfaz())
 
-    var steep_condiciones = new ContenedorPartes("Agrega condiciones: ")
+    var steep_condiciones = new ContenedorPartes("condiciones", "Agrega condiciones: ")
     steep_condiciones.crear_interfaz()
     condiciones_partes = steep_condiciones.get_partes_interfaz()
     var msg = undefined
-    Object.entries(valores_condicionales).forEach(valor => {
+    Object.entries(condicionales_datos).forEach(valor => {
         let opcion = new Opcion(valor[1].titulo, condiciones_partes.disponibles, condiciones_partes.agregadas,
             funciones = {
                 funcion_click(datos) {
@@ -201,12 +202,12 @@ $tecla = "";
         opcion.btn_click("agregado")
         valor[1].elemento = opcion
     })
-    
+
 
 
 
     /* elementos de steeps carrera */
-    var steep_carrera = new ContenedorPartes("Selecciona las carreras:")
+    var steep_carrera = new ContenedorPartes("carreras", "Selecciona las carreras:")
     steep_carrera.crear_interfaz()
     carrera_partes = steep_carrera.get_partes_interfaz()
     var carreras_datos = {}
@@ -249,7 +250,7 @@ $tecla = "";
     /*fin steep carrera*/
 
     /* elementos de steeps lugar */
-    var steep_lugar = new ContenedorPartes("Selecciona los lugares:")
+    var steep_lugar = new ContenedorPartes("lugares", "Selecciona los lugares:")
     steep_lugar.crear_interfaz()
     lugares_partes = steep_lugar.get_partes_interfaz()
     var lugares_datos = {}
@@ -291,8 +292,8 @@ $tecla = "";
         })
     /*fin steep lugar*/
 
-    let lista_principales=[steep_columnas.get_interfaz(), steep_condiciones.get_interfaz(), steep_carrera.get_interfaz(), steep_lugar.get_interfaz()]
-    let lista_titulos=[steep_columnas.get_titulo(), steep_condiciones.get_titulo(), steep_carrera.get_titulo(), steep_lugar.get_titulo()]
+    let lista_principales = [steep_columnas.get_interfaz(), steep_condiciones.get_interfaz(), steep_carrera.get_interfaz(), steep_lugar.get_interfaz()]
+    let lista_titulos = [steep_columnas.get_titulo(), steep_condiciones.get_titulo(), steep_carrera.get_titulo(), steep_lugar.get_titulo()]
 
     let steeps_contener = new Steeps(lista_titulos.length)
     steeps_contener.crear_interfaz()
@@ -314,6 +315,40 @@ $tecla = "";
     acciones_contener.crear_interfaz()
     acciones_contener.avanzar(0)
     contener_avance.appendChild(acciones_contener.get_interfaz())
+
+    var inpp
+    function examinar_selecciones(contenedores) {
+        let seleccionados = []
+        Object.entries(contenedores).forEach(([key, contenedor]) => {
+            let elementos_interfaz = contenedor.elemento.get_interfaz_elementos()
+            let complemento = elementos_interfaz.complemento
+            if (!complemento) {
+                if (elementos_interfaz.boton.attributes["estado"].value == "agregado") {
+                    seleccionados.push({
+                        valor: [{
+                            columna: contenedor.titulo
+                        }],
+                        key: key
+                    })
+                }
+                return
+            }
+            console.log(complemento)
+            let inputs = complemento.querySelectorAll("input")
+            inpp=complemento
+            let valores={}
+            inputs.map(input => {
+                let valor = {}
+                valor[input.name] = input.value
+            })
+            seleccionados.push({
+                valor: valores,
+                key: key
+            })
+        })
+        console.log(seleccionados)
+    }
+    examinar_selecciones(condicionales_datos)
 </script>
 
 </html>

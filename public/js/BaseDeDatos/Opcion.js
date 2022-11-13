@@ -47,12 +47,13 @@ function Opcion(titulo, padre_disponible, padre_agregado, funciones={}, compleme
             </button>
         </div>
        </div>`
+       
         }
         interfaz.innerHTML = dentro
         interfaz = interfaz.childNodes[0]
         interfaz_elementos.boton = interfaz.querySelectorAll(".btn-opcion-accion")[0]
         interfaz_elementos.icono = interfaz.querySelectorAll(".ico-opcion-accion")[0]
-
+        interfaz_elementos.complemento = interfaz.querySelectorAll(".complemento")[0]
         this.agregar_eventos()
 
     }
@@ -76,6 +77,9 @@ function Opcion(titulo, padre_disponible, padre_agregado, funciones={}, compleme
 
     this.get_interfaz = function obtener_interfaz() {
         return interfaz
+    }
+    this.get_interfaz_elementos=function get_interfaz_elementos(){
+        return interfaz_elementos
     }
     this.agregar_disponible = function agregar_disponible() {
         padre_disponible.appendChild(interfaz, 0)
