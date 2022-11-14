@@ -9,3 +9,6 @@ const padre_opciones_entradas=document.querySelector("#padre-opciones-entradas")
 const columnas_consultar=document.querySelector("#columnas-consultar")
 const condicionales_entradas=document.querySelector("#condicionales-entradas")
 
+const entradas_csv=document.querySelector("#entradas_descargar_csv")
+
+

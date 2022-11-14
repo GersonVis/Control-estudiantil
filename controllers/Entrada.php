@@ -263,4 +263,13 @@ class Entrada extends Controller
         $this->view->resultado=$resultado;
         $this->view->renderizar();
     }
+    function descargarconsulta(){
+        $datos=array();
+        foreach($_POST as $key=>$contenido){
+            $datos[$key]=json_decode($contenido);
+        }
+        $resultado=$this->modelo->descargarconsulta($datos);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
 }
