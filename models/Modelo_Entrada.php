@@ -153,7 +153,7 @@ class Modelo_Entrada extends Model
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     function minutosPorEntrada($entradas = "")
-    
+
     {
 
         $conexion = $this->db->conectar();
@@ -195,8 +195,8 @@ class Modelo_Entrada extends Model
         $sentencia_limite = $numero_registros != "" ? " limit $limite_inicio, $numero_registros" : "";
 
         $base_sql = $this->formar_sql($base_sql, $entradas) . " group by etiqueta";
-        $base_sql.=$sentencia_limite;
-       //  echo $base_sql;
+        $base_sql .= $sentencia_limite;
+        //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
@@ -219,8 +219,8 @@ class Modelo_Entrada extends Model
         $sentencia_limite = $numero_registros != "" ? " limit $limite_inicio, $numero_registros" : "";
 
         $base_sql = $this->formar_sql($base_sql, $entradas) . " group by etiqueta";
-        $base_sql.=$sentencia_limite;
-       //  echo $base_sql;
+        $base_sql .= $sentencia_limite;
+        //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
 
@@ -253,23 +253,81 @@ class Modelo_Entrada extends Model
         //echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
-    function descargarconsulta($datos){
+    function descargarconsulta($datos)
+    {
         $conexion = $this->db->conectar();
-        $columnas=$datos["columna"];
-        $where=$datos["where"];
-        $wherein=$datos["wherein"];
-        $columnas = $this->limpiar($conexion, $columnas);
-        $parte_columnas= $this->formar_columnas($columnas);
+        $columnas = $datos["columna"];
+        $where = $this->expandir_where($datos["where"] ?? array());
+        
 
-        echo $parte_columnas;
+        $wherein = $datos["wherein"];
+        $columnas = $this->limpiar($conexion, $columnas);
+        $parte_columnas = $this->formar_columnas($columnas);
+
+        $where = $this->formar_sql("", $where);
+        $wherein=$this->wherein($conexion, (array)$wherein);
+
+      // $wherein_limpiados=array();
+      
+      //  echo var_dump($wherein);
+     /*   echo var_dump($wherein);*/
+
+
+
+        
+        $base_sql="select ".$parte_columnas." from accesos_completo ".$where;
+        if($where==""){
+            $base_sql.=" where ".$wherein;
+        }else{
+            $base_sql.=" and ".$wherein;
+        }
+        echo "base; ".$base_sql;
     }
-    private function formar_columnas($columnas){
-        $parte_formada="";
-        foreach($columnas as $key=>$nombre_columna){
-            $parte_formada.=" $nombre_columna, ";
+    
+    private function wherein($conexion, $datos){
+        $whereis=array();
+        foreach($datos as $key=>$contenido){
+            $reconvertido=(array)$contenido;
+            $key_in=$reconvertido["de"];
+            if(!isset($whereis[$key_in])){
+                $whereis[$key_in]="";
+            }
+            $limpio=$this->limpiar($conexion, array(0=>$reconvertido["valor"]));
+            $whereis[$key_in].=" '$limpio[0]', ";
+        }
+        $wherein_sql="";
+        foreach($whereis as $key=>$contenido){
+            $sin_coma=substr($contenido, 0, -2);
+            $wherein_sql.=" $key in ($sin_coma) and ";
+        }
+        $wherein_sql=substr($wherein_sql, 0, -5);
+        return $wherein_sql;
+    }
+    private function expandir_where($contenido)
+    {
+        $contenido = (array)$contenido;
+        $datos=array();
+        foreach($contenido as $key=>$contenido_where){
+         $valores=$contenido_where->valor;
+         foreach($valores as $nombre_columna=>$valor){
+             $reconvertido=(array)$valor;
+             $keys=array_keys($reconvertido);
+
+
+             $datos[$keys[0]]=$reconvertido[$keys[0]];
+         }
+       }
+        return $datos;
+    }
+    private function formar_columnas($columnas)
+    {
+        $parte_formada = "";
+        foreach ($columnas as $key => $nombre_columna) {
+            $parte_formada .= " $nombre_columna, ";
         }
         return $parte_formada;
     }
+
     // prueba
     function prueba($consulta)
     {
