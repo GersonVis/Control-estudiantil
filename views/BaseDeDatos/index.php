@@ -229,7 +229,7 @@ $tecla = "";
                     carreras_datos[Id_carrera] = {
                         titulo: Id_carrera,
                         elemento: undefined,
-                        tipo: {forma: "wherein", de: "carrera"},
+                        tipo: {forma: "wherein", de: "Id_carrera"},
                     }
                 })
                 Object.entries(carreras_datos).forEach(valor => {
@@ -274,7 +274,7 @@ $tecla = "";
                     lugares_datos[Id_lugar] = {
                         titulo: Id_lugar,
                         elemento: undefined,
-                        tipo: {forma: "wherein", de: "lugar"},
+                        tipo: {forma: "wherein", de: "Id_lugar"},
                     }
                 })
                 Object.entries(lugares_datos).forEach(valor => {
@@ -335,9 +335,7 @@ $tecla = "";
         },
         "wherein": function(key, tipo, valor, complemento) {
             return {
-                valor: [{
-                    wherein: valor
-                }],
+                valor: valor,
                 key: key,
                 tipo: tipo.forma,
                 de: tipo.de
