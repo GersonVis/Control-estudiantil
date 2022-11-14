@@ -72,7 +72,7 @@ $tecla = "";
             <div class="d-flex" style="margin-left: 24px; height: 20%;">
                 <div class="d-flex flex-column flex-column">
                     <div class="d-flex flex-row">
-                        <button type="button" style="width: 200px; border-radius: 13px" class="mr-1 btn btn-primary">DESCARGAR CSV</button>
+                        <button id="entradas_descargar_csv" type="button" style="width: 200px; border-radius: 13px" class="mr-1 btn btn-primary">DESCARGAR CSV</button>
                         <button type="button" style="width: 200px; border-radius: 13px" class="ml-1 btn btn-light">APLICAR ELIMINACIÓN</button>
                     </div>
                     <p style="margin-top: 14px; color: var(--color-prioridad-baja-baja)">La consulta contiene <b style="color: black">1532</b> registros</p>
@@ -94,33 +94,40 @@ $tecla = "";
     columnas_datos = {
         Nombre: {
             titulo: "Nombre",
-            elemento: undefined
+            elemento: undefined,
+            tipo: {forma: "columna"},
         },
         Hora_entrada: {
             titulo: "Hora de entrada",
-            elemento: undefined
+            elemento: undefined,
+            tipo: {forma: "columna"},
         },
         Hora_salida: {
             titulo: "Hora de salida",
-            elemento: undefined
+            elemento: undefined,
+            tipo: {forma: "columna"},
         },
         Lugar: {
             titulo: "Lugar",
-            elemento: undefined
+            elemento: undefined,
+            tipo: {forma: "columna"},
         },
         Hora_salida: {
             titulo: "Hora de salida",
-            elemento: undefined
+            elemento: undefined,
+            tipo: {forma: "columna"},
         },
         Fecha: {
             titulo: "Fecha",
-            elemento: undefined
+            elemento: undefined,
+            tipo: {forma: "columna"},
         }
     }
     condicionales_datos = {
         Nombre: {
             titulo: "Nombre:",
             elemento: undefined,
+            tipo: {forma: "where"},
             complemento: `
             <input name="Nombre" class="formulario form-control form-control-sm" type="text" placeholder="Introduce un nombre">
             `
@@ -128,6 +135,7 @@ $tecla = "";
         Fechas: {
             titulo: "Fecha",
             elemento: undefined,
+            tipo: {forma: "where"},
             complemento: `
             <p class="" style="margin: 0px 5px 0px 0px;">De:</p>
             <input name="Fecha_inicio" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
@@ -138,6 +146,7 @@ $tecla = "";
         No_control: {
             titulo: "Numero de control:",
             elemento: undefined,
+            tipo: {forma: "where"},
             complemento: `
             <input name="No_control" class="formulario form-control form-control-sm" type="number" placeholder="Introduce un número de control">
             `
@@ -219,7 +228,8 @@ $tecla = "";
                 }) => {
                     carreras_datos[Id_carrera] = {
                         titulo: Id_carrera,
-                        elemento: undefined
+                        elemento: undefined,
+                        tipo: {forma: "wherein", de: "carrera"},
                     }
                 })
                 Object.entries(carreras_datos).forEach(valor => {
@@ -243,6 +253,7 @@ $tecla = "";
                     )
                     opcion.crear_interfaz()
                     opcion.agregar_agregado()
+                    valor[1].elemento = opcion
 
                 })
             }
@@ -262,7 +273,8 @@ $tecla = "";
                 }) => {
                     lugares_datos[Id_lugar] = {
                         titulo: Id_lugar,
-                        elemento: undefined
+                        elemento: undefined,
+                        tipo: {forma: "wherein", de: "lugar"},
                     }
                 })
                 Object.entries(lugares_datos).forEach(valor => {
@@ -286,7 +298,7 @@ $tecla = "";
                     )
                     opcion.crear_interfaz()
                     opcion.agregar_agregado()
-
+                    valor[1].elemento = opcion
                 })
             }
         })
@@ -317,38 +329,70 @@ $tecla = "";
     contener_avance.appendChild(acciones_contener.get_interfaz())
 
     var inpp
-    function examinar_selecciones(contenedores) {
+    var acciones_contenido = {
+        "columna": function(key, tipo, valor, complemento) {
+            return {
+                valor: [{
+                    columna: valor
+                }],
+                key: key,
+                tipo: tipo.forma
+            }
+        },
+        "wherein": function(key, tipo, valor, complemento) {
+            return {
+                valor: [{
+                    wherein: valor
+                }],
+                key: key,
+                tipo: tipo.forma,
+                de: tipo.de
+            }
+        },
+        "where": function(key, tipo, valor, complemento) {
+            let inputs = complemento.querySelectorAll("input")
+            let valores = []
+            inputs.forEach(input => {
+                let valor = {}
+                valor[input.name] = input.value
+                valores.push(valor)
+            })
+            return {
+                valor: valores,
+                key: key,
+                tipo: tipo.forma
+            }
+        }
+    }
+
+    function examinar_selecciones(contenedores, principal) {
         let seleccionados = []
         Object.entries(contenedores).forEach(([key, contenedor]) => {
             let elementos_interfaz = contenedor.elemento.get_interfaz_elementos()
             let complemento = elementos_interfaz.complemento
-            if (!complemento) {
-                if (elementos_interfaz.boton.attributes["estado"].value == "agregado") {
-                    seleccionados.push({
-                        valor: [{
-                            columna: contenedor.titulo
-                        }],
-                        key: key
-                    })
-                }
-                return
+            if (elementos_interfaz.boton.attributes["estado"].value == "agregado") {
+                let tipo=contenedor.tipo.forma
+                principal[tipo].push(acciones_contenido[tipo](key, contenedor.tipo, contenedor.titulo, complemento))
             }
-            console.log(complemento)
-            let inputs = complemento.querySelectorAll("input")
-            inpp=complemento
-            let valores={}
-            inputs.map(input => {
-                let valor = {}
-                valor[input.name] = input.value
-            })
-            seleccionados.push({
-                valor: valores,
-                key: key
-            })
         })
-        console.log(seleccionados)
+        return seleccionados
     }
-    examinar_selecciones(condicionales_datos)
+
+    var json_entradas = [columnas_datos, condicionales_datos, lugares_datos, carreras_datos]
+    entradas_csv.addEventListener("click", function() {
+        let datos_formulario = {
+            columna:[],
+            where: [],
+            wherein: []
+        }
+        json_entradas.forEach(contenedor => {
+            let resultado = examinar_selecciones(contenedor, datos_formulario)
+            if (resultado.length != 0) {
+                datos_formulario.push(resultado)
+            }
+        })
+        console.log(datos_formulario)
+    })
 </script>
 
 </html>
