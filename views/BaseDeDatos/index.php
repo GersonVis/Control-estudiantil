@@ -72,7 +72,7 @@ $tecla = "";
             <div class="d-flex" style="margin-left: 24px; height: 20%;">
                 <div class="d-flex flex-column flex-column">
                     <div class="d-flex flex-row">
-                        <button id="entradas_descargar_csv" type="button" style="width: 200px; border-radius: 13px" class="mr-1 btn btn-primary">DESCARGAR CSV</button>
+                        <button id="entradas_descargar_csv" type="button" style="width: 200px; border-radius: 13px; overflow: hidden" class="position-relative mr-1 btn btn-primary">DESCARGAR CSV</button>
                         <button type="button" style="width: 200px; border-radius: 13px" class="ml-1 btn btn-light">APLICAR ELIMINACIÓN</button>
                     </div>
                     <p style="margin-top: 14px; color: var(--color-prioridad-baja-baja)">La consulta contiene <b style="color: black">1532</b> registros</p>
@@ -331,13 +331,7 @@ $tecla = "";
     var inpp
     var acciones_contenido = {
         "columna": function(key, tipo, valor, complemento) {
-            return {
-                valor: [{
-                    columna: valor
-                }],
-                key: key,
-                tipo: tipo.forma
-            }
+            return valor
         },
         "wherein": function(key, tipo, valor, complemento) {
             return {
@@ -379,7 +373,7 @@ $tecla = "";
     }
 
     var json_entradas = [columnas_datos, condicionales_datos, lugares_datos, carreras_datos]
-    entradas_csv.addEventListener("click", function() {
+    entradas_csv.addEventListener("click", function(evt) {
         let datos_formulario = {
             columna:[],
             where: [],
@@ -391,7 +385,17 @@ $tecla = "";
                 datos_formulario.push(resultado)
             }
         })
-        console.log(datos_formulario)
+        evt.target.disabled=true
+        animacion_carga(evt.target)
+        enviar_formulario("entrada/descargarconsulta", {
+            "columna": JSON.stringify(datos_formulario.columna),
+            "where": JSON.stringify(datos_formulario.where),
+            "wherein": JSON.stringify(datos_formulario.wherein),
+        }).
+        then(respuesta=>{
+            carga_terminada(evt.target)
+            evt.target.disabled=false
+        })
     })
 </script>
 

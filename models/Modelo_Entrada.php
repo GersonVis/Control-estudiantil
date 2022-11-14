@@ -253,6 +253,23 @@ class Modelo_Entrada extends Model
         //echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
+    function descargarconsulta($datos){
+        $conexion = $this->db->conectar();
+        $columnas=$datos["columna"];
+        $where=$datos["where"];
+        $wherein=$datos["wherein"];
+        $columnas = $this->limpiar($conexion, $columnas);
+        $parte_columnas= $this->formar_columnas($columnas);
+
+        echo $parte_columnas;
+    }
+    private function formar_columnas($columnas){
+        $parte_formada="";
+        foreach($columnas as $key=>$nombre_columna){
+            $parte_formada.=" $nombre_columna, ";
+        }
+        return $parte_formada;
+    }
     // prueba
     function prueba($consulta)
     {
