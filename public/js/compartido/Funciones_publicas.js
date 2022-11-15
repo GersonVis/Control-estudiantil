@@ -17,8 +17,26 @@ const crear_elemento = function ({ tipo, clases, estilos, id }) {
     })
     return elemento
 }
-const mensaje_informatico = function ({ msg }) {
-    alert(msg)
+const mensaje_informatico = function ({ msg, titulo, cancelar, aceptar }) {
+    $("#modal-msg").modal("show")
+    cancelar=cancelar??{}
+    aceptar=aceptar??{}
+    modal_msg.titulo.innerText=titulo??"Aviso"
+    modal_msg.cuerpo.innerText=msg??"Mensaje"
+    modal_msg.aceptar.innerText=aceptar.texto??"Aceptar"
+
+    modal_msg.cancelar.innerText=cancelar.texto??"Cancelar"
+
+    modal_msg.aceptar.style.backgroundColor=aceptar.color??"#007bff"
+    modal_msg.aceptar.style.color=aceptar.fondo??"black"
+    
+    if(modal_msg.aceptar.evt_an){
+        modal_msg.aceptar.removeEventListener("click", modal_msg.aceptar.evt_an, true)
+    }
+    modal_msg.aceptar.evt_an=function(){
+        aceptar.evento()??function(){}
+    }
+    modal_msg.aceptar.addEventListener("click", modal_msg.aceptar.evt_an, true)
 }
 const animacion_carga = function (contenedor, color="blue") {
     let elemento_animacion = crear_elemento({

@@ -256,9 +256,9 @@ class Modelo_Entrada extends Model
     function descargarconsulta($datos)
     {
         $conexion = $this->db->conectar();
-        $columnas = $datos["columna"];
+        $columnas = $datos["columna"]??array();
         $where = $this->expandir_where($datos["where"] ?? array());
-        $wherein = $datos["wherein"];
+        $wherein = $datos["wherein"]??array();
         $columnas = $this->limpiar($conexion, $columnas);
         $parte_columnas = $this->formar_columnas($columnas);
 
@@ -271,10 +271,32 @@ class Modelo_Entrada extends Model
         }else{
             $base_sql.=" and ".$wherein;
         }
+       // echo var_dump($datos);
+       // echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
+    }
+    function eliminarConsulta($datos)
+    {
+        $conexion = $this->db->conectar();
+        $columnas = $datos["columna"]??array();
+        $where = $this->expandir_where($datos["where"] ?? array());
+        $wherein = $datos["wherein"]??array();
+        $columnas = $this->limpiar($conexion, $columnas);
+        $parte_columnas = $this->formar_columnas($columnas);
+
+        $where = $this->formar_sql("", $where);
+        $wherein=$this->wherein($conexion, (array)$wherein);
+        $base_sql="delete from accesos_completo ".$where;
+    
+        if($where==""){
+            $base_sql.=" where ".$wherein;
+        }else{
+            $base_sql.=" and ".$wherein;
+        }
+       // echo var_dump($datos);
         echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
-    
     private function wherein($conexion, $datos){
         $whereis=array();
         foreach($datos as $key=>$contenido){
