@@ -50,11 +50,11 @@ $nombre_opcion = "";
         </div>
         <div class="collapse navbar-collapse">
             <div class=" d-flex justify-content-end w-100">
-                <button type="button" class="btn btn-secondary d-flex justify-content-center border bg-secondary text-white" style="
+                <a type="button" class="btn btn-secondary d-flex justify-content-center border bg-secondary text-white" style="
     overflow: hidden;
     width: 104px;
     border-radius: 12px;
-" href="#">Salir</button>
+" href="/cat/plantillas/principal.php">Salir</a>
             </div>
         </div>
         <!--  <button type="button" class="btn btn-secondary d-flex justify-content-center border bg-secondary text-white" style="

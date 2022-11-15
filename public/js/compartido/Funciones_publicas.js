@@ -28,7 +28,7 @@ const mensaje_informatico = function ({ msg, titulo, cancelar, aceptar }) {
     modal_msg.cancelar.innerText=cancelar.texto??"Cancelar"
 
     modal_msg.aceptar.style.backgroundColor=aceptar.color??"#007bff"
-    modal_msg.aceptar.style.color=aceptar.fondo??"black"
+    modal_msg.aceptar.style.color=aceptar.letras??"black"
     
     if(modal_msg.aceptar.evt_an){
         modal_msg.aceptar.removeEventListener("click", modal_msg.aceptar.evt_an, true)

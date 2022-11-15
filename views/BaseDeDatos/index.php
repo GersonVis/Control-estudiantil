@@ -94,7 +94,7 @@ $tecla = "";
                     </button>
                 </div>
                 <div class="modal-body" id="modal-body">
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="modal-cancelar" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -146,6 +146,12 @@ $tecla = "";
                 return
             }
             mensaje_informatico({
+                aceptar: {
+                    letras: "white",
+                    evento: function() {
+                        $("#modal-msg").modal("hide")
+                    }
+                },
                 msg: "No hay resultados para la consulta"
             })
 
@@ -172,26 +178,34 @@ $tecla = "";
             aceptar: {
                 texto: "Eliminar",
                 color: "#dc3545",
-                fondo: "white",
+                letras: "white",
                 evento: function() {
-                        $("#modal-msg").modal("hide")
-                        enviar_formulario("entrada/eliminarConsulta", datos_entradas_csv)
-                            .then(json => {
-                                console.log(json)
-                                if (json.respuesta) {
-                                    mensaje_informatico({
-                                        titulo: "Tarea completada",
-                                        msg: "Eliminaste correctamente los registros"
-                                    })
-                                }
+                    enviar_formulario("entrada/eliminarConsulta", datos_entradas_csv)
+                        .then(json => {
+                            console.log(json)
+                            if (json.respuesta) {
+                                cuantos_registros.innerText=0
+                                hacer_eliminacion.style.visibility="hidden"
                                 mensaje_informatico({
-                                        titulo: "Tarea incompleta",
-                                        msg: "Inténtalo más tarde"
-                                    })
+                                    titulo: "Tarea completada",
+                                    msg: "Eliminaste correctamente los registros",
+                                    aceptar: {
+                                        letras:"white",
+                                        evento: function() {
+                                            $("#modal-msg").modal("hide")
+                                        }
+                                    }
+                                })
+                                return
+                            }
+                            mensaje_informatico({
+                                titulo: "Tarea incompleta",
+                                msg: "Inténtalo más tarde"
                             })
-                    }
+                        })
+                }
             },
-            msg: "Ten cuidado eliminarás "+ cuantos_registros.innerText+" registros de la base de datos"
+            msg: "Ten cuidado eliminarás " + cuantos_registros.innerText + " registros de la base de datos"
         })
     })
 </script>

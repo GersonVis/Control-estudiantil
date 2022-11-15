@@ -286,15 +286,16 @@ class Modelo_Entrada extends Model
 
         $where = $this->formar_sql("", $where);
         $wherein=$this->wherein($conexion, (array)$wherein);
-        $base_sql="delete from accesos_completo ".$where;
+        $base_sql="select id_acceso from accesos_completo ".$where;
     
         if($where==""){
             $base_sql.=" where ".$wherein;
         }else{
             $base_sql.=" and ".$wherein;
         }
-       // echo var_dump($datos);
-        echo $base_sql;
+
+        $base_sql="delete from accesos_p where id_acceso in ( ".$base_sql." )";
+      //  echo $base_sql;
         return $this->db->consulta_codigo($conexion, $base_sql);
     }
     private function wherein($conexion, $datos){
