@@ -107,7 +107,7 @@ class Controller
     }
     function respuesta_formateada($respuesta = "", $codigo = "", $tipo_consulta = "", $registros_afectados, $contenido = array())
     {
-        array("respuesta" => $respuesta, "codigo" => $codigo, "contenido" => $contenido, "tipo_consulta" => $tipo_consulta, "registros_afectados" => $registros_afectados);
+       return array("respuesta" => $respuesta, "codigo" => $codigo, "contenido" => $contenido, "tipo_consulta" => $tipo_consulta, "registros_afectados" => $registros_afectados);
     }
     function crear_csv($archivo, $contenido)
     {

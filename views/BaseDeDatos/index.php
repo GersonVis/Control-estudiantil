@@ -75,11 +75,12 @@ $tecla = "";
                         <button id="entradas_descargar_csv" type="button" style="width: 200px; border-radius: 13px; overflow: hidden" class="position-relative mr-1 btn btn-primary">DESCARGAR CSV</button>
                         <button type="button" style="width: 200px; border-radius: 13px" class="ml-1 btn btn-light">APLICAR ELIMINACIÓN</button>
                     </div>
-                    <p style="margin-top: 14px; color: var(--color-prioridad-baja-baja)">La consulta contiene <b style="color: black">1532</b> registros</p>
+                    <p style="margin-top: 14px; color: var(--color-prioridad-baja-baja)">La consulta contiene <b id="numero-regsitros" style="color: black">1532</b> registros</p>
                 </div>
             </div>
         </div>
     </div>
+    <div id="formularios-dimanimicos"></div>
 </body>
 
 
@@ -96,6 +97,7 @@ $tecla = "";
             titulo: "Nombre",
             elemento: undefined,
             tipo: {forma: "columna"},
+            
         },
         Hora_entrada: {
             titulo: "Hora de entrada",
@@ -107,7 +109,7 @@ $tecla = "";
             elemento: undefined,
             tipo: {forma: "columna"},
         },
-        Lugar: {
+        Id_Lugar: {
             titulo: "Lugar",
             elemento: undefined,
             tipo: {forma: "columna"},
@@ -331,7 +333,7 @@ $tecla = "";
     var inpp
     var acciones_contenido = {
         "columna": function(key, tipo, valor, complemento) {
-            return valor
+            return key
         },
         "wherein": function(key, tipo, valor, complemento) {
             return {
@@ -371,6 +373,8 @@ $tecla = "";
     }
 
     var json_entradas = [columnas_datos, condicionales_datos, lugares_datos, carreras_datos]
+    var respuesta_csv
+    var formulario
     entradas_csv.addEventListener("click", function(evt) {
         let datos_formulario = {
             columna:[],
@@ -385,7 +389,7 @@ $tecla = "";
         })
         evt.target.disabled=true
         animacion_carga(evt.target)
-        enviar_formulario("entrada/descargarconsulta", {
+        enviar_formulario("entrada/archivoConsulta", {
             "columna": JSON.stringify(datos_formulario.columna),
             "where": JSON.stringify(datos_formulario.where),
             "wherein": JSON.stringify(datos_formulario.wherein),
@@ -393,6 +397,23 @@ $tecla = "";
         then(respuesta=>{
             carga_terminada(evt.target)
             evt.target.disabled=false
+            respuesta_csv=respuesta
+            console.log(respuesta)
+            if(respuesta.respuesta){
+              
+              cuantos_registros.innerText=respuesta.registros_afectados
+
+              let form=crear_elemento({tipo: "div"} )
+              form.innerHTML=`<form action="entrada/descargarArchivo/" method="POST">
+                <input type="hidden" name="nombre" value="${respuesta.contenido[0].Nombre}"/>
+                <input name="decir" id="decir" value="Hola">
+              </form>`
+              form=form.childNodes[0]
+              formulario_dinamicos.appendChild(form)
+              form.submit()
+              formulario_dinamicos.innerHTM=""
+              
+            }
         })
     })
 </script>

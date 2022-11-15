@@ -258,30 +258,21 @@ class Modelo_Entrada extends Model
         $conexion = $this->db->conectar();
         $columnas = $datos["columna"];
         $where = $this->expandir_where($datos["where"] ?? array());
-        
-
         $wherein = $datos["wherein"];
         $columnas = $this->limpiar($conexion, $columnas);
         $parte_columnas = $this->formar_columnas($columnas);
 
         $where = $this->formar_sql("", $where);
         $wherein=$this->wherein($conexion, (array)$wherein);
-
-      // $wherein_limpiados=array();
-      
-      //  echo var_dump($wherein);
-     /*   echo var_dump($wherein);*/
-
-
-
-        
         $base_sql="select ".$parte_columnas." from accesos_completo ".$where;
+    
         if($where==""){
             $base_sql.=" where ".$wherein;
         }else{
             $base_sql.=" and ".$wherein;
         }
-        echo "base; ".$base_sql;
+        echo $base_sql;
+        return $this->db->consulta_codigo($conexion, $base_sql);
     }
     
     private function wherein($conexion, $datos){
@@ -325,7 +316,7 @@ class Modelo_Entrada extends Model
         foreach ($columnas as $key => $nombre_columna) {
             $parte_formada .= " $nombre_columna, ";
         }
-        return $parte_formada;
+        return substr($parte_formada, 0, -2);
     }
 
     // prueba

@@ -10,5 +10,7 @@ const columnas_consultar=document.querySelector("#columnas-consultar")
 const condicionales_entradas=document.querySelector("#condicionales-entradas")
 
 const entradas_csv=document.querySelector("#entradas_descargar_csv")
+const formulario_dinamicos=document.querySelector("#formularios-dimanimicos")
 
 
+const cuantos_registros=document.querySelector("#numero-regsitros")
