@@ -16,7 +16,7 @@ class View{
       $this->menu = array("General"=>array("General", "General"),
       "Registro"=>array("Registro", "Registro"),
       "Informacion"=>array("Información", "Informacion"),
-      "Base"=>array("Base de datos", "BaseDeDatos"));
+      "BaseDeDatos"=>array("Base de datos", "BaseDeDatos"));
       include_once "views/Componentes/Menu.php";
     }
 

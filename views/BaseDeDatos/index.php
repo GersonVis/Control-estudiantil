@@ -34,9 +34,9 @@ $tecla = "";
     <div class="d-flex justify-content-center align-items-center" id="scroll_global" style="overflow: auto; height: var(--alto-global)">
 
         <div class="w-75 d-flex flex-column position-relative" style="height: 80%; border-radius: 13px; border: 1px solid var(--color-decorativo)">
-            <div class="d-flex" style="width: 40px; height: 40px; position: absolute; top: 14px; right: 8px;">
+            <!--<div class="d-flex" style="width: 40px; height: 40px; position: absolute; top: 14px; right: 8px;">
                 <i class="bi-x-lg"></i>
-            </div>
+            </div>-->
 
             <div class="d-flex" style="height: 80%; ">
 

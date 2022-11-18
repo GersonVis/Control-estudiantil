@@ -97,7 +97,9 @@ Object.entries(columnas_datos).forEach(valor => {
                 let estado = datos.boton.attributes["estado"].value
                 if (estado == "agregado") {
                     if (hijos == 1) {
-                        alert("No puedes remover todos")
+                        mensaje_informatico({
+                            msg: "Para búsqueda completa, selecciona todas las opciones"
+                        })
                         return true
                     }
                 }

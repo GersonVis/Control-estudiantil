@@ -124,6 +124,7 @@ window.addEventListener("load", function (ev) {
                         Fecha: obtener_fecha(),
                         Id_carrera: carrera.Id_carrera
                     })
+                  //  console.log("carrera conteo ", carrera_conteo)
                     if (carrera_conteo.respuesta) {
                         carrera_conteo.contenido.forEach(({ etiqueta, valor }) => {
 

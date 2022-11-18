@@ -4,12 +4,10 @@ class BaseDeDatos extends Controller{
     {
         parent::__construct($nombre,$datos_usuario, $metodo, $this, $indice);
     }
-    function prueba(){
-        echo "somos metodo prueba";
-    }
+
     function principal(){
         $this->view->nombre = "gerson";
-        $this->view->opcion = "Informacion";
+        $this->view->opcion = "BaseDeDatos";
 
         //lista de lugares para mostrar en las opciones
         $this->cargar_modelo("Lugar");
