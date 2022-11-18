@@ -192,7 +192,7 @@ $tecla = "";
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" name="noControl" for="validationCustom01">No. Control</label>
                     <div class="w-100 position-relative">
-                        <input type="text" value="12345678" autocomplete="off" minlength="8" maxlength="8" size="8" name="no_control" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
+                        <input type="text" value="" autocomplete="off" minlength="8" maxlength="8" size="8" name="no_control" class="form-control texto-label alto-seleccionable" id="validationCustom02" value="" required>
                         <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;
@@ -207,7 +207,7 @@ $tecla = "";
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" for="validationCustom03">Nombre</label>
                     <div class="w-100 position-relative">
-                        <input type="text" minlength="3" value="gerson visoso ocampo" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
+                        <input type="text" minlength="3" value="" maxlength="32" name="nombre" size="32" class="form-control texto-label alto-seleccionable" id="validationCustom03" value="" required>
                         <div id="mostrar_digitos" class=" texto-label position-absolute m-0" style="
     width: auto;
     font-size: 8pt;
@@ -221,7 +221,7 @@ $tecla = "";
                 </div>
                 <div class="form-group mb-2 w-100">
                     <label class="m-0 label-inputs text-secondary" for="validationCustom03">Carrera</label>
-                    <input value="Ingeniería en sistemas computacionales" type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
+                    <input value="" type="text" name="carrera" class="form-control texto-label alto-seleccionable" id="validationCustom04" value="" required>
                 </div>
                 <button id="enviar" class="btn btn-primary w-100 m-0 p-0 alto-seleccionable texto-label" style="color: white; min-height: 40px">REGISTRAR ACCESO</button>
             </form>
@@ -239,13 +239,21 @@ $tecla = "";
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button id="pruebaa" class="btn btn-primary">CLOSE</button>
+                     <!--   <button id="modal_btn" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>-->
                     </div>
                 </div>
             </div>
         </div>
+       
 </body>
 <script>
+    validationCustom02.focus()
+    pruebaa.addEventListener("click", function(){
+        $("#modalInformacion").modal("hide")
+        validationCustom02.focus()
+        reiniciar_label()
+    })
     combinar_indices_elementos = (indices, prefijo) => {
         let elementos = {}
         indices.forEach(indice => {
@@ -488,11 +496,20 @@ $tecla = "";
             seleccionando = true
         }
     })
+    const reiniciar_label=()=>{
+        validationCustom02.value=""
+        validationCustom03.value=""
+        validationCustom04.value=""
+    }
     const mostrar_informacion = (titulo, msg) => {
         $("#modalTitulo").text(titulo)
         $("#modalContenido").text(msg)
         $("#modalInformacion").modal("show")
     }
+    teclas_acciones[0].click()
+    teclas_lugares[0].click()
+
+    
 </script>
 <script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>

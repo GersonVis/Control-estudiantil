@@ -32,11 +32,14 @@ $tecla = "";
     $this->renderizar_menu($this->opcion);
     ?>
     <div class="d-flex justify-content-center align-items-center" id="scroll_global" style="overflow: auto; height: var(--alto-global)">
+
         <div class="w-75 d-flex flex-column position-relative" style="height: 80%; border-radius: 13px; border: 1px solid var(--color-decorativo)">
-            <div class="d-flex" style="width: 40px; height: 40px; position: absolute; top: 14px; right: 8px;">
+            <!--<div class="d-flex" style="width: 40px; height: 40px; position: absolute; top: 14px; right: 8px;">
                 <i class="bi-x-lg"></i>
-            </div>
+            </div>-->
+
             <div class="d-flex" style="height: 80%; ">
+
                 <div class="d-flex flex-column w-50 h-100">
                     <div class="d-flex align-items-end" style="padding-left: 24px; padding-top: 14px;  color: var(--color-prioridad-baja-baja)">
                         <p class="m-0 p-0">Estas consultando:</p>
@@ -73,17 +76,36 @@ $tecla = "";
                 <div class="d-flex flex-column flex-column">
                     <div class="d-flex flex-row">
                         <button id="entradas_descargar_csv" type="button" style="width: 200px; border-radius: 13px; overflow: hidden" class="position-relative mr-1 btn btn-primary">DESCARGAR CSV</button>
-                        <button type="button" style="width: 200px; border-radius: 13px" class="ml-1 btn btn-light">APLICAR ELIMINACIÓN</button>
+
                     </div>
-                    <p style="margin-top: 14px; color: var(--color-prioridad-baja-baja)">La consulta contiene <b id="numero-regsitros" style="color: black">1532</b> registros</p>
+                    <p style="margin-top: 8px; color: var(--color-prioridad-baja-baja)">La consulta contiene <b id="numero-regsitros" style="color: black">0</b> registros <button id="entradas-eliminacion" type="button" style="visibility: hidden; font-size: 10pt; width: 200px; border-radius: 13px" class="ml-1 btn btn-light">APLICAR ELIMINACIÓN</button></p>
                 </div>
             </div>
         </div>
     </div>
     <div id="formularios-dimanimicos"></div>
+    <div class="modal fade" id="modal-msg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title-msg">Aviso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modal-cancelar" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="modal-aplicar" class="btn">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
-
+<script src="public/node_modules/chart/package/dist/chart.js"></script>
 <script src="public/js/Compartido/Enviar_formulario.js"></script>
 <script src="public/js/Compartido/Funciones_publicas.js"></script>
 <script src="public/js/BaseDeDatos/Variables.js"></script>
@@ -91,329 +113,99 @@ $tecla = "";
 <script src="public/js/BaseDeDatos/Steeps.js"></script>
 <script src="public/js/BaseDeDatos/Avance.js"></script>
 <script src="public/js/BaseDeDatos/ContenedorPartes.js"></script>
+<script src="public/js/BaseDeDatos/Interfaz_dinamica.js"></script>
 <script>
-    columnas_datos = {
-        Nombre: {
-            titulo: "Nombre",
-            elemento: undefined,
-            tipo: {forma: "columna"},
-            
-        },
-        Hora_entrada: {
-            titulo: "Hora de entrada",
-            elemento: undefined,
-            tipo: {forma: "columna"},
-        },
-        Hora_salida: {
-            titulo: "Hora de salida",
-            elemento: undefined,
-            tipo: {forma: "columna"},
-        },
-        Id_Lugar: {
-            titulo: "Lugar",
-            elemento: undefined,
-            tipo: {forma: "columna"},
-        },
-        Hora_salida: {
-            titulo: "Hora de salida",
-            elemento: undefined,
-            tipo: {forma: "columna"},
-        },
-        Fecha: {
-            titulo: "Fecha",
-            elemento: undefined,
-            tipo: {forma: "columna"},
-        }
-    }
-    condicionales_datos = {
-        Nombre: {
-            titulo: "Nombre:",
-            elemento: undefined,
-            tipo: {forma: "where"},
-            complemento: `
-            <input name="Nombre" class="formulario form-control form-control-sm" type="text" placeholder="Introduce un nombre">
-            `
-        },
-        Fechas: {
-            titulo: "Fecha",
-            elemento: undefined,
-            tipo: {forma: "where"},
-            complemento: `
-            <p class="" style="margin: 0px 5px 0px 0px;">De:</p>
-            <input name="Fecha_inicio" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
-            <p class="" style="margin: 0px 5px 0px 5px;">al</p>
-            <input name="Fecha_fin" class="formulario form-control form-control-sm" type="date" placeholder="Introduce un nombre">
-            `
-        },
-        No_control: {
-            titulo: "Numero de control:",
-            elemento: undefined,
-            tipo: {forma: "where"},
-            complemento: `
-            <input name="No_control" class="formulario form-control form-control-sm" type="number" placeholder="Introduce un número de control">
-            `
-        },
-    }
-    var steep_columnas = new ContenedorPartes("columnas", "Cada registro debe contener: ")
-    steep_columnas.crear_interfaz()
-    columnas_partes = steep_columnas.get_partes_interfaz()
-    Object.entries(columnas_datos).forEach(valor => {
-        let opcion = new Opcion(valor[1].titulo, columnas_partes.disponibles, columnas_partes.agregadas,
-            funciones = {
-                funcion_click(datos) {
-                    let hijos = datos.agregado.childNodes.length
-                    let estado = datos.boton.attributes["estado"].value
-                    if (estado == "agregado") {
-                        if (hijos == 1) {
-                            alert("No puedes remover todos")
-                            return true
-                        }
-                    }
-                },
-                funcion_despues(datos) {}
-            }
-
-        )
-        valor[1].elemento = opcion
-        opcion.crear_interfaz()
-        opcion.agregar_agregado()
-
-    })
-    //agregamos el elemento creado para el inicio de la interfaz
-    padre_opciones_entradas.appendChild(steep_columnas.get_interfaz())
-
-    var steep_condiciones = new ContenedorPartes("condiciones", "Agrega condiciones: ")
-    steep_condiciones.crear_interfaz()
-    condiciones_partes = steep_condiciones.get_partes_interfaz()
-    var msg = undefined
-    Object.entries(condicionales_datos).forEach(valor => {
-        let opcion = new Opcion(valor[1].titulo, condiciones_partes.disponibles, condiciones_partes.agregadas,
-            funciones = {
-                funcion_click(datos) {
-                    let hijos = datos.agregado.childNodes.length
-                    let estado = datos.boton.attributes["estado"].value
-                    if (hijos == 1 && datos.evt && msg) {
-                        datos.agregado.innerHTML = ""
-                        msg = false
-                    }
-                },
-                funcion_despues(datos) {
-                    let hijos = datos.agregado.childNodes.length
-                    if (hijos == 0) {
-                        datos.agregado.innerHTM = ""
-                        datos.agregado.innerHTML = "No hay condiciones seleccionadas"
-                        msg = true
-                    }
-                }
-            },
-            valor[1].complemento
-        )
-        opcion.crear_interfaz()
-        //opcion.agregar_disponible()
-        opcion.btn_click("agregado")
-        valor[1].elemento = opcion
-    })
-
-
-
-
-    /* elementos de steeps carrera */
-    var steep_carrera = new ContenedorPartes("carreras", "Selecciona las carreras:")
-    steep_carrera.crear_interfaz()
-    carrera_partes = steep_carrera.get_partes_interfaz()
-    var carreras_datos = {}
-    enviar_formulario("carrera")
-        .then(respuesta => {
-            if (respuesta.respuesta) {
-                respuesta.contenido.forEach(({
-                    Id_carrera
-                }) => {
-                    carreras_datos[Id_carrera] = {
-                        titulo: Id_carrera,
-                        elemento: undefined,
-                        tipo: {forma: "wherein", de: "Id_carrera"},
-                    }
-                })
-                Object.entries(carreras_datos).forEach(valor => {
-                    let opcion = new Opcion(valor[1].titulo, carrera_partes.disponibles, carrera_partes.agregadas,
-                        funciones = {
-                            funcion_click(datos) {
-                                let hijos = datos.agregado.childNodes.length
-                                let estado = datos.boton.attributes["estado"].value
-                                if (estado == "agregado") {
-                                    if (hijos == 1) {
-                                        mensaje_informatico({
-                                            msg: "Para búsqueda completa, selecciona todas las opciones"
-                                        })
-                                        return true
-                                    }
-                                }
-                            },
-                            funcion_despues(datos) {}
-                        }
-
-                    )
-                    opcion.crear_interfaz()
-                    opcion.agregar_agregado()
-                    valor[1].elemento = opcion
-
-                })
-            }
-        })
-    /*fin steep carrera*/
-
-    /* elementos de steeps lugar */
-    var steep_lugar = new ContenedorPartes("lugares", "Selecciona los lugares:")
-    steep_lugar.crear_interfaz()
-    lugares_partes = steep_lugar.get_partes_interfaz()
-    var lugares_datos = {}
-    enviar_formulario("lugar")
-        .then(respuesta => {
-            if (respuesta.respuesta) {
-                respuesta.contenido.forEach(({
-                    Id_lugar
-                }) => {
-                    lugares_datos[Id_lugar] = {
-                        titulo: Id_lugar,
-                        elemento: undefined,
-                        tipo: {forma: "wherein", de: "Id_lugar"},
-                    }
-                })
-                Object.entries(lugares_datos).forEach(valor => {
-                    let opcion = new Opcion(valor[1].titulo, lugares_partes.disponibles, lugares_partes.agregadas,
-                        funciones = {
-                            funcion_click(datos) {
-                                let hijos = datos.agregado.childNodes.length
-                                let estado = datos.boton.attributes["estado"].value
-                                if (estado == "agregado") {
-                                    if (hijos == 1) {
-                                        mensaje_informatico({
-                                            msg: "Para búsqueda completa, selecciona todas las opciones"
-                                        })
-                                        return true
-                                    }
-                                }
-                            },
-                            funcion_despues(datos) {}
-                        }
-
-                    )
-                    opcion.crear_interfaz()
-                    opcion.agregar_agregado()
-                    valor[1].elemento = opcion
-                })
-            }
-        })
-    /*fin steep lugar*/
-
-    let lista_principales = [steep_columnas.get_interfaz(), steep_condiciones.get_interfaz(), steep_carrera.get_interfaz(), steep_lugar.get_interfaz()]
-    let lista_titulos = [steep_columnas.get_titulo(), steep_condiciones.get_titulo(), steep_carrera.get_titulo(), steep_lugar.get_titulo()]
-
-    let steeps_contener = new Steeps(lista_titulos.length)
-    steeps_contener.crear_interfaz()
-    steeps_contener.marcar_steep(0)
-    contenedor_steeps.appendChild(steeps_contener.get_interfaz())
-
-
-    let acciones_contener = new Avance(function(pos, elementos) {
-        steeps_contener.marcar_steep(pos)
-        subtitulo_entradas.innerText = elementos.subtitulos[pos]
-        elementos.padre.innerHTML = ""
-        elementos.padre.appendChild(elementos.lista_principales[pos])
-    }, {
-        padre: padre_opciones_entradas,
-        lista_principales: lista_principales,
-        subtitulos: lista_titulos
-    })
-
-    acciones_contener.crear_interfaz()
-    acciones_contener.avanzar(0)
-    contener_avance.appendChild(acciones_contener.get_interfaz())
-
-    var inpp
-    var acciones_contenido = {
-        "columna": function(key, tipo, valor, complemento) {
-            return key
-        },
-        "wherein": function(key, tipo, valor, complemento) {
-            return {
-                valor: valor,
-                key: key,
-                tipo: tipo.forma,
-                de: tipo.de
-            }
-        },
-        "where": function(key, tipo, valor, complemento) {
-            let inputs = complemento.querySelectorAll("input")
-            let valores = []
-            inputs.forEach(input => {
-                let valor = {}
-                valor[input.name] = input.value
-                valores.push(valor)
-            })
-            return {
-                valor: valores,
-                key: key,
-                tipo: tipo.forma
-            }
-        }
-    }
-
-    function examinar_selecciones(contenedores, principal) {
-        let seleccionados = []
-        Object.entries(contenedores).forEach(([key, contenedor]) => {
-            let elementos_interfaz = contenedor.elemento.get_interfaz_elementos()
-            let complemento = elementos_interfaz.complemento
-            if (elementos_interfaz.boton.attributes["estado"].value == "agregado") {
-                let tipo=contenedor.tipo.forma
-                principal[tipo].push(acciones_contenido[tipo](key, contenedor.tipo, contenedor.titulo, complemento))
-            }
-        })
-        return seleccionados
-    }
-
     var json_entradas = [columnas_datos, condicionales_datos, lugares_datos, carreras_datos]
     var respuesta_csv
     var formulario
+    var datos_entradas_csv
     entradas_csv.addEventListener("click", function(evt) {
-        let datos_formulario = {
-            columna:[],
-            where: [],
-            wherein: []
-        }
-        json_entradas.forEach(contenedor => {
-            let resultado = examinar_selecciones(contenedor, datos_formulario)
-            if (resultado.length != 0) {
-                datos_formulario.push(resultado)
-            }
-        })
-        evt.target.disabled=true
+        datos_entradas_csv = cargar_datos_formulario(json_entradas)
+        hacer_eliminacion.style.visibility = "hidden"
+        evt.target.disabled = true
         animacion_carga(evt.target)
-        enviar_formulario("entrada/archivoConsulta", {
-            "columna": JSON.stringify(datos_formulario.columna),
-            "where": JSON.stringify(datos_formulario.where),
-            "wherein": JSON.stringify(datos_formulario.wherein),
-        }).
-        then(respuesta=>{
+        enviar_formulario("entrada/archivoConsulta", datos_entradas_csv).
+        then(respuesta => {
             carga_terminada(evt.target)
-            evt.target.disabled=false
-            respuesta_csv=respuesta
-            console.log(respuesta)
-            if(respuesta.respuesta){
-              
-              cuantos_registros.innerText=respuesta.registros_afectados
-
-              let form=crear_elemento({tipo: "div"} )
-              form.innerHTML=`<form action="entrada/descargarArchivo/" method="POST">
+            evt.target.disabled = false
+            respuesta_csv = respuesta
+            let numero_registros = respuesta.registros_afectados
+            cuantos_registros.innerText = numero_registros
+            if (respuesta.respuesta && numero_registros > 0) {
+                hacer_eliminacion.style.visibility = "visible";
+                let form = crear_elemento({
+                    tipo: "div"
+                })
+                form.innerHTML = `<form action="entrada/descargarArchivo/" method="POST">
                 <input type="hidden" name="nombre" value="${respuesta.contenido[0].Nombre}"/>
-                <input name="decir" id="decir" value="Hola">
               </form>`
-              form=form.childNodes[0]
-              formulario_dinamicos.appendChild(form)
-              form.submit()
-              formulario_dinamicos.innerHTM=""
-              
+                form = form.childNodes[0]
+                formulario_dinamicos.appendChild(form)
+                form.submit()
+                formulario_dinamicos.innerHTM = ""
+                return
             }
+            mensaje_informatico({
+                aceptar: {
+                    letras: "white",
+                    evento: function() {
+                        $("#modal-msg").modal("hide")
+                    }
+                },
+                msg: "No hay resultados para la consulta"
+            })
+
+        })
+    })
+
+    function cargar_datos_formulario(info_formulario) {
+        let datos_formulario = {}
+        info_formulario.forEach(contenedor => {
+            examinar_selecciones(contenedor, datos_formulario)
+        })
+        let reformado = {}
+        Object.entries(datos_formulario).forEach(
+            ([key, contenido]) => {
+                reformado[key] = JSON.stringify(contenido)
+            }
+        )
+        return reformado
+    }
+
+    hacer_eliminacion.addEventListener("click", function() {
+        mensaje_informatico({
+            titulo: "Eliminación",
+            aceptar: {
+                texto: "Eliminar",
+                color: "#dc3545",
+                letras: "white",
+                evento: function() {
+                    enviar_formulario("entrada/eliminarConsulta", datos_entradas_csv)
+                        .then(json => {
+                            console.log(json)
+                            if (json.respuesta) {
+                                cuantos_registros.innerText=0
+                                hacer_eliminacion.style.visibility="hidden"
+                                mensaje_informatico({
+                                    titulo: "Tarea completada",
+                                    msg: "Eliminaste correctamente los registros",
+                                    aceptar: {
+                                        letras:"white",
+                                        evento: function() {
+                                            $("#modal-msg").modal("hide")
+                                        }
+                                    }
+                                })
+                                return
+                            }
+                            mensaje_informatico({
+                                titulo: "Tarea incompleta",
+                                msg: "Inténtalo más tarde"
+                            })
+                        })
+                }
+            },
+            msg: "Ten cuidado eliminarás " + cuantos_registros.innerText + " registros de la base de datos"
         })
     })
 </script>

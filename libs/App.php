@@ -29,7 +29,6 @@ class App
      // if($nulos==0){
       if(true){
          $controlador=$_GET["controlador"];
-         
          if($controlador!=""){
             $metodo=$_GET["metodo"]??"";
             $indice=$_GET["indice"]??"";

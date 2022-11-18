@@ -22,7 +22,8 @@ class Database
       "update" => "actualizacion",
       "insert" => "creacion",
       "call" => "procedimiento",
-      "noprocedio"=>"noprocedio"
+      "noprocedio"=>"noprocedio",
+      "error"=>"noprocedio"
     );
   }
   function conectar()
@@ -58,6 +59,14 @@ class Database
         $resultado->free();
       }
     } while ($conexion->next_result());
+   // echo var_dump($registro);
+    if(count($registro)==0){
+      $registro[]=array(0=>array(
+        "mensaje"=> "Existe un error en la información",
+        "solicitud"=> "false",
+        "tipo"=> "error"
+      ));
+    }
     return $registro;
   }
   function tiposDeDatoConsulta($conexion, $sqlConsulta)
@@ -136,15 +145,17 @@ class Database
        $contenido=array();
        
        $registros = $this->consulta_call($conexion, $sql);
+
        $datos_consulta=$registros[0][0];
        $codigo_respuesta=$datos_consulta["mensaje"];
        $tipo_de_consulta=$datos_consulta["tipo"];
        $contenido=count($registros)>1?$registros[1]:$contenido;
        $error_code = mysqli_errno($conexion);
-      
+       
        if($datos_consulta["solicitud"]!="true"){
            $error_code=1;
        }
+      // echo "tipo de consulta $tipo_de_consulta";
        return array(
         "respuesta" => $error_code == 0 ? true : false,
         "codigo" => $codigo_respuesta,
@@ -164,6 +175,7 @@ class Database
         }
       }
     }
+    
     //  echo var_dump($resultado->store_result());
     $error_code = mysqli_errno($conexion);
     //  $afectados = $tipo_consulta!="select"?$conexion->affected_rows:"no es posible";

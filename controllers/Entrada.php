@@ -316,4 +316,13 @@ class Entrada extends Controller
           $this->descargar_archivo($nombre_archivo);
           
     }
+    function eliminarConsulta(){
+        $datos = array();
+        foreach ($_POST as $key => $contenido) {
+            $datos[$key] = json_decode($contenido);
+        }
+        $resultado=$this->modelo->eliminarConsulta($datos);
+        $this->view->resultado=$resultado;
+        $this->view->renderizar();
+    }
 }

@@ -131,7 +131,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
             console.log(json)
             prueba = json
             if (json.respuesta) {
-                
+               
 
 
                 registro = json.contenido[0]
@@ -145,11 +145,14 @@ const enviar_formulario = (formdata, no_control_dentro) => {
                 consecuencias[json.tipo_consulta](registro)
 
 
+            }else{
+                bloqueos[no_control] = { disponible: true }
             }
         })
         .catch(er => {
             console.error("ocurrio un error en la solicitud")
             console.error(er)
+            bloqueos[no_control] = { disponible: true }
             // bloqueos[no_control].disponible=true
         })
     return false
@@ -164,6 +167,7 @@ const enviar_formulario_entrada = (formdata) => {
         .then(json => {
             console.log(json)
             if (json.respuesta) {
+             
               /*  prueba = json
                 registro = json.contenido[0]
                 //agrega el registro a la lista pero sin animacion de bloqueo
@@ -202,6 +206,7 @@ const enviar_formulario_salida = (formdata, no_control_dentro) => {
                 if (json.registros_afectados != 0) {
                     registro = json.contenido[0]
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
+                 
                     mostrar_informacion("Salida", json.codigo)
                     return
                 }
