@@ -62,7 +62,7 @@ class Database
    // echo var_dump($registro);
     if(count($registro)==0){
       $registro[]=array(0=>array(
-        "mensaje"=> "Existe un error en la información",
+        "mensaje"=> "Existe un error en la información proporcionada",
         "solicitud"=> "false",
         "tipo"=> "error"
       ));

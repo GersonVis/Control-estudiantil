@@ -45,6 +45,7 @@ var accion_por_opcion = {
                 nombre = validationCustom03.value
 
                 lugar = seleccion_opciones[1]
+
                 formdata.append("lugar", lugar)
                 let no_control_dentro = no_control.toString()
                 enviar_formulario(formdata, no_control_dentro)
@@ -146,6 +147,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
 
 
             }else{
+                mostrar_informacion("Error en la acción", json.codigo)
                 bloqueos[no_control] = { disponible: true }
             }
         })
@@ -186,7 +188,7 @@ const enviar_formulario_entrada = (formdata) => {
 
                 return
             }
-            mostrar_informacion("Error", json.codigo)
+            mostrar_informacion("Error en la acción", json.codigo)
         })
         .catch(er => {
             console.error("ocurrio un error en la solicitud")
