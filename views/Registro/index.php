@@ -111,439 +111,146 @@ $tecla = "";
             }
         }
 
-        .bolita {
-            position: absolute;
-        }
-
-        .bolita.entrada {
-            animation-name: bolitaMoverA, ocultamiento;
-
-            animation-duration: 1s, 2s;
-            animation-timing-function: linear, steps(2, end);
-            /*cubic-bezier(0.3, 0, 0.7, 1);*/
-            animation-iteration-count: infinite, infinite;
-            animation-direction: alternate-reverse, normal;
-
-            left: 0px;
-        }
-
-        .bolitaa {
-            animation-delay: 0.00s;
-        }
-
-        .bolitab {
-            animation-delay: 0.25s;
-        }
-
-        .bolitac {
-            animation-delay: 0.50s;
-        }
-
-        .bolitad {
-            animation-delay: 0.75s;
-        }
-
-        .bolitae {
-            animation-delay: 1.00s;
-        }
-
-        .bolitaf {
-            animation-delay: 1.25s;
-        }
-
-        .bolitag {
-            animation-delay: 1.50s;
-        }
-
-        .bolitah {
-            animation-delay: 1.75s;
-        }
-
-
-
-
-
-
-
-
-        #contenedor-bolita-b .bolitaa {
-            animation-delay: 0.05s;
-        }
-
-        #contenedor-bolita-b .bolitab {
-            animation-delay: 0.30s;
-        }
-
-        #contenedor-bolita-b .bolitac {
-            animation-delay: 0.55s;
-        }
-
-        #contenedor-bolita-b .bolitad {
-            animation-delay: 0.80s;
-        }
-
-        #contenedor-bolita-b .bolitae {
-            animation-delay: 1.05s;
-        }
-
-        #contenedor-bolita-b .bolitaf {
-            animation-delay: 1.30s;
-        }
-
-        #contenedor-bolita-b .bolitag {
-            animation-delay: 1.55s;
-        }
-
-        #contenedor-bolita-b .bolitah {
-            animation-delay: 1.80s;
-        }
-
-
-
-        #contenedor-bolita-c .bolitaa {
-            animation-delay: 0.10s;
-        }
-
-        #contenedor-bolita-c .bolitab {
-            animation-delay: 0.35s;
-        }
-
-        #contenedor-bolita-c .bolitac {
-            animation-delay: 0.60s;
-        }
-
-        #contenedor-bolita-c .bolitad {
-            animation-delay: 0.85s;
-        }
-
-        #contenedor-bolita-c .bolitae {
-            animation-delay: 1.10s;
-        }
-
-        #contenedor-bolita-c .bolitaf {
-            animation-delay: 1.35s;
-        }
-
-        #contenedor-bolita-c .bolitag {
-            animation-delay: 1.60s;
-        }
-
-        #contenedor-bolita-c .bolitah {
-            animation-delay: 1.85s;
-        }
-
-
-        #contenedor-bolita-d .bolitaa {
-            animation-delay: 0.15s;
-        }
-
-        #contenedor-bolita-d .bolitab {
-            animation-delay: 0.40s;
-        }
-
-        #contenedor-bolita-d .bolitac {
-            animation-delay: 0.65s;
-        }
-
-        #contenedor-bolita-d .bolitad {
-            animation-delay: 0.90s;
-        }
-
-        #contenedor-bolita-d .bolitae {
-            animation-delay: 1.15s;
-        }
-
-        #contenedor-bolita-d .bolitaf {
-            animation-delay: 1.40s;
-        }
-
-        #contenedor-bolita-d .bolitag {
-            animation-delay: 1.65s;
-        }
-
-        #contenedor-bolita-d .bolitah {
-            animation-delay: 1.90s;
-        }
-
-
-
-
-
-        #contenedor-bolita-e .bolitaa {
-            animation-delay: 0.20s;
-        }
-
-        #contenedor-bolita-e .bolitab {
-            animation-delay: 0.45s;
-        }
-
-        #contenedor-bolita-e .bolitac {
-            animation-delay: 0.70s;
-        }
-
-        #contenedor-bolita-e .bolitad {
-            animation-delay: 0.95s;
-        }
-
-        #contenedor-bolita-e .bolitae {
-            animation-delay: 1.20s;
-        }
-
-        #contenedor-bolita-e .bolitaf {
-            animation-delay: 1.45s;
-        }
-
-        #contenedor-bolita-e .bolitag {
-            animation-delay: 1.70s;
-        }
-
-        #contenedor-bolita-e .bolitah {
-            animation-delay: 1.95s;
-        }
-
-        #contenedor-bolita-f .bolitaa {
-            animation-delay: 0.25s;
-        }
-
-        #contenedor-bolita-f .bolitab {
-            animation-delay: 0.50s;
-        }
-
-        #contenedor-bolita-f .bolitac {
-            animation-delay: 0.75s;
-        }
-
-        #contenedor-bolita-f .bolitad {
-            animation-delay: 1.00s;
-        }
-
-        #contenedor-bolita-f .bolitae {
-            animation-delay: 1.25s;
-        }
-
-        #contenedor-bolita-f .bolitaf {
-            animation-delay: 1.50s;
-        }
-
-        #contenedor-bolita-f .bolitag {
-            animation-delay: 1.75s;
-        }
-
-        #contenedor-bolita-f .bolitah {
-            animation-delay: 2.00s;
-        }
-
-
-
-
-
-        #contenedor-bolita-a div {
-            background-color: #F60000;
-            height: 10px;
-            width: 10px;
-        }
-
-        #contenedor-bolita-b div {
-            background-color: #F72B2B;
-            height: 10px;
-            width: 10px;
-            border-radius: 50% 50%;
-        }
-
-        #contenedor-bolita-c div {
-            background-color: #F95555;
-            height: 10px;
-            width: 10px;
-            border-radius: 50% 50%;
-        }
-
-        #contenedor-bolita-d div {
-            background-color: #FA8080;
-            height: 10px;
-            width: 10px;
-            border-radius: 50% 50%;
-        }
-
-        #contenedor-bolita-e div {
-            background-color: #FCAAAA;
-            height: 10px;
-            width: 10px;
-            border-radius: 50% 50%;
-        }
-
-        #contenedor-bolita-f div {
-            background-color: #FDCCCC;
-            height: 10px;
-            width: 10px;
-            border-radius: 50% 50%;
-        }
-
-        #contenedor-bolita-g div {
-            background-color: blue;
-            height: 10px;
-            width: 10px;
-            border-radius: 50% 50%;
-            border-radius: 50% 50%;
-        }
-
-
-
-
-
-        #contenedor-bolita-a {
-            animation-delay: 1.25s;
-        }
-
-        #contenedor-bolita-b {
-            animation-delay: 1.26s;
-        }
-
-        #contenedor-bolita-c {
-            animation-delay: 1.35s;
-        }
-
-        #contenedor-bolita-d {
-            animation-delay: 1.45s;
-        }
-
-        #contenedor-bolita-e {
-            animation-delay: 1.55s;
-        }
-
-        #contenedor-bolita-f {
-            animation-delay: 1.65s;
-        }
-        #contenedor-bolita-g {
-           animation-delay: .5s;
-           justify-content: center;
-           align-items: center;
-           animation-duration: 4s;
-        }
-      
-
-        .contenedor-bolita.entrada {
-            animation-name: cajaBolitaMover;
-            animation-duration: 3s;
-            left: 100px;
-            bottom: 50%;
-            animation-timing-function: linear;
+        .etiquetas-desplazar.entrada {
+            animation-name: desplazarValor;
+            animation-duration: 1s;
             animation-iteration-count: infinite;
-            animation-delay: 0s;
-            width: 100px;
+            animation-timing-function: steps(4);
+            animation-fill-mode: forwards;
 
         }
 
-        @keyframes cajaBolitaMover {
+        .etiquetas.entrada {
+            animation-name: desplazarEtiquetas;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: steps(2);
+            animation-fill-mode: forwards;
 
-            from {
-                bottom: 0%;
-                width: 80px;
-            }
+        }
 
+        #msg_inicio {
+            animation-name: inicio;
+            animation-duration: 0s;
+            animation-iteration-count: 1;
+            animation-timing-function: steps(1);
+            animation-fill-mode: forwards;
+            animation-delay: 2s;
+            background-color: white !important;
+        }
+
+        #msg_inicio .padre-etiquetas .padre-a-etiquetas .etiquetas-desplazar{
+            animation-name: desplazarEtiquetas;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: steps(4);
+            animation-fill-mode: forwards;
+        
+        }
+
+
+        @keyframes inicio {
             to {
-                bottom: 100%;
-                width: 40px;
+              /*       visibility: hidden;*/
             }
-
         }
 
-        @keyframes bolitaMoverA {
+        @keyframes desplazarEtiquetas {
             to {
-                left: 100%;
+                transform: translateY(-100%)
             }
         }
 
-        @keyframes ocultamiento {
-            0% {
-                z-index: 0;
-            }
-
-            100% {
-                z-index: 100;
+        @keyframes desplazarValor {
+            to {
+                transform: translateY(-100%)
             }
         }
     </style>
 </head>
 
 <body class="w-100 h-100">
-    <div style="background-color: #00000047; z-index: 300" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_padre">
-        <!-- <div class="msg-transotorio w-50 h-50 d-flex flex-column" id="msg_personalizado" style="border-radius: 13px; background-color: white">
-            <div class="w-100 p-3" style="height: 80px" id="msg_titulo">
-                <h2>Titulo</h2>
+
+
+    <div style="background-color: #6D6D6D; z-index: 300;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
+        <div class="padre-etiquetas d-flex flex-row" style="
+    background: white;
+    border-radius: 13px;
+    justify-content: center;
+    align-items: center;
+    height: 47px;
+    padding-bottom: 9px;
+">
+
+            <div class="padre-a-etiquetas" style="height: 34px; overflow: hidden">
+                <div style="font-size: 16px; margin-left: 10px; " class="etiquetas-desplazar entrada d-flex flex-column">
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">Cargando estilos </p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">Cargando imágenes </p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">Cargando scripts </p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">Cargando contenido </p>
+                    </div>
+
+                </div>
             </div>
-        </div>-->
-        <div id="contenedor-bolita-a" class="contenedor-bolita entrada position-absolute d-flex flex-row" style="left: 300px; height: 10px; ">
-            <div class="bolitaa bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitab bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitac bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitad bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitae bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitaf bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitag bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-            <div class="bolitah bolita entrada" style="bottom: 50%; width: 10px; height: 10px; border-radius: 50% 50%;"></div>
-        </div>
 
-        <div id="contenedor-bolita-b" class="contenedor-bolita entrada position-absolute d-flex flex-row" style="left: 300px; height: 10px; ">
-            <div class="bolitaa bolita entrada" style=""></div>
-            <div class="bolitab bolita entrada" style=""></div>
-            <div class="bolitac bolita entrada" style=""></div>
-            <div class="bolitad bolita entrada" style=""></div>
-            <div class="bolitae bolita entrada" style=""></div>
-            <div class="bolitaf bolita entrada" style=""></div>
-            <div class="bolitag bolita entrada" style=""></div>
-            <div class="bolitah bolita entrada" style=""></div>
+            <div style="height: 34px; overflow: hidden">
+               
+            </div>
         </div>
+    </div>
 
-        <div id="contenedor-bolita-c" class="contenedor-bolita entrada position-absolute d-flex flex-row" style="left: 300px; height: 10px; ">
-            <div class="bolitaa bolita entrada" style=""></div>
-            <div class="bolitab bolita entrada" style=""></div>
-            <div class="bolitac bolita entrada" style=""></div>
-            <div class="bolitad bolita entrada" style=""></div>
-            <div class="bolitae bolita entrada" style=""></div>
-            <div class="bolitaf bolita entrada" style=""></div>
-            <div class="bolitag bolita entrada" style=""></div>
-            <div class="bolitah bolita entrada" style=""></div>
+
+
+
+
+
+
+    <div style="background-color: #6D6D6D; z-index: 300; visibility: hidden" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_padre">
+        <div class="d-flex flex-row" style="
+    background: white;
+    border-radius: 13px;
+    justify-content: center;
+    align-items: center;
+    height: 47px;
+    padding-bottom: 9px;
+">
+            <div style="height: 34px; overflow: hidden">
+                <div style="font-size: 24px; margin-left: 10px; " class="etiquetas entrada d-flex flex-column">
+                    <div class="d-flex justify-content-end" style="height: 40px">
+                        <p class="m-0 p-0">Validando: </p>
+                    </div>
+                    <div class="d-flex justify-content-end" style="color:red; height: 40px">
+                        <p class="m-0 p-0">Registrando: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height: 34px; overflow: hidden">
+                <div style="font-size: 24px; margin-left: 10px; " class="etiquetas-desplazar entrada d-flex flex-column">
+                    <div class="d-flex justify-content-start" style="height: 40px">
+                        <p class="m-0 p-0">[Nombre]_</p>
+                    </div>
+                    <div class="d-flex justify-content-start" style="height: 40px">
+                        <p class="m-0 p-0">[Lugar]_</p>
+                    </div>
+                    <div class="d-flex justify-content-start" style="height: 40px">
+                        <p class="m-0 p-0">[Número control]_</p>
+                    </div>
+                    <div class="d-flex justify-content-start" style="height: 40px">
+                        <p class="m-0 p-0">[Nombre de la carrera]_</p>
+                    </div>
+
+                </div>
+            </div>
         </div>
-
-        <div id="contenedor-bolita-d" class="contenedor-bolita entrada position-absolute d-flex flex-row" style="left: 300px; height: 10px; ">
-            <div class="bolitaa bolita entrada" style=""></div>
-            <div class="bolitab bolita entrada" style=""></div>
-            <div class="bolitac bolita entrada" style=""></div>
-            <div class="bolitad bolita entrada" style=""></div>
-            <div class="bolitae bolita entrada" style=""></div>
-            <div class="bolitaf bolita entrada" style=""></div>
-            <div class="bolitag bolita entrada" style=""></div>
-            <div class="bolitah bolita entrada" style=""></div>
-        </div>
-
-        <div id="contenedor-bolita-e" class="contenedor-bolita entrada position-absolute d-flex flex-row" style="left: 300px; height: 10px; ">
-            <div class="bolitaa bolita entrada" style=""></div>
-            <div class="bolitab bolita entrada" style=""></div>
-            <div class="bolitac bolita entrada" style=""></div>
-            <div class="bolitad bolita entrada" style=""></div>
-            <div class="bolitae bolita entrada" style=""></div>
-            <div class="bolitaf bolita entrada" style=""></div>
-            <div class="bolitag bolita entrada" style=""></div>
-            <div class="bolitah bolita entrada" style=""></div>
-        </div>
-
-        <div id="contenedor-bolita-f" class="contenedor-bolita entrada position-absolute d-flex flex-row" style="left: 300px; height: 10px; ">
-            <div class="bolitaa bolita entrada" style=""></div>
-            <div class="bolitab bolita entrada" style=""></div>
-            <div class="bolitac bolita entrada" style=""></div>
-            <div class="bolitad bolita entrada" style=""></div>
-            <div class="bolitae bolita entrada" style=""></div>
-            <div class="bolitaf bolita entrada" style=""></div>
-            <div class="bolitag bolita entrada" style=""></div>
-            <div class="bolitah bolita entrada" style=""></div>
-        </div>
-
-        <div id="contenedor-bolita-g" class="contenedor-bolita entrada position-absolute d-flex flex-column" style="left: 300px; ">
-            <div class="  entrada" style=""></div>
-           
-           
-        </div>
-
+    </div>
     </div>
     <?php
     $this->renderizar_menu($this->opcion);
