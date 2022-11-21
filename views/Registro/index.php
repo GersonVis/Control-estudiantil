@@ -120,44 +120,144 @@ $tecla = "";
 
         }
 
-        .etiquetas.entrada {
+        .etiquetas-valor.entrada {
             animation-name: desplazarEtiquetas;
             animation-duration: 2s;
             animation-iteration-count: infinite;
-            animation-timing-function: steps(2);
+            animation-timing-function: steps(6);
             animation-fill-mode: forwards;
-
+            font-size: 24pt !important;
         }
 
         #msg_inicio {
-            animation-name: inicio;
-            animation-duration: 0s;
+            animation-name: inicio, ocultar-inicio;
+            animation-duration: 0s, 5s;
             animation-iteration-count: 1;
-            animation-timing-function: steps(1);
+            animation-timing-function: steps(1), ease;
             animation-fill-mode: forwards;
-            animation-delay: 2s;
-            background-color: white !important;
+            animation-delay: 2s, 1s;
+            background-color: black;
         }
 
-        #msg_inicio .padre-etiquetas .padre-a-etiquetas .etiquetas-desplazar{
+        #msg_inicio .padre-etiquetas .padre-a-etiquetas .etiquetas-desplazar {
             animation-name: desplazarEtiquetas;
             animation-duration: 2s;
             animation-iteration-count: infinite;
             animation-timing-function: steps(4);
             animation-fill-mode: forwards;
-        
+
+        }
+
+        #numeros_porcentage {
+            animation-name: desplazarEtiquetas;
+            animation-duration: 5s;
+            animation-timing-function: ease;
+            animation-fill-mode: none;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+
+        }
+
+        .cronometro.entrada {
+            animation-name: vueltaCronometro;
+            animation-timing-function: linear;
+            animation-fill-mode: none;
+            animation-iteration-count: infinite;
+            animation-delay: 0s;
+            animation-direction: normal;
+        }
+
+        #unidadesb {
+            animation-name: vueltaCronometro;
+            animation-timing-function: linear;
+            animation-fill-mode: both;
+            animation-iteration-count: infinite;
+            animation-delay: 0s;
+            animation-direction: normal;
+            animation-duration: .5s;
+
+        }
+
+        #unidadesb div p {
+            width: 30px;
+            background-color: white;
+            border-radius: 13px;
+
+        }
+
+        #unidadesb div:nth-child(1) {
+            color: red !important;
+        }
+
+        #unidadesb div:nth-child(n+11) {
+            color: red !important;
         }
 
 
+        #decenas.cronometro.entrada {
+            animation-name: vueltaCronometro;
+            animation-duration: 2s;
+            animation-iteration-count: 10;
+        }
+
+        #decenas div:nth-child(1) {
+            color: red !important;
+        }
+
+        #decenas div:nth-child(n+11) {
+            color: red !important;
+        }
+
+        #centenas.cronometro.entrada {
+            animation-name: vueltaCronometro;
+            animation-duration: 4.3s;
+            animation-iteration-count: 1;
+        }
+
+        #centenas div:nth-child(1) {
+            color: red !important;
+        }
+
+
+        .padre-etiquetas {
+            overflow: hidden;
+        }
+
+        /* #msg_inicio .padre-etiquetas .padre-a-etiquetas .etiquetas.entrada {
+            animation-name: desplazarEtiquetas;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function:  normal;
+            animation-fill-mode: forwards;
+            background-color: red!important;
+        }*/
+        @keyframes vueltaCronometro {
+            to {
+                transform: translateY(calc(-100% + (100%/10)))
+            }
+        }
+
+        @keyframes vueltaCronometroB {
+            to {
+                transform: translateY(calc(-100% + (100%/10)))
+            }
+        }
+
         @keyframes inicio {
             to {
-              /*       visibility: hidden;*/
+                visibility: hidden;
+            }
+        }
+
+        @keyframes ocultar-inicio {
+            to {
+                background-color: #7878783b;
             }
         }
 
         @keyframes desplazarEtiquetas {
             to {
-                transform: translateY(-100%)
+                transform: translateY(calc(-100% + (100%/101)))
             }
         }
 
@@ -166,13 +266,80 @@ $tecla = "";
                 transform: translateY(-100%)
             }
         }
+
+
+
+        .lds-ring {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-ring div {
+            box-sizing: border-box;
+            display: block;
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border: 8px solid yellow;
+            border-radius: 50%;
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: yellow transparent transparent transparent;
+        }
+
+        .circulo-sin-fondo{
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .circulo-sin-fondo div{
+            box-sizing: border-box;
+            display: block;
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border: 20px solid yellow;
+            border-radius: 50%;
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: red transparent transparent transparent;
+        }
+
+
+        .lds-ring div:nth-child(1) {
+            animation-delay: -0.45s;
+            
+        }
+
+        .lds-ring div:nth-child(2) {
+            animation-delay: -0.3s;
+            background-color: blue;
+        }
+
+        .lds-ring div:nth-child(3) {
+            animation-delay: 5s;
+            background-color: yellow;
+        }
+
+        @keyframes lds-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
 <body class="w-100 h-100">
 
 
-    <div style="background-color: #6D6D6D; z-index: 300;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
+    <!-- <div style="background-color: #6D6D6D; z-index: 300;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
         <div class="padre-etiquetas d-flex flex-row" style="
     background: white;
     border-radius: 13px;
@@ -200,12 +367,142 @@ $tecla = "";
                 </div>
             </div>
 
-            <div style="height: 34px; overflow: hidden">
-               
+            <div style="height: 43px; overflow: hidden">
+                <div id="numeros_porcentage" style="font-size: 24px; margin-left: 10px; " class="etiquetas-valor entrada d-flex flex-column">
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+    <div style=" z-index: 300; background-color: #66666691" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_registro">
+        <div class="w-75 h-75 d-flex flex-row" style="border-radius: 13px; background-color: white">
+            <div class="w-50 d-flex justify-content-center align-items-center flex-column" style="background-color: #6feddc6b">
+                <img class="w-50" src="public/ilustraciones/3891942.png">
+                <div class="lds-ring" style=""><div ></div></div>
+                <div class="circulo-sin-fondo"><div></div></div>
+            </div>
+            <div class="w-50 d-flex flex-column justify-content-center align-items-center">
+                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 40%">
+                    <p class="m-0 p-0" style="font-size: 34pt">Registro</p>
+                    <b class="m-0 p-0" style="color: #00dbbe; letter-spacing: 10px; font-size: 34pt;padding-bottom: 50px;transform: translateY(-14px);">Correcto</b>
+                </div>
+                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 20%">
+                    <p class="m-0 p-0">Disfruta de nuestras instalaciones</p>
+                    <b class="m-0 p-0" style="padding-bottom: 44px;">Gerson Visoso Ocampo</b>
+                </div>
+                <div class="d-flex flex-column w-100 justify-content-start align-items-center" style="height: 40%">
+                    <button type="button" class="btn btn-danger" style="font-size: 10pt; margin-top: 14px;">CANCELAR REGISTRO</button>
+                </div>
+
+
             </div>
         </div>
     </div>
 
+
+
+    <div style=" z-index: 300; visibility: hidden;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
+
+        <div class="padre-etiquetas d-flex flex-row" style="
+    background: white;
+    border-radius: 13px;
+    justify-content: center;
+    align-items: center;
+    height: 47px;
+    padding-bottom: 9px;
+">
+
+            <div style="height: 43px; overflow: hidden">
+                <div id="centenas" style="font-size: 24px; margin-left: 10px; " class="cronometro entrada d-flex flex-column">
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">0</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">1</p>
+                    </div>
+
+                </div>
+            </div>
+            <div style="height: 43px; overflow: hidden">
+                <div id="decenas" style="font-size: 24px; margin-left: 10px; " class="cronometro entrada d-flex flex-column">
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">0</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">1</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">2</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">3</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">4</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">5</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">6</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">7</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">8</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">9</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">0</p>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 43px; overflow: hidden">
+                <div id="unidadesb" style="font-size: 24px; margin-left: 10px;" class=" d-flex flex-column">
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">0</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">1</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">2</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">3</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">4</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">5</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">6</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">7</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">8</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">9</p>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 40px">
+                        <p class="m-0 p-0">0</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 
 
@@ -233,19 +530,8 @@ $tecla = "";
             </div>
 
             <div style="height: 34px; overflow: hidden">
-                <div style="font-size: 24px; margin-left: 10px; " class="etiquetas-desplazar entrada d-flex flex-column">
-                    <div class="d-flex justify-content-start" style="height: 40px">
-                        <p class="m-0 p-0">[Nombre]_</p>
-                    </div>
-                    <div class="d-flex justify-content-start" style="height: 40px">
-                        <p class="m-0 p-0">[Lugar]_</p>
-                    </div>
-                    <div class="d-flex justify-content-start" style="height: 40px">
-                        <p class="m-0 p-0">[Número control]_</p>
-                    </div>
-                    <div class="d-flex justify-content-start" style="height: 40px">
-                        <p class="m-0 p-0">[Nombre de la carrera]_</p>
-                    </div>
+                <div id="" style="font-size: 24px; margin-left: 10px; " class="etiquetas-desplazar entrada d-flex flex-column">
+
 
                 </div>
             </div>
@@ -661,5 +947,24 @@ $tecla = "";
 <script src="public/js/Registro/formulario.js"></script>
 <script src="public/js/Registro/Registros recientes.js"></script>
 <script src="public/js/Registro/Registros base.js"></script>
+
+<script>
+    // numeros_porcentage.style.animationTimingFunction = "steps(300)"
+
+    /*var scripts_cargadas = document.scripts
+    var cuantas_scripts = scripts_cargadas.length
+    valores_recorrido.style.animationTimingFunction = "steps(" + cuantas_scripts + ")"
+    var rutas_scripts = [...Array(cuantas_scripts).keys()].map(pos => {
+        let ruta = scripts_cargadas[pos].src.split("/")
+        let largo = ruta.length
+        return ruta[largo - 1]
+    })
+    rutas_scripts.forEach(ruta => {
+        valores_recorrido.innerHTML += `
+        <div class = "d-flex justify-content-center" style = "height: 40px">
+        <p class = "m-0 p-0"> ${ruta.split("/")[0]}</p> </div>
+        `
+    })*/
+</script>
 
 </html>
