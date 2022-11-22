@@ -289,47 +289,113 @@ $tecla = "";
             border-color: yellow transparent transparent transparent;
         }
 
-        .circulo-sin-fondo{
+        .circulo-sin-fondo {
             display: inline-block;
             position: relative;
-            width: 80px;
-            height: 80px;
-        }
-        .circulo-sin-fondo div{
-            box-sizing: border-box;
-            display: block;
-            position: absolute;
-            width: 64px;
-            height: 64px;
-            margin: 8px;
-            border: 20px solid yellow;
-            border-radius: 50%;
-            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: red transparent transparent transparent;
+            width: 40px;
+            height: 40px;
         }
 
+        .circulo-sin-fondo div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid yellow;
+            border-color: #007b67 transparent transparent transparent;
+            animation-fill-mode: forwards;
+            transform: rotate(90deg);
+        }
+
+        .circulo-sin-fondo div:nth-child(1) {
+            animation: spinner-carga-a 1s linear 1;
+            animation-fill-mode: forwards;
+        }
+
+        .circulo-sin-fondo.girar div:nth-child(2) {
+            animation: spinner-carga-b .5s linear 1;
+            animation-delay: 0s;
+            animation-fill-mode: forwards;
+        }
+
+        .circulo-sin-fondo.girar div:nth-child(3) {
+            animation: spinner-carga-c .5s linear 1;
+            animation-delay: .5s;
+            animation-fill-mode: forwards;
+        }
+
+        .circulo-sin-fondo.girar div:nth-child(4) {
+            animation: spinner-carga-d .5s linear 1;
+            animation-delay: 1s;
+            animation-fill-mode: forwards;
+        }
+
+        #div_msg_registro {
+            transition: all 0s;
+        }
+
+        .mostrar-corto {
+            animation-name: mostrar;
+            animation-duration: 1.7s;
+            animation-timing-function: steps(2);
+            animation-delay: 0s;
+        }
 
         .lds-ring div:nth-child(1) {
             animation-delay: -0.45s;
-            
+
         }
 
-        .lds-ring div:nth-child(2) {
-            animation-delay: -0.3s;
-            background-color: blue;
-        }
+        @keyframes mostrar {
+            from {
+                visibility: visible;
 
-        .lds-ring div:nth-child(3) {
-            animation-delay: 5s;
-            background-color: yellow;
-        }
-
-        @keyframes lds-ring {
-            0% {
-                transform: rotate(0deg);
             }
 
-            100% {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        @keyframes ocultar {
+            to {
+                visibility: hidden;
+                background-color: blue;
+            }
+        }
+
+        @keyframes ocultar {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        @keyframes spinner-carga-b {
+            from {
+                transform: rotate(90deg);
+            }
+
+            to {
+                transform: rotate(180deg);
+            }
+        }
+
+        @keyframes spinner-carga-c {
+            from {
+                transform: rotate(180deg);
+            }
+
+            to {
+                transform: rotate(270deg);
+            }
+        }
+
+        @keyframes spinner-carga-d {
+            from {
+                transform: rotate(270deg);
+            }
+
+            to {
                 transform: rotate(360deg);
             }
         }
@@ -376,26 +442,23 @@ $tecla = "";
         </div>
     </div>
     -->
-    <div style=" z-index: 300; background-color: #66666691" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_registro">
+    <!-- <div class="d-flex flex-column w-100 justify-content-start align-items-center" style="height: 40%">
+                    <button type="button" class="btn btn-danger" style="font-size: 10pt; margin-top: 14px;">CANCELAR ENTRADA</button>
+                </div>-->
+    <div style=" z-index: 300; background-color: #66666691; visibility: hidden" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="div_msg_registro">
         <div class="w-75 h-75 d-flex flex-row" style="border-radius: 13px; background-color: white">
-            <div class="w-50 d-flex justify-content-center align-items-center flex-column" style="background-color: #6feddc6b">
-                <img class="w-50" src="public/ilustraciones/3891942.png">
-                <div class="lds-ring" style=""><div ></div></div>
-                <div class="circulo-sin-fondo"><div></div></div>
+            <div id="div_con_img" class="position-relative w-50 d-flex justify-content-center align-items-center flex-column" style="">
+                <img class="w-50" src="" id="img_msg_imagen">
+                <div id="div_carga_registro" class="circulo-sin-fondo" style="position: absolute; top: 14px; left: 14px">
+                    <div id="spina"></div>
+                    <div id="spinb"></div>
+                    <div id="spinc"></div>
+                    <div id="spind"></div>
+                   
+                </div>
             </div>
-            <div class="w-50 d-flex flex-column justify-content-center align-items-center">
-                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 40%">
-                    <p class="m-0 p-0" style="font-size: 34pt">Registro</p>
-                    <b class="m-0 p-0" style="color: #00dbbe; letter-spacing: 10px; font-size: 34pt;padding-bottom: 50px;transform: translateY(-14px);">Correcto</b>
-                </div>
-                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 20%">
-                    <p class="m-0 p-0">Disfruta de nuestras instalaciones</p>
-                    <b class="m-0 p-0" style="padding-bottom: 44px;">Gerson Visoso Ocampo</b>
-                </div>
-                <div class="d-flex flex-column w-100 justify-content-start align-items-center" style="height: 40%">
-                    <button type="button" class="btn btn-danger" style="font-size: 10pt; margin-top: 14px;">CANCELAR REGISTRO</button>
-                </div>
-
+            <div id="contenido_msg" class="w-50 d-flex flex-column justify-content-center align-items-center">
+                
 
             </div>
         </div>
@@ -403,7 +466,7 @@ $tecla = "";
 
 
 
-    <div style=" z-index: 300; visibility: hidden;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
+    <div style=" z-index: 300;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
 
         <div class="padre-etiquetas d-flex flex-row" style="
     background: white;
@@ -935,12 +998,43 @@ $tecla = "";
     teclas_acciones[0].click()
     teclas_lugares[0].click()
 
-    const msg_transitorio = (tiempo) => {
-        alert("mensaje mostrado")
+    const msg_registro_exitoso = ({
+        fondo_color,
+        img,
+        contenido_html, spin_color
+    }) => {
+        let spindelcolor=spin_color??"white"
+        contenido_msg.innerHTML = contenido_html
+        img_msg_imagen.src = img ?? ""
+        div_con_img.style.backgroundColor=fondo_color??"white"
+        spina.style.borderColor=spindelcolor+" transparent transparent transparent"
+        spinb.style.borderColor=spindelcolor+" transparent transparent transparent"
+        spinc.style.borderColor=spindelcolor+" transparent transparent transparent"
+        spind.style.borderColor=spindelcolor+" transparent transparent transparent"
+        if (div_msg_registro.classList.contains("mostrar-corto")) {
+            div_msg_registro.classList.remove("mostrar-corto")
+            div_carga_registro.classList.remove("girar")
+        }
+
         setTimeout(function() {
-            alert("lanzado")
-        }, tiempo)
+            div_msg_registro.classList.add("mostrar-corto")
+            div_carga_registro.classList.add("girar")
+        }, 10)
     }
+    var carreras=[]
+    fetch("Carrera")
+    .then(respuesta=>respuesta.json())
+    .then(json=>{
+        if(json.respuesta){
+            let pattern="", contenido
+            contenido=json.contenido
+            contenido.forEach(informacion=>{
+               pattern+=informacion.Id_carrera+"|"
+            })
+            pattern=pattern.substring(0, pattern.length-1)
+            validationCustom04.pattern=pattern
+        }
+    })
 </script>
 <script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>
