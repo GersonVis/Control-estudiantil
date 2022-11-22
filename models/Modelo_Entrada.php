@@ -274,7 +274,20 @@ class Modelo_Entrada extends Model
         }
        // echo var_dump($datos);
        // echo $base_sql;
-        return $this->db->consulta_codigo($conexion, $base_sql);
+        $respuesta = $this->db->consulta_codigo($conexion, $base_sql);
+        //echo var_dump($respuesta["contenido"]);
+        if(count($respuesta["contenido"])!=0){
+            $columna_csv=array(0=>array());
+            foreach($columnas as $key=>$contenido){
+                $columna_csv[0][$contenido]=$contenido;
+            }
+            $combinado=array_merge($columna_csv, $respuesta["contenido"]);
+            $respuesta["contenido"]=$combinado;
+           /* echo var_dump($combinado);
+            echo "finnnnnnn\n";
+            echo var_dump($respuesta["contenido"]);*/
+        }
+        return $respuesta;
     }
     function eliminarConsulta($datos)
     {
