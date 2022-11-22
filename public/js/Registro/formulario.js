@@ -75,12 +75,44 @@ var accion_por_opcion = {
 const consecuencias = {
     "creacion": (json) => {
         personas_registradas[json.No_control] = json
-        mostrar_informacion("Registro", "Se realizo el registro correctamente")
+        //mostrar_informacion("Registro", "Se realizo el registro correctamente")
+
+        msg_registro_exitoso({
+
+            fondo_color: "#6feddc6b",
+            spin_color: "#007b67",
+            img: "public/ilustraciones/3891942.png",
+            contenido_html: `
+                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 40%">
+                    <p class="m-0 p-0" style="font-size: 24pt">Se registró</p>
+                    <b class="m-0 p-0" style="color: #00dbbe; letter-spacing: 10px; font-size: 34pt;padding-bottom: 50px;transform: translateY(-14px);">Entrada</b>
+                </div>
+                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 20%">
+                    <p class="m-0 p-0">Disfruta de nuestras instalaciones</p>
+                    <b class="m-0 p-0" style="padding-bottom: 44px;">${json.Nombre}</b>
+                </div>
+               
+        `})
+
         registro_exitoso(json)
 
     },//funcion en el archivo inserción
-    "actualizacion": ({ Id_acceso, No_control }) => {
-        mostrar_informacion("Salida", "Se registro salida para el Número de control " + No_control)
+    "actualizacion": ({ Id_acceso, No_control, Nombre }) => {
+        // mostrar_informacion("Salida", "Se registro salida para el Número de control " + No_control)
+        msg_registro_exitoso({
+            fondo_color: "#93a264ab",
+            spin_color: "#d56977",
+            img: "public/ilustraciones/6431139.png",
+            contenido_html: `
+                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 40%">
+                     <p class="m-0 p-0" style="font-size: 24pt">Se registró</p>
+                     <b class="m-0 p-0" style="color: #6779d0; letter-spacing: 10px; font-size: 34pt;padding-bottom: 50px;transform: translateY(-14px);">Salida</b>
+                </div>
+                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 20%">
+                     <p class="m-0 p-0">Regresa pronto!</p>
+                     <b class="m-0 p-0" style="padding-bottom: 44px;">${Nombre}</b>
+                </div>
+         `})
         remover_de_padre("registro" + Id_acceso)
         delete personas_registradas[No_control]
 
@@ -94,6 +126,13 @@ btn_enviar.addEventListener("click", function () {
     if (formulario.querySelectorAll(":invalid").length == 0) {
         if (lista_accciones.querySelectorAll(".active").length == 1) {
             accion_por_opcion[seleccion_opciones[0]]()
+            btn_enviar.disabled=true
+            validationCustom02.focus()
+            reiniciar_label()
+            setTimeout(function(){
+                btn_enviar.disabled=false
+            },
+            2000)
             return
         }
         mostrar_informacion("Sin acción seleccionada", "No has seleccionado ningúna acción todavía, da click sobre alguna de las acciones de la lista de acciones")
@@ -122,7 +161,7 @@ function impedir_letras(evt) {
 }
 var prueba = ""
 const enviar_formulario = (formdata, no_control_dentro) => {
-    mostrar_informacion("Formulario enviado", "Se esta realizando la petición")
+    // mostrar_informacion("Formulario enviado", "Se esta realizando la petición")
     fetch("Entrada/entradaAumatica", {
         method: "POST",
         body: formdata
@@ -132,7 +171,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
             console.log(json)
             prueba = json
             if (json.respuesta) {
-               
+
 
 
                 registro = json.contenido[0]
@@ -146,7 +185,7 @@ const enviar_formulario = (formdata, no_control_dentro) => {
                 consecuencias[json.tipo_consulta](registro)
 
 
-            }else{
+            } else {
                 mostrar_informacion("Error en la acción", json.codigo)
                 bloqueos[no_control] = { disponible: true }
             }
@@ -169,22 +208,22 @@ const enviar_formulario_entrada = (formdata) => {
         .then(json => {
             console.log(json)
             if (json.respuesta) {
-             
-              /*  prueba = json
+
+                /*  prueba = json
+                  registro = json.contenido[0]
+                  //agrega el registro a la lista pero sin animacion de bloqueo
+                  registro_exitoso_entrada(registro)
+                  agregar_registro(json)
+                 // no_disponible(no_control)*/
                 registro = json.contenido[0]
-                //agrega el registro a la lista pero sin animacion de bloqueo
-                registro_exitoso_entrada(registro)
-                agregar_registro(json)
-               // no_disponible(no_control)*/
-               registro = json.contenido[0]
 
-               // no_disponible(no_control)
-               bloqueos[no_control]["disponible"] = false
+                // no_disponible(no_control)
+                bloqueos[no_control]["disponible"] = false
 
 
-             //  bloquear_por_tiempo(no_control, tiempo_bloqueo)
+                //  bloquear_por_tiempo(no_control, tiempo_bloqueo)
 
-               consecuencias[json.tipo_consulta](registro)
+                consecuencias[json.tipo_consulta](registro)
 
                 return
             }
@@ -208,8 +247,8 @@ const enviar_formulario_salida = (formdata, no_control_dentro) => {
                 if (json.registros_afectados != 0) {
                     registro = json.contenido[0]
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
-                 
-                    mostrar_informacion("Salida", json.codigo)
+
+                   // mostrar_informacion("Salida", json.codigo)
                     return
                 }
                 mostrar_informacion("Salida", "El usuario no se encontró dentro de ningún lugar")
@@ -242,7 +281,7 @@ const accion_salida = (Id_acceso, no_control_dentro) => {
                     registro = json.contenido[0]
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
 
-                    mostrar_informacion("Salida", json.codigo)
+                    //mostrar_informacion("Salida", json.codigo)
                     return
                 }
                 mostrar_informacion("Salida", "El usuario no se encontró dentro de ningún lugar")
@@ -255,7 +294,7 @@ const accion_salida = (Id_acceso, no_control_dentro) => {
             console.error(er)
         })
 }
-const remover_padre=()=>{
+const remover_padre = () => {
 
 }
 
