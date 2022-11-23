@@ -2,6 +2,20 @@
 VALIDACIONES Y ANIMACIONES DEL FORMULARIO
 */
 //botón que envía el formulariov
+
+function teclado_bloquear(e){
+    e.stopPropagation()
+    e.preventDefault()
+    return
+}
+function desactivar_teclado(){
+    document.addEventListener("keydown", teclado_bloquear, true)
+}
+function activar_teclado(){
+    document.removeEventListener("keydown", teclado_bloquear, true)
+}
+
+
 const btn_enviar = document.querySelector("#enviar")
 const formulario = document.querySelector("#forma")
 const numero_validaciones = 4
@@ -25,6 +39,7 @@ var accion_por_opcion = {
         no_control = validationCustom02.value
         lugar = seleccion_opciones[1]
         formdata.append("lugar", lugar)
+        //formdata.append("lugar", lugar)
         enviar_formulario_entrada(formdata)
         return
     },
@@ -235,10 +250,11 @@ const enviar_formulario_entrada = (formdata) => {
         })
 }
 const enviar_formulario_salida = (formdata, no_control_dentro) => {
-
+    let formulario=new FormData()
+    formulario.append("No_control")
     fetch("Entrada/registrarSalida", {
         method: "POST",
-        body: formdata
+        body: formulario
     })
         .then(respuesta => respuesta.json())
         .then(json => {
@@ -280,7 +296,7 @@ const accion_salida = (Id_acceso, no_control_dentro) => {
                 if (json.registros_afectados != 0) {
                     registro = json.contenido[0]
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
-
+                    
                     //mostrar_informacion("Salida", json.codigo)
                     return
                 }
