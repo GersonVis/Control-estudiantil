@@ -454,11 +454,11 @@ $tecla = "";
                     <div id="spinb"></div>
                     <div id="spinc"></div>
                     <div id="spind"></div>
-                   
+
                 </div>
             </div>
             <div id="contenido_msg" class="w-50 d-flex flex-column justify-content-center align-items-center">
-                
+
 
             </div>
         </div>
@@ -466,7 +466,7 @@ $tecla = "";
 
 
 
-    <div style=" z-index: 300;" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
+    <div style=" z-index: 300; visibility: hidden" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" id="msg_inicio">
 
         <div class="padre-etiquetas d-flex flex-row" style="
     background: white;
@@ -606,14 +606,15 @@ $tecla = "";
     ?>
     <div class="d-flex w-100 " style="overflow: hidden; height: var(--alto-global)">
         <div class="w-25 h-100 d-flex flex-column p-2" style="width: 20%;">
-            <p class="font-weight-bold  text-left w-100" style="margin: 0px">Registros recientes</p>
-            <hr class="my-2 bg-secondary" style="width: 200px">
-            <div id="lista_ingresos" class="w-|00 flex-column h-100 redondear bg-white d-flex" style="overflow: auto">
-                <?php
-                // for ($c = 0; $c < 10; $c++) {
-                //      Lista_registro();
-                //   }
-                ?>
+
+            <select class="form-control" id="opciones_registros" style="z-index: 299; font-weight: bold">
+                <option>Registros</option>
+                <option>Accesos</option>
+            </select>
+
+            <div class="w-100 d-flex" id="registros_menu">
+                <div id="lista_ingresos" class="w-100 flex-column h-100 redondear bg-white d-flex" style="overflow: auto">
+                </div>
             </div>
         </div>
         <div class="w-75 h-100 d-flex flex-column p-2" style="width: 20%;">
@@ -1001,16 +1002,17 @@ $tecla = "";
     const msg_registro_exitoso = ({
         fondo_color,
         img,
-        contenido_html, spin_color
+        contenido_html,
+        spin_color
     }) => {
-        let spindelcolor=spin_color??"white"
+        let spindelcolor = spin_color ?? "white"
         contenido_msg.innerHTML = contenido_html
         img_msg_imagen.src = img ?? ""
-        div_con_img.style.backgroundColor=fondo_color??"white"
-        spina.style.borderColor=spindelcolor+" transparent transparent transparent"
-        spinb.style.borderColor=spindelcolor+" transparent transparent transparent"
-        spinc.style.borderColor=spindelcolor+" transparent transparent transparent"
-        spind.style.borderColor=spindelcolor+" transparent transparent transparent"
+        div_con_img.style.backgroundColor = fondo_color ?? "white"
+        spina.style.borderColor = spindelcolor + " transparent transparent transparent"
+        spinb.style.borderColor = spindelcolor + " transparent transparent transparent"
+        spinc.style.borderColor = spindelcolor + " transparent transparent transparent"
+        spind.style.borderColor = spindelcolor + " transparent transparent transparent"
         if (div_msg_registro.classList.contains("mostrar-corto")) {
             div_msg_registro.classList.remove("mostrar-corto")
             div_carga_registro.classList.remove("girar")
@@ -1021,20 +1023,21 @@ $tecla = "";
             div_carga_registro.classList.add("girar")
         }, 10)
     }
-    var carreras=[]
+    var carreras = []
     fetch("Carrera")
-    .then(respuesta=>respuesta.json())
-    .then(json=>{
-        if(json.respuesta){
-            let pattern="", contenido
-            contenido=json.contenido
-            contenido.forEach(informacion=>{
-               pattern+=informacion.Id_carrera+"|"
-            })
-            pattern=pattern.substring(0, pattern.length-1)
-            validationCustom04.pattern=pattern
-        }
-    })
+        .then(respuesta => respuesta.json())
+        .then(json => {
+            if (json.respuesta) {
+                let pattern = "",
+                    contenido
+                contenido = json.contenido
+                contenido.forEach(informacion => {
+                    pattern += informacion.Id_carrera + "|"
+                })
+                pattern = pattern.substring(0, pattern.length - 1)
+                validationCustom04.pattern = pattern
+            }
+        })
 </script>
 <script src="public/js/Registro/Remocion.js"></script>
 <script src="public/js/Registro/Insercion.js"></script>
@@ -1059,6 +1062,34 @@ $tecla = "";
         <p class = "m-0 p-0"> ${ruta.split("/")[0]}</p> </div>
         `
     })*/
+    lista_logs = document.createElement("div")
+    lista_logs.innerHTML = `<div>OTRo</div>`
+    lista_logs = lista_logs.childNodes[0]
+    subopciones_cuadro = {
+        Registros: {
+            padre: registros_menu,
+            hijo_nuevo: lista_logs 
+        },
+        Accesos: {
+            padre: registros_menu,
+            hijo_nuevo: lista_ingresos
+        }
+    }
+
+    function cambiar_hijo({
+        padre,
+        hijo_nuevo
+    }) {
+        hijo_viejo = padre.querySelectorAll("div")[0]
+        padre.removeChild(hijo_viejo)
+        padre.appendChild(hijo_nuevo)
+    }
+    cambiar_hijo(subopciones_cuadro["Registros"])
+    opciones_registros.addEventListener("change", function(evt) {
+        let yo = evt.target
+        console.log(yo.value)
+        cambiar_hijo(subopciones_cuadro[yo.value])
+    })
 </script>
 
 </html>
