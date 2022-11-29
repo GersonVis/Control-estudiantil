@@ -40,6 +40,7 @@ class Modelo_Entrada extends Model
         $conexion = $this->db->conectar();
         $entradas = $this->limpiar($conexion, array("no_control" => $no_control, "lugar" => $lugar, "nombre" => $nombre, "carrera" => $carrera, "apellido_paterno" => $apellido_paterno, "apellido_materno" => $apellido_materno));
         $sql = "call registrar_entrada('$entradas[lugar]', '$entradas[no_control]','$entradas[carrera]', '$entradas[nombre]', '$entradas[apellido_paterno]', '$entradas[apellido_materno]')";
+     //   echo var_dump($sql);
         return $this->db->consulta_codigo($conexion, $sql);
     }
     function registrarSalida($No_control)
