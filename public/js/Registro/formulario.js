@@ -54,7 +54,7 @@ var accion_por_opcion = {
         console.log(no_control)
 
         if (lista_lugares.querySelectorAll(".active").length == 1) {
-           
+
             nombre = validationCustom03.value
             lugar = seleccion_opciones[1]
             let elemento_estatus = agregar_log({ No_control: no_control, Nombre: nombre })
@@ -80,7 +80,10 @@ var accion_por_opcion = {
         mostrar_informacion("Sin lugar seleccionado", "No has seleccionado ningún lugar todavía, da click sobre alguna de las opciones de la lista de lugares")
     },
     "Salida": () => {
+        let no_control = validationCustom02.value
+        let nombre = validationCustom03.value
         let persona = personas_registradas[no_control] ?? { disponible: true }
+
         let elemento_estatus = agregar_log({ No_control: no_control, Nombre: nombre })
         if (persona.disponible) {
             let no_control_pasar
@@ -88,6 +91,7 @@ var accion_por_opcion = {
             nombre = validationCustom03.value
             no_control = validationCustom02.value
             no_control_pasar = no_control.toString()
+            formdata["No_control"] = no_control
             enviar_formulario_salida(formdata, no_control_pasar, elemento_estatus)
             return
         }
@@ -130,21 +134,21 @@ const consecuencias = {
     },//funcion en el archivo inserción
     "actualizacion": ({ Id_acceso, No_control, Nombre, elemento_estatus }) => {
         // mostrar_informacion("Salida", "Se registro salida para el Número de control " + No_control)
-      /*  msg_registro_exitoso({
-            fondo_color: "#93a264ab",
-            spin_color: "#d56977",
-            img: "public/ilustraciones/6431139.png",
-            contenido_html: `
-                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 40%">
-                     <p class="m-0 p-0" style="font-size: 24pt">Se registró</p>
-                     <b class="m-0 p-0" style="color: #6779d0; letter-spacing: 10px; font-size: 34pt;padding-bottom: 50px;transform: translateY(-14px);">Salida</b>
-                </div>
-                <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 20%">
-                     <p class="m-0 p-0">Regresa pronto!</p>
-                     <b class="m-0 p-0" style="padding-bottom: 44px;">${Nombre}</b>
-                </div>
-         `})*/
-         actualizar_log(elemento_estatus, `<div id="" class="position-relative w-100 d-flex pt-1 p-3" style="background-color: #fcce47; min-height: 95px;flex-direction: column;align-items: center;">
+        /*  msg_registro_exitoso({
+              fondo_color: "#93a264ab",
+              spin_color: "#d56977",
+              img: "public/ilustraciones/6431139.png",
+              contenido_html: `
+                  <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 40%">
+                       <p class="m-0 p-0" style="font-size: 24pt">Se registró</p>
+                       <b class="m-0 p-0" style="color: #6779d0; letter-spacing: 10px; font-size: 34pt;padding-bottom: 50px;transform: translateY(-14px);">Salida</b>
+                  </div>
+                  <div class="d-flex flex-column w-100 justify-content-end align-items-center" style="height: 20%">
+                       <p class="m-0 p-0">Regresa pronto!</p>
+                       <b class="m-0 p-0" style="padding-bottom: 44px;">${Nombre}</b>
+                  </div>
+           `})*/
+        actualizar_log(elemento_estatus, `<div id="" class="position-relative w-100 d-flex pt-1 p-3" style="background-color: #fcce47; min-height: 95px;flex-direction: column;align-items: center;">
          <div class="w-100 font-weight-bold texto-label " style="width: 60%;justify-content: center;align-items: center;">${Nombre}</div>
          <div class="w-100  texto-label " style="width: 60%;justify-content: center;align-items: center;">${No_control}</div>
           <div class="w-100 d-flex flex-column justify-content-center align-items-center">
@@ -161,22 +165,33 @@ const consecuencias = {
 
 
 btn_enviar.addEventListener("click", function () {
-    // if (formulario.querySelectorAll(":invalid").length == 0) {
-    //   if (lista_accciones.querySelectorAll(".active").length == 1) {
-    accion_por_opcion[seleccion_opciones[0]]()
-    //    btn_enviar.disabled=true
-    validationCustom02.focus()
-    /*    reiniciar_label()
-        setTimeout(function(){
-            btn_enviar.disabled=false
-        },
-        2000)
-        return
+    let no_control = validationCustom02.value
+    let nombre = validationCustom03.value
+    let carrera = validationCustom04
+    if (formulario.querySelectorAll(":invalid").length == 0) {
+        if (lista_accciones.querySelectorAll(".active").length == 1) {
+
+            accion_por_opcion[seleccion_opciones[0]]()
+            //    btn_enviar.disabled=true
+            validationCustom02.focus()
+            return
+        }
+        mostrar_informacion("Sin acción seleccionada", "No has seleccionado ningúna acción todavía, da click sobre alguna de las acciones de la lista de acciones")
     }
-    mostrar_informacion("Sin acción seleccionada", "No has seleccionado ningúna acción todavía, da click sobre alguna de las acciones de la lista de acciones")
-}*/
+    let elemento_estatus = agregar_log({ No_control: no_control, Nombre: nombre })
+    actualizar_log(elemento_estatus, `<div id="" class="position-relative w-100 d-flex pt-1 p-3" style="background-color: #fcce47; min-height: 95px;flex-direction: column;align-items: center;">
+         <div class="w-100 font-weight-bold texto-label " style="width: 60%;justify-content: center;align-items: center;">${Nombre}</div>
+         <div class="w-100  texto-label " style="width: 60%;justify-content: center;align-items: center;">${No_control}</div>
+          <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+             <b>Se registro salida</b>   
+            </div>
+         </div>`)
+
 })
 
+const comprobar_datos = () => {
+
+}
 
 const agregar_log = ({ Id_acceso, Nombre, No_control, Id_lugar, Hora_entrada, msg }) => {
     let elemento = document.createElement("div")
@@ -292,7 +307,7 @@ const enviar_formulario = (formdata, no_control_dentro, elemento_estatus) => {
 }
 var formmm
 const enviar_formulario_entrada = (formdata) => {
-    formmm=formdata
+    formmm = formdata
     let nombre = validationCustom03.value
     let no_control = validationCustom02.value
     let elemento_estatus = agregar_log({ No_control: no_control, Nombre: nombre })
@@ -312,9 +327,9 @@ const enviar_formulario_entrada = (formdata) => {
                   agregar_registro(json)
                  // no_disponible(no_control)*/
                 registro = json.contenido[0]
-                registro["elemento_estatus"]=elemento_estatus
+                registro["elemento_estatus"] = elemento_estatus
                 // no_disponible(no_control)
-                bloqueos[no_control]=bloqueos[no_control]??{}
+                bloqueos[no_control] = bloqueos[no_control] ?? {}
                 bloqueos[no_control]["disponible"] = true
 
 
@@ -331,7 +346,7 @@ const enviar_formulario_entrada = (formdata) => {
              <b>${json.codigo}</b>   
             </div>
          </div>`)
-         //   mostrar_informacion("Error en la acción", json.codigo)
+            //   mostrar_informacion("Error en la acción", json.codigo)
         })
         .catch(er => {
             console.error("ocurrio un error en la solicitud")
@@ -340,7 +355,11 @@ const enviar_formulario_entrada = (formdata) => {
 }
 const enviar_formulario_salida = (formdata, no_control_dentro, elemento_estatus) => {
     let formulario = new FormData()
-    formulario.append("No_control")
+    let nombre = validationCustom03.value
+    let no_control = validationCustom02.value
+    formulario.append("No_control", no_control)
+
+
     fetch("Entrada/registrarSalida", {
         method: "POST",
         body: formulario
@@ -348,10 +367,11 @@ const enviar_formulario_salida = (formdata, no_control_dentro, elemento_estatus)
         .then(respuesta => respuesta.json())
         .then(json => {
             console.log(json)
+            // alert("salida")
             if (json.respuesta) {
                 if (json.registros_afectados != 0) {
                     registro = json.contenido[0]
-                    personas_registradas[no_control_dentro]["elemento_estatus"]=elemento_estatus
+                    personas_registradas[no_control_dentro]["elemento_estatus"] = elemento_estatus
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
 
                     // mostrar_informacion("Salida", json.codigo)
@@ -360,7 +380,13 @@ const enviar_formulario_salida = (formdata, no_control_dentro, elemento_estatus)
                 mostrar_informacion("Salida", "El usuario no se encontró dentro de ningún lugar")
                 return
             }
-            mostrar_informacion("Error", json.codigo)
+            actualizar_log(elemento_estatus, `<div id="" class="position-relative w-100 d-flex pt-1 p-3" style="background-color: #fbc9c9; min-height: 95px;flex-direction: column;align-items: center;">
+            <div class="w-100 font-weight-bold texto-label " style="width: 60%;justify-content: center;align-items: center;">${nombre}</div>
+            <div class="w-100  texto-label " style="width: 60%;justify-content: center;align-items: center;">${no_control}</div>
+             <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                <b>${json.codigo}</b>   
+               </div>
+            </div>`)
         })
         .catch(er => {
             console.error("ocurrio un error en la solicitud")
@@ -369,7 +395,7 @@ const enviar_formulario_salida = (formdata, no_control_dentro, elemento_estatus)
 }
 
 const accion_salida = (Id_acceso, no_control_dentro) => {
-  
+
     console.log(Id_acceso)
     console.log(no_control_dentro)
     let formdata = new FormData()
@@ -387,7 +413,7 @@ const accion_salida = (Id_acceso, no_control_dentro) => {
             if (json.respuesta) {
                 if (json.registros_afectados != 0) {
                     registro = json.contenido[0]
-                    personas_registradas[no_control_dentro]["elemento_estatus"]=elemento_estatus
+                    personas_registradas[no_control_dentro]["elemento_estatus"] = elemento_estatus
                     consecuencias[json.tipo_consulta](personas_registradas[no_control_dentro])
 
                     //mostrar_informacion("Salida", json.codigo)
