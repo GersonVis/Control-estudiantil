@@ -612,8 +612,12 @@ $tecla = "";
                 <option>Accesos</option>
             </select>
 
-            <div class="w-100 d-flex" id="registros_menu">
-                <div id="lista_ingresos" class="w-100 flex-column h-100 redondear bg-white d-flex" style="overflow: auto">
+            <div class="w-100 d-flex" id="registros_menu" style="overflow: auto;margin-top: 10px;">
+                <div id="lista_ingresos" class="flex-column h-100 bg-white d-flex" style="overflow: hidden">
+                   
+                </div>
+                <div id="lista_logs" class="flex-column h-100 bg-white d-flex" style="overflow: hidden">
+                   
                 </div>
             </div>
         </div>
@@ -1005,23 +1009,23 @@ $tecla = "";
         contenido_html,
         spin_color
     }) => {
-        let spindelcolor = spin_color ?? "white"
-        contenido_msg.innerHTML = contenido_html
-        img_msg_imagen.src = img ?? ""
-        div_con_img.style.backgroundColor = fondo_color ?? "white"
-        spina.style.borderColor = spindelcolor + " transparent transparent transparent"
-        spinb.style.borderColor = spindelcolor + " transparent transparent transparent"
-        spinc.style.borderColor = spindelcolor + " transparent transparent transparent"
-        spind.style.borderColor = spindelcolor + " transparent transparent transparent"
-        if (div_msg_registro.classList.contains("mostrar-corto")) {
-            div_msg_registro.classList.remove("mostrar-corto")
-            div_carga_registro.classList.remove("girar")
-        }
+        /* let spindelcolor = spin_color ?? "white"
+         contenido_msg.innerHTML = contenido_html
+         img_msg_imagen.src = img ?? ""
+         div_con_img.style.backgroundColor = fondo_color ?? "white"
+         spina.style.borderColor = spindelcolor + " transparent transparent transparent"
+         spinb.style.borderColor = spindelcolor + " transparent transparent transparent"
+         spinc.style.borderColor = spindelcolor + " transparent transparent transparent"
+         spind.style.borderColor = spindelcolor + " transparent transparent transparent"
+         if (div_msg_registro.classList.contains("mostrar-corto")) {
+             div_msg_registro.classList.remove("mostrar-corto")
+             div_carga_registro.classList.remove("girar")
+         }
 
-        setTimeout(function() {
-            div_msg_registro.classList.add("mostrar-corto")
-            div_carga_registro.classList.add("girar")
-        }, 10)
+         setTimeout(function() {
+             div_msg_registro.classList.add("mostrar-corto")
+             div_carga_registro.classList.add("girar")
+         }, 10)*/
     }
     var carreras = []
     fetch("Carrera")
@@ -1062,32 +1066,31 @@ $tecla = "";
         <p class = "m-0 p-0"> ${ruta.split("/")[0]}</p> </div>
         `
     })*/
-    lista_logs = document.createElement("div")
-    lista_logs.innerHTML = `<div>OTRo</div>`
-    lista_logs = lista_logs.childNodes[0]
+    
     subopciones_cuadro = {
         Registros: {
-            padre: registros_menu,
-            hijo_nuevo: lista_logs 
+            elemento_agrandar: lista_logs,
+            elemento_reducir: lista_ingresos
         },
         Accesos: {
-            padre: registros_menu,
-            hijo_nuevo: lista_ingresos
+            elemento_agrandar: lista_ingresos,
+            elemento_reducir: lista_logs
         }
     }
 
     function cambiar_hijo({
-        padre,
-        hijo_nuevo
+        elemento_reducir,
+        elemento_agrandar
     }) {
-        hijo_viejo = padre.querySelectorAll("div")[0]
-        padre.removeChild(hijo_viejo)
-        padre.appendChild(hijo_nuevo)
+        elemento_reducir.style.width="0px"
+        elemento_reducir.style.width="0px"
+        elemento_reducir.style.overflow="hidden"
+        elemento_agrandar.style.width="100%"
+        elemento_reducir.style.overflow="auto"
     }
     cambiar_hijo(subopciones_cuadro["Registros"])
     opciones_registros.addEventListener("change", function(evt) {
         let yo = evt.target
-        console.log(yo.value)
         cambiar_hijo(subopciones_cuadro[yo.value])
     })
 </script>
