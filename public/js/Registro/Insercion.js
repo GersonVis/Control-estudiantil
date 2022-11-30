@@ -4,7 +4,7 @@ Eventos despues de una exitosa insercion
 const div_ingresos = document.querySelector("#lista_ingresos")
 const registro_exitoso = (json) => {
     elemento = crear_elemento(json)
-   
+    //agregamos el elemento al div contenedor
     div_ingresos.appendChild(elemento)
    
 }
